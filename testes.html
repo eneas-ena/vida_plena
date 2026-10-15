@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VidaPlena Testes</title>
+<link rel="icon" href="favicon-32.png" type="image/png">
+<style>
+:root{--bg:#F4F2EC;--card:#fff;--text:#1B2233;--muted:#667085;--line:#E6E2D8;--ok:#2E7D4F;--okbg:#E3F3E8;--bad:#B4232A;--badbg:#FDE4E4;--navy:#0F1B33;--gold:#C9A227}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0A1222;--card:#121D33;--text:#E8ECF4;--muted:#A3AEC4;--line:#22304C;--ok:#7FD3A0;--okbg:#163525;--bad:#F2878C;--badbg:#3D1719}}
+:root[data-theme="dark"]{--bg:#0A1222;--card:#121D33;--text:#E8ECF4;--muted:#A3AEC4;--line:#22304C;--ok:#7FD3A0;--okbg:#163525;--bad:#F2878C;--badbg:#3D1719}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif}
+header{background:var(--navy);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px}
+header h1{font-size:18px;margin:0;flex:1}
+.v{background:var(--gold);color:var(--navy);font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px}
+#tema{width:38px;height:38px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:18px;cursor:pointer}
+main{max-width:860px;margin:0 auto;padding:16px}
+.resumo{padding:14px 16px;border-radius:12px;font-weight:700;margin-bottom:14px}
+.resumo.ok{background:var(--okbg);color:var(--ok)} .resumo.bad{background:var(--badbg);color:var(--bad)}
+.t{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.t b{flex:none;width:22px;text-align:center}
+.t.ok b{color:var(--ok)} .t.bad{border-color:var(--bad)} .t.bad b{color:var(--bad)}
+.t small{display:block;color:var(--muted);word-break:break-word}
+a{color:inherit}
+</style>
+</head>
+<body>
+<header><h1>VidaPlena · Testes do motor de datas</h1><span class="v" id="ver">…</span><button id="tema" aria-label="Alternar modo claro e escuro">☾</button></header>
+<main>
+  <p style="color:var(--muted);margin-top:0">Esta página carrega o código real do <a href="index.html">index.html</a> (o bloco “motor”) e confere os cálculos de recorrência, atrasos, aniversários, eventos e notificações. Não lê nem grava nada no banco.</p>
+  <div id="resumo" class="resumo">Rodando…</div>
+  <div id="lista"></div>
+</main>
+<script>
+(function(){
+  const k='vp_tema'; let t=null; try{t=localStorage.getItem(k)}catch(e){}
+  const ap=()=>{ if(t&&t!=='system') document.documentElement.dataset.theme=t; else delete document.documentElement.dataset.theme; };
+  const atual=()=>document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  ap(); const b=document.getElementById('tema'); const ic=()=>b.textContent=atual()==='dark'?'☀':'☾'; ic();
+  b.onclick=()=>{ t=atual()==='dark'?'light':'dark'; try{localStorage.setItem(k,t)}catch(e){} ap(); ic(); };
+})();
+
+async function rodar(){
+  const html=await (await fetch('index.html',{cache:'no-store'})).text();
+  const ver=(html.match(/VERSAO:\s*'([^']+)'/)||[])[1]||'?';
+  document.getElementById('ver').textContent='v'+ver;
+  const a=html.indexOf('// <motor>'), z=html.indexOf('// </motor>');
+  if(a<0||z<0) throw new Error('bloco motor não encontrado no index.html');
+  const S={cfg:{fuso:'America/Fortaleza'},tarefas:[],ocorr:[],eventos:[],aniv:[],datas:[],hoje:'2026-10-15'};
+  const M=new Function('S',html.slice(a,z)+`;return {hojeStr,addDias,ocorreNaData,itensDoDia,atrasadas,historico,eventoNaData,eventosDoDia,proxAniv,proxDataImportante,gerarNotificacoes,regraNaData,diffDias}`)(S);
+  const R=[];
+  const ok=(nome,cond,det='')=>R.push({nome,ok:!!cond,det});
+  const eq=(nome,obtido,esperado)=>{ const o=JSON.stringify(obtido), e=JSON.stringify(esperado); ok(nome,o===e,o===e?o:`obtido ${o} · esperado ${e}`); };
+  const datas=(t,ini,fim)=>{ const r=[]; for(let d=ini;d<=fim;d=M.addDias(d,1)) if(M.ocorreNaData(t,d)) r.push(d); return r; };
+  const reset=()=>{ S.tarefas=[];S.ocorr=[];S.eventos=[];S.aniv=[];S.datas=[];S.hoje='2026-10-15'; };
+  const T=(o)=>({id:'t'+Math.random().toString(36).slice(2,7),titulo:'x',tipo:'recorrente',situacao:'pendente',prioridade:'media',cobrar_atraso:true,...o});
+
+  // 1. Recorrências
+  eq('Diária: todos os dias no intervalo', datas(T({recorrencia:'diaria',rec_inicio:'2026-10-14'}),'2026-10-12','2026-10-17'), ['2026-10-14','2026-10-15','2026-10-16','2026-10-17']);
+  eq('Semanal (segunda): só segundas', datas(T({recorrencia:'semanal',dias_semana:[1],rec_inicio:'2026-10-01'}),'2026-10-01','2026-10-31'), ['2026-10-05','2026-10-12','2026-10-19','2026-10-26']);
+  eq('Dias da semana (qui e sex)', datas(T({recorrencia:'semanal',dias_semana:[4,5],rec_inicio:'2026-10-12'}),'2026-10-12','2026-10-25'), ['2026-10-15','2026-10-16','2026-10-22','2026-10-23']);
+  eq('Semanal sem dias = dia da semana do início', datas(T({recorrencia:'semanal',rec_inicio:'2026-10-07'}),'2026-10-01','2026-10-31'), ['2026-10-07','2026-10-14','2026-10-21','2026-10-28']);
+  eq('A cada 2 semanas', datas(T({recorrencia:'quinzenal',rec_inicio:'2026-10-01'}),'2026-10-01','2026-11-15'), ['2026-10-01','2026-10-15','2026-10-29','2026-11-12']);
+  eq('Mensal dia 31 → último dia nos meses curtos', datas(T({recorrencia:'mensal',rec_inicio:'2026-01-31'}),'2026-01-01','2026-04-30'), ['2026-01-31','2026-02-28','2026-03-31','2026-04-30']);
+  eq('Mensal dia 31 em ano bissexto (fev/2028)', datas(T({recorrencia:'mensal',rec_inicio:'2027-12-31'}),'2028-02-01','2028-02-29'), ['2028-02-29']);
+  eq('Anual 29/02 → 28/02 em ano comum, 29/02 no bissexto', ['2027','2028','2029'].map(y=>datas(T({recorrencia:'anual',rec_inicio:'2024-02-29'}),y+'-02-01',y+'-03-01')), [['2027-02-28'],['2028-02-29'],['2029-02-28']]);
+  eq('Personalizada: a cada 10 dias', datas(T({recorrencia:'intervalo',intervalo:10,intervalo_unidade:'dias',rec_inicio:'2026-10-03'}),'2026-10-01','2026-11-05'), ['2026-10-03','2026-10-13','2026-10-23','2026-11-02']);
+  eq('Personalizada: a cada 3 meses', datas(T({recorrencia:'intervalo',intervalo:3,intervalo_unidade:'meses',rec_inicio:'2026-01-15'}),'2026-01-01','2026-12-31'), ['2026-01-15','2026-04-15','2026-07-15','2026-10-15']);
+  eq('Data final respeitada', datas(T({recorrencia:'diaria',rec_inicio:'2026-10-14',rec_fim:'2026-10-15'}),'2026-10-12','2026-10-17'), ['2026-10-14','2026-10-15']);
+  eq('Exceções removem só aqueles dias', datas(T({recorrencia:'diaria',rec_inicio:'2026-10-14',excecoes:['2026-10-15']}),'2026-10-14','2026-10-16'), ['2026-10-14','2026-10-16']);
+
+  // 2. Mudança de mês e ano
+  eq('Virada de mês (31/10 → 01/11)', M.addDias('2026-10-31',1), '2026-11-01');
+  eq('Virada de ano (31/12 → 01/01)', M.addDias('2026-12-31',1), '2027-01-01');
+  eq('Semanal atravessa a virada do ano', datas(T({recorrencia:'semanal',dias_semana:[4],rec_inicio:'2026-12-01'}),'2026-12-25','2027-01-10'), ['2026-12-31','2027-01-07']);
+  eq('29/02/2028 → 01/03/2028', M.addDias('2028-02-29',1), '2028-03-01');
+
+  // 3. Fuso horário
+  const inst=new Date('2026-10-16T03:30:00Z');
+  eq('Fuso: 00:30 em Fortaleza já é dia 16', M.hojeStr(inst,'America/Fortaleza'), '2026-10-16');
+  eq('Fuso: 23:30 em Manaus ainda é dia 15', M.hojeStr(inst,'America/Manaus'), '2026-10-15');
+
+  // 4. Concluída em uma semana continua nas próximas
+  reset(); const seg=T({id:'seg',recorrencia:'semanal',dias_semana:[1],rec_inicio:'2026-10-05'}); S.tarefas=[seg];
+  S.ocorr=[{tarefa_id:'seg',data:'2026-10-12',situacao:'concluida'}];
+  ok('Concluída na segunda 12/10', M.itensDoDia('2026-10-12')[0].feito);
+  ok('Aparece pendente na segunda seguinte (19/10)', M.itensDoDia('2026-10-19').length===1 && !M.itensDoDia('2026-10-19')[0].feito);
+  eq('Nenhuma duplicação no dia concluído', M.itensDoDia('2026-10-12').length, 1);
+
+  // 5. Atrasadas
+  reset();
+  const dia=T({id:'d',recorrencia:'diaria',rec_inicio:'2026-10-13'});
+  const uni={id:'u',titulo:'única',tipo:'unica',data:'2026-09-01',situacao:'pendente'};
+  const semCobrar=T({id:'n',recorrencia:'diaria',rec_inicio:'2026-10-01',cobrar_atraso:false});
+  S.tarefas=[dia,uni,semCobrar];
+  S.ocorr=[{tarefa_id:'d',data:'2026-10-13',situacao:'concluida'}];
+  eq('Atrasadas: só a ocorrência não feita (14/10) + única antiga', M.atrasadas().map(x=>x.t.id+'@'+x.data).sort(), ['d@2026-10-14','u@2026-09-01']);
+  ok('Rotina com “cobrar atraso” desligado não aparece', !M.atrasadas().some(x=>x.t.id==='n'));
+  const longa=T({id:'L',recorrencia:'diaria',rec_inicio:'2026-01-01'}); S.tarefas=[longa]; S.ocorr=[];
+  eq('Recorrentes antigas não se acumulam (janela de 14 dias)', M.atrasadas().length, 14);
+  S.ocorr=[{tarefa_id:'L',data:'2026-10-14',situacao:'dispensada'}];
+  eq('Dispensada sai das atrasadas e vai para o histórico', [M.atrasadas().length, M.historico().length], [13,1]);
+
+  // 6. Reagendada: sem duplicação
+  reset(); const r=T({id:'r',recorrencia:'semanal',dias_semana:[4],rec_inicio:'2026-10-01'}); S.tarefas=[r];
+  S.ocorr=[{tarefa_id:'r',data:'2026-10-08',situacao:'reagendada',nova_data:'2026-10-15'}];
+  eq('Ocorrência movida sai do dia original', M.itensDoDia('2026-10-08').length, 0);
+  eq('No novo dia aparece a própria + a movida (2, sem duplicar)', M.itensDoDia('2026-10-15').map(x=>x.data).sort(), ['2026-10-08','2026-10-15']);
+  ok('Movida para hoje não conta como atrasada', !M.atrasadas().some(x=>x.data==='2026-10-08'));
+  S.ocorr[0].nova_data='2026-10-12';
+  eq('Movida para um dia que passou volta para as atrasadas (uma vez)', M.atrasadas().filter(x=>x.data==='2026-10-08').length, 1);
+  S.ocorr[0].situacao='concluida';
+  eq('Movida e concluída: sai das atrasadas', M.atrasadas().filter(x=>x.data==='2026-10-08').length, 0);
+
+  // 7. Excluir "esta e as próximas" (rec_fim = data - 1)
+  reset(); const ex=T({id:'e',recorrencia:'diaria',rec_inicio:'2026-10-01',rec_fim:M.addDias('2026-10-20',-1)});
+  ok('Esta e as próximas: 19/10 continua, 20/10 não', M.ocorreNaData(ex,'2026-10-19') && !M.ocorreNaData(ex,'2026-10-20'));
+  S.tarefas=[ex,T({id:'outra',recorrencia:'diaria',rec_inicio:'2026-10-01'})]; S.ocorr=[{tarefa_id:'e',data:'2026-10-15',situacao:'cancelada'}];
+  eq('Excluir só uma ocorrência não afeta a outra tarefa', M.itensDoDia('2026-10-15').map(x=>x.t.id), ['outra']);
+
+  // 8. Aniversários sem ano
+  reset();
+  eq('Aniversário hoje', M.proxAniv({dia:15,mes:10}).falta, 0);
+  eq('Aniversário já passou este ano → ano que vem', M.proxAniv({dia:14,mes:10}).data, '2027-10-14');
+  eq('29/02 sem ano em 2027 → 28/02', M.proxAniv({dia:29,mes:2}).data, '2027-02-28');
+  eq('Data importante única que já passou não aparece', M.proxDataImportante({data:'2026-01-01',anual:false}), null);
+
+  // 9. Eventos no mural sem duplicação
+  reset(); S.eventos=[{id:'cu',titulo:'Culto',tipo:'culto',data:'2026-10-18',recorrencia:'semanal'},{id:'ce',titulo:'Célula',tipo:'celula',data:'2026-10-15'}];
+  eq('Culto semanal aos domingos', ['2026-10-18','2026-10-25','2026-10-22'].map(d=>M.eventoNaData(S.eventos[0],d)), [true,true,false]);
+  eq('Evento do dia aparece uma vez', M.eventosDoDia('2026-10-15').map(e=>e.id), ['ce']);
+  S.eventos[0].excecoes=['2026-10-25'];
+  eq('Exceção de evento', M.eventoNaData(S.eventos[0],'2026-10-25'), false);
+
+  // 10. Notificações: chaves únicas e estáveis
+  reset(); S.tarefas=[T({id:'p',recorrencia:'diaria',rec_inicio:'2026-10-10',prioridade:'alta'})]; S.eventos=[{id:'ce',titulo:'Célula',data:'2026-10-16'}];
+  S.aniv=[{id:'a',nome:'Ana',dia:20,mes:10,antecedencia:7}]; S.datas=[{id:'x',nome:'Igreja',data:'2010-10-19',anual:true,antecedencia:7}];
+  const n1=M.gerarNotificacoes(), n2=M.gerarNotificacoes();
+  ok('Notificações sem chave repetida', new Set(n1.map(n=>n.chave)).size===n1.length, n1.length+' avisos');
+  eq('Mesma chave em duas gerações (marcar como lida funciona)', n1.map(n=>n.chave), n2.map(n=>n.chave));
+  ok('Tem aviso de prioridade, atraso, evento, aniversário e data', ['prio','atraso','ev','aniv','data'].every(t=>n1.some(n=>n.tipo===t)));
+
+  // resultado
+  const falhas=R.filter(x=>!x.ok).length;
+  const res=document.getElementById('resumo');
+  res.className='resumo '+(falhas?'bad':'ok');
+  res.textContent=falhas?`${falhas} de ${R.length} testes falharam`:`Todos os ${R.length} testes passaram ✓`;
+  document.getElementById('lista').innerHTML=R.map(x=>`<div class="t ${x.ok?'ok':'bad'}"><b>${x.ok?'✓':'✗'}</b><div>${x.nome}<small>${x.det.replace(/</g,'&lt;')}</small></div></div>`).join('');
+  window.__RESULT__={total:R.length,falhas};
+}
+rodar().catch(e=>{ const r=document.getElementById('resumo'); r.className='resumo bad'; r.textContent='Erro ao rodar os testes: '+e.message; window.__RESULT__={erro:e.message}; });
+</script>
+</body>
+</html>

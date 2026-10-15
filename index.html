@@ -314,10 +314,81 @@ textarea.inp{height:auto;min-height:84px;padding:10px 12px;resize:vertical}
 .progress{height:8px;border-radius:99px;background:var(--line-2);overflow:hidden;margin-top:10px}
 .progress i{display:block;height:100%;background:var(--gold);width:0;transition:width .2s}
 
+/* ================= FASE 2 ================= */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) minmax(0,1.6fr);gap:10px;margin:4px 0 18px}
+.stat{background:var(--surface-2);border:1px solid var(--line-2);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;justify-content:center}
+.stat b{font-size:22px;font-family:var(--font-title);line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+.stat.bad b{color:var(--bad)}
+.prog{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:6px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .3s}
+.od-act{display:flex;gap:6px;flex-wrap:wrap}
+.overdue.plain{background:var(--surface-2);border-color:var(--line)}
+.overdue.plain .od-item{border-top-color:var(--line-2)}
+.pill.danger{color:var(--bad);border-color:rgba(180,35,42,.35)}
+.pill.danger[aria-pressed="true"]{background:var(--bad-bg);border-color:var(--bad)}
+.seg.wrap button{flex:0 1 auto;padding:0 12px;min-width:0}
+.seg.tabs button{white-space:nowrap;flex:0 1 auto;padding:0 14px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer}
+.opt:has(input:checked){border-color:var(--gold);background:var(--gold-soft)}
+.opt input{margin-top:3px;width:18px;height:18px;accent-color:var(--navy)}
+.opt b{display:block;font-size:14px}.opt small{display:block;color:var(--muted);font-size:12.5px}
+.menu-pop hr{border:0;border-top:1px solid var(--line-2);margin:4px 0}
+.menu-pop button.danger{color:var(--bad)}
+/* post-it de evento (vínculo com a agenda) */
+.postit.evento{border-left:5px solid rgba(30,36,51,.55)}
+.pt-cal{width:22px;height:22px;border-radius:6px;background:rgba(30,36,51,.85);color:#fff;display:grid;place-items:center;flex:none;margin-top:1px}
+.pt-cal [data-lucide]{width:14px;height:14px}
+.pt-badge.ag{background:rgba(30,36,51,.12);display:inline-flex;align-items:center;gap:4px}
+.pt-foot.sub{margin-top:0;font-size:12.5px;opacity:.85}
+.postit.prio:not(.done){box-shadow:0 0 0 2px #B4232A,0 10px 18px -8px rgba(15,27,51,.35)}
+.ev.ev-ag{border-left:3px solid rgba(30,36,51,.6)}
+button.ev{border:0;text-align:left;cursor:pointer}
+.lr-btn{width:100%;background:none;border:0;border-top:1px solid var(--line-2);text-align:left;cursor:pointer;color:inherit}
+.lr-btn:first-child{border-top:0}
+.lr-btn:hover{background:var(--surface-2)}
+.aniv-hoje{display:flex;gap:10px;align-items:center;background:var(--gold-soft);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:14px}
+.aniv-hoje [data-lucide]{color:var(--gold)}
+/* sino e central de notificações */
+.bell{position:relative}
+.bell .bdg{position:absolute;top:-6px;right:-6px;min-width:19px;height:19px;padding:0 5px;border-radius:99px;background:#D93A41;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--navy)}
+.notif-pop{position:fixed;top:70px;right:16px;width:min(380px,calc(100vw - 32px));max-height:min(560px,calc(100vh - 90px));overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow-lg);z-index:45}
+.nt-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line-2);position:sticky;top:0;background:var(--surface)}
+.nt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+.nt.lida{opacity:.6}
+.nt-ic{padding:5px;border-radius:9px;margin-top:2px}
+.nt-ic [data-lucide]{width:15px;height:15px}
+.nt-txt{flex:1;background:none;border:0;text-align:left;padding:0;min-width:0}
+.nt-txt b{display:block;font-size:14px}.nt-txt small{display:block;color:var(--muted);font-size:12.5px}
+.nt-ok{width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none;color:var(--muted)}
+.nt-ok:hover{border-color:var(--ok);color:var(--ok)}
+.nt-sep{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:10px 16px 4px;font-weight:600}
+.nav .soon.bad{background:#D93A41;color:#fff}
+.nav.recolher{background:none;border:0;cursor:pointer;font:inherit;font-size:11.5px}
+/* menu lateral recolhido */
+.app.compacta{grid-template-columns:64px 1fr;background:linear-gradient(to right,var(--navy-2) 64px,transparent 64px)}
+.app.compacta .side{padding:14px 6px}
+.app.compacta .nav .lbl{display:none}
+.app.compacta .nav{padding:12px 4px}
+.app.compacta .nav .soon{top:2px;right:2px}
+@media (max-width:860px){
+  .app.compacta{grid-template-columns:1fr;background:none}
+  .app.compacta .nav .lbl{display:inline}
+  .nav.recolher{display:none}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat.wide{grid-column:1/-1}
+  .notif-pop{top:64px;right:8px}
+  .od-act .btn{flex:1;justify-content:center}
+  .grid-tasks,.grid-dash,.grid-agenda,.grid-dev{grid-template-columns:minmax(0,1fr)}
+  .seg.tabs{width:100%}.seg.tabs button{flex:1 1 140px}
+  .swatches{flex-wrap:wrap}
+}
+@media (min-width:861px) and (max-width:1280px){ .stats{grid-template-columns:repeat(4,minmax(0,1fr))} .stat.wide{grid-column:1/-1} }
+
 /* ================= RESPONSIVO ================= */
 @media (max-width:1180px){
-  .grid-dash,.grid-agenda,.grid-dev{grid-template-columns:1fr}
-  .grid-tasks{grid-template-columns:1fr}
+  .grid-dash,.grid-agenda,.grid-dev,.grid-tasks{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:860px){
   .app{grid-template-columns:1fr;grid-template-rows:64px 1fr auto;background:none}
@@ -327,7 +398,7 @@ textarea.inp{height:auto;min-height:84px;padding:10px 12px;resize:vertical}
   .side .spacer{display:none}
   .nav{min-width:72px;font-size:10.5px;padding:6px 4px}
   .main{padding:16px 16px 96px}
-  .row,.row3,.duo,.dev-boxes,.sug-duo{grid-template-columns:1fr}
+  .row,.row3,.duo,.dev-boxes,.sug-duo{grid-template-columns:minmax(0,1fr)}
   .dev-card{padding:20px 18px}
   .week{grid-template-columns:1fr}
   .day{min-height:70px}.day .ev{display:none}.day .dotline{display:flex}
@@ -343,10 +414,10 @@ textarea.inp{height:auto;min-height:84px;padding:10px 12px;resize:vertical}
 <script>
 /* =====================================================================
    VidaPlena — Produtividade e Ministério
-   Fase 1 — Fundação
+   Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '1.0.1',
+  VERSAO: '2.0.0',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -359,81 +430,216 @@ const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const DIAS_LONGO = ['domingo','segunda-feira','terça-feira','quarta-feira','quinta-feira','sexta-feira','sábado'];
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 const PRIOR = {baixa:'Baixa',media:'Média',alta:'Alta'};
-const REC = {diaria:'Diária',semanal:'Semanal',mensal:'Mensal',anual:'Anual'};
+const REC_UI = [['diaria','Diária'],['dias','Dias da semana'],['semanal','Semanal'],['quinzenal','A cada 2 semanas'],['mensal','Mensal'],['anual','Anual'],['intervalo','Personalizada']];
+const REC_TXT = {diaria:'Diária',semanal:'Semanal',quinzenal:'Quinzenal',mensal:'Mensal',anual:'Anual',intervalo:'Personalizada'};
 const CAT_ICON = {'Vida Espiritual':'book-open','Ministério':'users','Pregação':'mic','Aconselhamento':'heart-handshake','Administração':'mail','Estudo':'graduation-cap','Família':'home','Vida Pessoal':'user','Saúde':'dumbbell'};
+/* categoria de evento: [rótulo, cor do post-it, ícone] */
+const CAT_EV = {culto:['Culto','rosa','church'],celula:['Célula','verde','users'],reuniao:['Reunião','amarelo','messages-square'],formacao:['Formação de líderes','lilas','graduation-cap'],
+  especial:['Evento especial','laranja','sparkles'],visita:['Visita pastoral','azul','home'],pessoal:['Compromisso pessoal','azul','user']};
+const CAT_ANIV = ['Família','Pastores e líderes','Membros da igreja','Amigos','Outros'];
+const CAT_DATA = ['Família','Igreja','Conferência','Comemorativa','Pastoral','Outros'];
 
 /* ---------------- Camada de dados (Supabase) ---------------- */
 function criarDB(){
   const sb = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { db:{ schema: CONFIG.SCHEMA } });
   const ok = ({data,error}) => { if(error) throw error; return data; };
   return {
+    list: async(t)=>{ let all=[],de=0; for(;;){ const r=await sb.from(t).select('*').range(de,de+999); if(r.error) throw r.error; all=all.concat(r.data); if(r.data.length<1000) break; de+=1000; } return all; },
+    ins: async(t,o)=> ok(await sb.from(t).insert(o).select().single()),
+    upd: async(t,id,p)=> ok(await sb.from(t).update(p).eq('id',id).select().single()),
+    del: async(t,id)=> ok(await sb.from(t).delete().eq('id',id)),
+    upsertRows: async(t,rows,onConflict)=> ok(await sb.from(t).upsert(rows,onConflict?{onConflict}:undefined)),
     getConfig: async()=> ok(await sb.from('config').select('*').eq('id',1).maybeSingle()),
     saveConfig: async(p)=> ok(await sb.from('config').upsert({id:1,...p,atualizado_em:new Date().toISOString()}).select().single()),
-    listTarefas: async()=> ok(await sb.from('tarefas').select('*').order('criado_em')),
-    insertTarefa: async(o)=> ok(await sb.from('tarefas').insert(o).select().single()),
-    updateTarefa: async(id,p)=> ok(await sb.from('tarefas').update({...p,atualizado_em:new Date().toISOString()}).eq('id',id).select().single()),
-    deleteTarefa: async(id)=> ok(await sb.from('tarefas').delete().eq('id',id)),
-    listOcorrencias: async()=> ok(await sb.from('tarefa_ocorrencias').select('*')),
-    upsertOcorrencia: async(o)=> ok(await sb.from('tarefa_ocorrencias').upsert(o,{onConflict:'tarefa_id,data'}).select().single()),
+    upsertOcorrencia: async(o)=> ok(await sb.from('tarefa_ocorrencias').upsert({...o,atualizado_em:new Date().toISOString()},{onConflict:'tarefa_id,data'}).select().single()),
     deleteOcorrencia: async(tid,data)=> ok(await sb.from('tarefa_ocorrencias').delete().eq('tarefa_id',tid).eq('data',data)),
-    listEventos: async(de,ate)=> ok(await sb.from('eventos').select('*').lte('data',ate).order('data')),
-    listAniversarios: async()=> ok(await sb.from('aniversarios').select('*')),
+    deleteOcorrenciasDesde: async(tid,data)=> ok(await sb.from('tarefa_ocorrencias').delete().eq('tarefa_id',tid).gte('data',data)),
     getDevocional: async(d)=> ok(await sb.from('devocionais').select('*').eq('data',d).maybeSingle()),
     searchDevocionais: async(q)=>{ const s=q.replace(/[%,()]/g,' '); return ok(await sb.from('devocionais').select('data,titulo,referencia').or(`titulo.ilike.%${s}%,referencia.ilike.%${s}%,reflexao.ilike.%${s}%,texto_biblico.ilike.%${s}%`).order('data').limit(40)); },
-    upsertDevocionais: async(rows)=> ok(await sb.from('devocionais').upsert(rows,{onConflict:'data'})),
-    countDevocionais: async()=>{ const r=await sb.from('devocionais').select('data',{count:'exact',head:true}); if(r.error) throw r.error; return r.count||0; },
     getAnotacoes: async(d)=> ok(await sb.from('anotacoes').select('*').eq('data',d)),
-    saveAnotacao: async(d,tipo,texto)=> ok(await sb.from('anotacoes').upsert({data:d,tipo,texto,atualizado_em:new Date().toISOString()},{onConflict:'data,tipo'}))
+    saveAnotacao: async(d,tipo,texto)=> ok(await sb.from('anotacoes').upsert({data:d,tipo,texto,atualizado_em:new Date().toISOString()},{onConflict:'data,tipo'})),
+    marcarLidas: async(keys)=> ok(await sb.from('notificacoes_lidas').upsert(keys.map(k=>({chave:k,lida_em:new Date().toISOString()})),{onConflict:'chave'}))
   };
 }
 const db = window.__VP_DB__ || criarDB();
 
 /* ---------------- Estado ---------------- */
 const S = {
-  cfg:null, tarefas:[], ocorr:[], eventos:[], aniv:[], devHoje:null,
+  cfg:null, tarefas:[], ocorr:[], eventos:[], aniv:[], datas:[], lidas:new Set(), devHoje:null,
   hoje:null, rota:'inicio', carregado:false,
   t:{ filtro:'todas', cat:'', busca:'', edit:null, form:null },
   ag:{ modo:'mes', ref:null, sel:null },
-  dv:{ data:null, dev:null, notas:{}, carregando:false }
+  dv:{ data:null, dev:null, notas:{}, carregando:false },
+  dt:{ aba:'aniv', mes:'', cat:'' }
 };
 
-/* ---------------- Utilidades ---------------- */
+/* ---------------- Utilidades de tela ---------------- */
 const $ = (s,el=document)=>el.querySelector(s);
 const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ic = (n,extra='') => `<i data-lucide="${n}" ${extra}></i>`;
 const icons = () => { try{ window.lucide && lucide.createIcons(); }catch(e){} };
 const store = { get(k){ try{return localStorage.getItem(k)}catch(e){return null} }, set(k,v){ try{localStorage.setItem(k,v)}catch(e){} }, del(k){ try{localStorage.removeItem(k)}catch(e){} } };
+
+// <motor> ===== Motor de datas e ocorrências (testado em testes.html) =====
+const JANELA_ATRASO = 14;   // dias para trás em que ocorrências recorrentes não feitas viram "atrasadas"
 function fuso(){ return (S.cfg&&S.cfg.fuso)||'America/Fortaleza'; }
-function hojeStr(){ return new Intl.DateTimeFormat('en-CA',{timeZone:fuso(),year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
-function horaLocal(){ return +new Intl.DateTimeFormat('en-GB',{timeZone:fuso(),hour:'2-digit',hour12:false}).format(new Date()); }
+function hojeStr(agora=new Date(),tz=fuso()){ return new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).format(agora); }
 function parse(d){ const [y,m,dd]=d.split('-').map(Number); return new Date(Date.UTC(y,m-1,dd)); }
 function fmt(dt){ return dt.toISOString().slice(0,10); }
 function addDias(d,n){ const x=parse(d); x.setUTCDate(x.getUTCDate()+n); return fmt(x); }
 function dow(d){ return parse(d).getUTCDay(); }
-function diaLongoC(d){ const s=diaLongo(d); return s.charAt(0).toUpperCase()+s.slice(1); }
-function diaLongo(d){ const x=parse(d); return `${DIAS_LONGO[x.getUTCDay()]}, ${x.getUTCDate()} de ${MESES[x.getUTCMonth()]} de ${x.getUTCFullYear()}`; }
-function diaCurto(d){ const x=parse(d); return `${String(x.getUTCDate()).padStart(2,'0')}/${String(x.getUTCMonth()+1).padStart(2,'0')}`; }
-function hhmm(t){ return t?String(t).slice(0,5):''; }
-function horario(t){ if(!t.hora_inicio) return 'Durante o dia'; return hhmm(t.hora_inicio)+(t.hora_fim?' – '+hhmm(t.hora_fim):''); }
 function diasNoMes(y,m){ return new Date(Date.UTC(y,m+1,0)).getUTCDate(); }
+function diffDias(a,b){ return Math.round((parse(b)-parse(a))/864e5); }
+function bissexto(y){ return (y%4===0&&y%100!==0)||y%400===0; }
+function hhmm(t){ return t?String(t).slice(0,5):''; }
+function diaCurto(d){ const x=parse(d); return `${String(x.getUTCDate()).padStart(2,'0')}/${String(x.getUTCMonth()+1).padStart(2,'0')}`; }
+function mesmoDiaMes(ini,d){ const a=parse(ini).getUTCDate(), x=parse(d); return x.getUTCDate()===Math.min(a,diasNoMes(x.getUTCFullYear(),x.getUTCMonth())); }
+function mesmoDiaAno(ini,d){
+  const a=parse(ini), x=parse(d); if(a.getUTCMonth()!==x.getUTCMonth()) return false;
+  if(a.getUTCMonth()===1&&a.getUTCDate()===29&&!bissexto(x.getUTCFullYear())) return x.getUTCDate()===28;   // 29/02 cai em 28/02 nos anos comuns
+  return a.getUTCDate()===x.getUTCDate();
+}
+/* r = {recorrencia, dias_semana, intervalo, intervalo_unidade}; ini = data inicial */
+function regraNaData(r,ini,d){
+  const dd=diffDias(ini,d); if(dd<0) return false;
+  const dias=(r.dias_semana&&r.dias_semana.length)?r.dias_semana:null;
+  switch(r.recorrencia){
+    case 'diaria': return dias?dias.includes(dow(d)):true;
+    case 'semanal': return (dias||[dow(ini)]).includes(dow(d));
+    case 'quinzenal': if(!(dias||[dow(ini)]).includes(dow(d))) return false;
+      return Math.floor(diffDias(addDias(ini,-dow(ini)),d)/7)%2===0;
+    case 'mensal': return mesmoDiaMes(ini,d);
+    case 'anual': return mesmoDiaAno(ini,d);
+    case 'intervalo': { const n=Math.max(1,+r.intervalo||1), u=r.intervalo_unidade||'dias';
+      if(u==='dias') return dd%n===0;
+      if(u==='semanas') return dd%(7*n)===0;
+      if(u==='meses'){ const a=parse(ini),x=parse(d); const m=(x.getUTCFullYear()-a.getUTCFullYear())*12+x.getUTCMonth()-a.getUTCMonth(); return m%n===0&&mesmoDiaMes(ini,d); }
+      return false; }
+  }
+  return false;
+}
+function ocorreNaData(t,d){
+  if(t.tipo!=='recorrente') return t.data===d;
+  const ini=t.rec_inicio||t.data; if(!ini||d<ini) return false;
+  if(t.rec_fim&&d>t.rec_fim) return false;
+  if(t.excecoes&&t.excecoes.includes(d)) return false;
+  return regraNaData(t,ini,d);
+}
+function ocorrMap(){ const m={}; for(const o of S.ocorr) m[o.tarefa_id+'|'+o.data]=o; return m; }
+const OCULTAS=['cancelada','dispensada'];
+/* Itens do mural num dia. Cada ocorrência tem estado próprio; nada é gravado só por "existir". */
+function itensDoDia(d,{incluirOcultas=false}={}){
+  const om=ocorrMap(), out=[];
+  for(const t of S.tarefas){
+    if(t.tipo!=='recorrente'){
+      if(t.data!==d) continue;
+      if(OCULTAS.includes(t.situacao)&&!incluirOcultas) continue;
+      out.push({t,data:d,dia:d,feito:t.situacao==='concluida',recorrente:false});
+    } else if(ocorreNaData(t,d)){
+      const o=om[t.id+'|'+d];
+      if(o&&o.nova_data&&o.nova_data!==d) continue;               // foi reagendada para outro dia
+      if(o&&OCULTAS.includes(o.situacao)&&!incluirOcultas) continue;
+      out.push({t,data:d,dia:d,feito:!!(o&&o.situacao==='concluida'),recorrente:true,o});
+    }
+  }
+  for(const o of S.ocorr){
+    if(o.nova_data===d&&o.data!==d){
+      const t=S.tarefas.find(x=>x.id===o.tarefa_id); if(!t) continue;
+      if(OCULTAS.includes(o.situacao)&&!incluirOcultas) continue;
+      out.push({t,data:o.data,dia:d,feito:o.situacao==='concluida',recorrente:true,movida:true,o});
+    }
+  }
+  const pr={alta:0,media:1,baixa:2};
+  return out.sort((a,b)=>(!!b.t.fixada-!!a.t.fixada)||((a.t.hora_inicio||'99')<(b.t.hora_inicio||'99')?-1:(a.t.hora_inicio||'99')>(b.t.hora_inicio||'99')?1:0)||(pr[a.t.prioridade]-pr[b.t.prioridade]));
+}
+/* Atrasadas: únicas pendentes de dias passados (sem limite) + ocorrências recorrentes não resolvidas
+   dos últimos JANELA_ATRASO dias + ocorrências reagendadas cujo novo dia já passou. Não grava nada. */
+function atrasadas(hoje=S.hoje){
+  const om=ocorrMap(), out=[];
+  for(const t of S.tarefas){
+    if(t.tipo!=='recorrente'){
+      if(t.situacao==='pendente'&&t.data&&t.data<hoje) out.push({t,data:t.data,dia:t.data,recorrente:false,atraso:diffDias(t.data,hoje)});
+    } else if(t.cobrar_atraso!==false){
+      for(let i=JANELA_ATRASO;i>=1;i--){ const d=addDias(hoje,-i);
+        if(!ocorreNaData(t,d)||om[t.id+'|'+d]) continue;
+        out.push({t,data:d,dia:d,recorrente:true,atraso:i}); }
+    }
+  }
+  for(const o of S.ocorr){
+    if(o.situacao==='reagendada'&&o.nova_data&&o.nova_data<hoje){
+      const t=S.tarefas.find(x=>x.id===o.tarefa_id); if(t&&t.cobrar_atraso!==false) out.push({t,data:o.data,dia:o.nova_data,recorrente:true,movida:true,o,atraso:diffDias(o.nova_data,hoje)});
+    }
+  }
+  return out.sort((a,b)=>a.dia<b.dia?-1:a.dia>b.dia?1:0);
+}
+/* Histórico dos últimos N dias: concluídas e dispensadas */
+function historico(hoje=S.hoje,n=30){
+  const lim=addDias(hoje,-n), out=[];
+  for(const t of S.tarefas) if(t.tipo!=='recorrente'&&['concluida','dispensada'].includes(t.situacao)&&t.data&&t.data>=lim) out.push({t,data:t.data,dia:t.data,recorrente:false,sit:t.situacao});
+  for(const o of S.ocorr){ if(!['concluida','dispensada'].includes(o.situacao)) continue; const dia=o.nova_data||o.data; if(dia<lim) continue;
+    const t=S.tarefas.find(x=>x.id===o.tarefa_id); if(t) out.push({t,data:o.data,dia,recorrente:true,o,sit:o.situacao}); }
+  return out.sort((a,b)=>a.dia<b.dia?1:-1);
+}
+function eventoNaData(e,d){
+  if(e.excecoes&&e.excecoes.includes(d)) return false;
+  if(!e.recorrencia) return e.data===d;
+  if(d<e.data||(e.rec_fim&&d>e.rec_fim)) return false;
+  return regraNaData(e,e.data,d);
+}
+function eventosDoDia(d){ return S.eventos.filter(e=>eventoNaData(e,d)).sort((a,b)=>(a.hora_inicio||'99')<(b.hora_inicio||'99')?-1:1); }
+/* Próximo aniversário (ano de nascimento não é necessário) */
+function proxAniv(a,hoje=S.hoje){
+  const y=parse(hoje).getUTCFullYear();
+  const alvo=yy=>{ let dia=+a.dia; if(+a.mes===2&&dia===29&&!bissexto(yy)) dia=28; return fmt(new Date(Date.UTC(yy,a.mes-1,dia))); };
+  let d=alvo(y); if(d<hoje) d=alvo(y+1);
+  return {data:d,falta:diffDias(hoje,d)};
+}
+function proxDataImportante(x,hoje=S.hoje){
+  if(!x.anual) return x.data>=hoje?{data:x.data,falta:diffDias(hoje,x.data)}:null;
+  return proxAniv({dia:+x.data.slice(8,10),mes:+x.data.slice(5,7)},hoje);
+}
+/* Central de notificações: gerada a partir dos dados, com chave única (sem duplicar) */
+function gerarNotificacoes(hoje=S.hoje){
+  const out=[], amanha=addDias(hoje,1);
+  for(const x of itensDoDia(hoje)) if(!x.feito&&x.t.prioridade==='alta')
+    out.push({chave:`prio|${x.t.id}|${x.data}`,tipo:'prio',titulo:x.t.titulo,texto:'Prioridade alta para hoje'+(x.t.hora_inicio?' · '+hhmm(x.t.hora_inicio):''),ir:'inicio'});
+  for(const x of atrasadas(hoje))
+    out.push({chave:`atraso|${x.t.id}|${x.data}`,tipo:'atraso',titulo:x.t.titulo,texto:`Atrasada há ${x.atraso} dia${x.atraso>1?'s':''}`,ir:'tarefas'});
+  for(const d of [hoje,amanha]) for(const e of eventosDoDia(d))
+    out.push({chave:`ev|${e.id}|${d}`,tipo:'ev',titulo:e.titulo,texto:(d===hoje?'Hoje':'Amanhã')+(e.hora_inicio?' às '+hhmm(e.hora_inicio):'')+(e.local?' · '+e.local:''),ir:'agenda'});
+  for(const a of S.aniv){ const p=proxAniv(a,hoje); if(p.falta<=(a.antecedencia??7))
+    out.push({chave:`aniv|${a.id}|${p.data}`,tipo:'aniv',titulo:a.nome,texto:p.falta===0?'Faz aniversário hoje':`Aniversário em ${p.falta} dia${p.falta>1?'s':''} (${diaCurto(p.data)})`,ir:'datas'}); }
+  for(const x of S.datas){ const p=proxDataImportante(x,hoje); if(p&&p.falta<=(x.antecedencia??7))
+    out.push({chave:`data|${x.id}|${p.data}`,tipo:'data',titulo:x.nome,texto:p.falta===0?'É hoje':`Em ${p.falta} dia${p.falta>1?'s':''} (${diaCurto(p.data)})`,ir:'datas'}); }
+  const vistos=new Set(); return out.filter(n=>!vistos.has(n.chave)&&vistos.add(n.chave));
+}
+// </motor>
+
+function horaLocal(){ return +new Intl.DateTimeFormat('en-GB',{timeZone:fuso(),hour:'2-digit',hour12:false}).format(new Date()); }
+function diaLongo(d){ const x=parse(d); return `${DIAS_LONGO[x.getUTCDay()]}, ${x.getUTCDate()} de ${MESES[x.getUTCMonth()]} de ${x.getUTCFullYear()}`; }
+function diaLongoC(d){ const s=diaLongo(d); return s.charAt(0).toUpperCase()+s.slice(1); }
+function horario(t){ if(!t.hora_inicio) return 'Durante o dia'; return hhmm(t.hora_inicio)+(t.hora_fim?' – '+hhmm(t.hora_fim):''); }
+function emDias(n){ return n===0?'hoje':n===1?'amanhã':`em ${n} dias`; }
 async function sha256(s){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
 
-function toast(msg,err=false){
+function toast(msg,err=false,acao){
   const el=document.createElement('div'); el.className='toast'+(err?' err':''); el.setAttribute('role',err?'alert':'status');
-  el.innerHTML=ic(err?'alert-triangle':'check-circle-2')+`<span>${esc(msg)}</span>`;
-  $('#toasts').appendChild(el); icons(); setTimeout(()=>el.remove(),err?6000:3000);
+  el.innerHTML=ic(err?'alert-triangle':'check-circle-2')+`<span>${esc(msg)}</span>`+(acao?`<button class="btn sm gold" style="margin-left:6px">${esc(acao.label)}</button>`:'');
+  const tc=$('#toasts'); tc.appendChild(el); while(tc.children.length>3) tc.firstElementChild.remove(); icons();
+  if(acao){ el.querySelector('button').onclick=()=>{ el.remove(); acao.run(); }; }
+  else setTimeout(()=>el.remove(),err?6000:3000);
 }
 function erro(e,ctx){ console.error(ctx,e); toast(`${ctx}: ${e&&e.message?e.message:e}`,true); }
 
 let modalAberto=null;
-function abrirModal(html,{wide=false,onOpen}={}){
+function abrirModal(html,{wide=false}={}){
   fecharModal();
   const bg=document.createElement('div'); bg.className='modal-bg';
   bg.innerHTML=`<div class="modal${wide?' wide':''}" role="dialog" aria-modal="true">${html}</div>`;
   bg.addEventListener('mousedown',e=>{ if(e.target===bg) fecharModal(); });
   document.body.appendChild(bg); modalAberto=bg; icons();
   const f=bg.querySelector('input,textarea,select,button'); f&&f.focus();
-  onOpen&&onOpen(bg.firstElementChild); return bg.firstElementChild;
+  return bg.firstElementChild;
 }
 function fecharModal(){ if(modalAberto){ modalAberto.remove(); modalAberto=null; } }
 function confirmar(titulo,texto,rotulo='Excluir'){
@@ -444,138 +650,145 @@ function confirmar(titulo,texto,rotulo='Excluir'){
     m.querySelector('[data-x="0"]').focus();
   });
 }
+/* Pergunta com várias opções (radio). Resolve com o valor escolhido ou null. */
+function escolher(titulo,texto,opcoes,rotulo='Confirmar'){
+  return new Promise(res=>{
+    const m=abrirModal(`<h3>${ic('help-circle')} ${esc(titulo)}</h3>${texto?`<p class="muted small">${esc(texto)}</p>`:''}
+      <div class="opts">${opcoes.map((o,i)=>`<label class="opt"><input type="radio" name="esc" value="${esc(o.v)}" ${i===0?'checked':''}><span><b>${esc(o.l)}</b>${o.d?`<small>${esc(o.d)}</small>`:''}</span></label>`).join('')}</div>
+      <div class="foot"><button class="btn" data-x="0">Cancelar</button><button class="btn primary" data-x="1">${esc(rotulo)}</button></div>`);
+    m.querySelector('[data-x="0"]').onclick=()=>{ fecharModal(); res(null); };
+    m.querySelector('[data-x="1"]').onclick=()=>{ const v=m.querySelector('input[name="esc"]:checked').value; fecharModal(); res(v); };
+  });
+}
 let menuAberto=null;
 function abrirMenu(anchor,itens){
   fecharMenu();
   const r=anchor.getBoundingClientRect(); const m=document.createElement('div'); m.className='menu-pop'; m.setAttribute('role','menu');
-  m.innerHTML=itens.map((it,i)=>`<button role="menuitem" data-i="${i}">${ic(it.icon)} ${esc(it.label)}</button>`).join('');
+  m.innerHTML=itens.map((it,i)=>it.sep?'<hr>':`<button role="menuitem" data-i="${i}" class="${it.danger?'danger':''}">${ic(it.icon)} ${esc(it.label)}</button>`).join('');
   document.body.appendChild(m);
-  const w=m.offsetWidth; m.style.top=Math.min(r.bottom+4,innerHeight-m.offsetHeight-8)+'px'; m.style.left=Math.max(8,Math.min(r.right-w,innerWidth-w-8))+'px';
+  const w=m.offsetWidth; m.style.top=Math.max(8,Math.min(r.bottom+4,innerHeight-m.offsetHeight-8))+'px'; m.style.left=Math.max(8,Math.min(r.right-w,innerWidth-w-8))+'px';
   m.querySelectorAll('button').forEach(b=>b.onclick=()=>{ fecharMenu(); itens[+b.dataset.i].run(); });
   menuAberto=m; icons(); m.querySelector('button').focus();
   setTimeout(()=>document.addEventListener('mousedown',fecharMenuFora),0);
 }
 function fecharMenuFora(e){ if(menuAberto&&!menuAberto.contains(e.target)) fecharMenu(); }
 function fecharMenu(){ if(menuAberto){ menuAberto.remove(); menuAberto=null; document.removeEventListener('mousedown',fecharMenuFora); } }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(menuAberto) fecharMenu(); else fecharModal(); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ if(menuAberto) fecharMenu(); else if($('#notif-pop')) fecharNotif(); else fecharModal(); } });
 
-/* ---------------- Tema ---------------- */
+/* ---------------- Tema: claro (padrão), escuro ou sistema ---------------- */
+function prefTema(){ return store.get('vp_tema')||'light'; }
+function aplicarTema(){ const t=prefTema(); if(t==='system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme=t; }
 function temaAtual(){ const t=document.documentElement.dataset.theme; if(t) return t; return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
-function aplicarTema(){ const t=store.get('vp_tema'); if(t) document.documentElement.dataset.theme=t; }
-function alternarTema(){ const n=temaAtual()==='dark'?'light':'dark'; document.documentElement.dataset.theme=n; store.set('vp_tema',n); renderTopo(); }
+function alternarTema(){ store.set('vp_tema',temaAtual()==='dark'?'light':'dark'); aplicarTema(); renderTopo(); if(S.rota==='config') render(); }
 aplicarTema();
-
-/* ---------------- Motor de ocorrências ---------------- */
-function ocorrMap(){ const m={}; for(const o of S.ocorr) m[o.tarefa_id+'|'+o.data]=o; return m; }
-function ocorreNaData(t,d){
-  if(t.tipo!=='recorrente') return t.data===d;
-  const ini=t.rec_inicio||t.data; if(!ini || d<ini) return false;
-  if(t.rec_fim && d>t.rec_fim) return false;
-  const dias=(t.dias_semana&&t.dias_semana.length)?t.dias_semana:null;
-  switch(t.recorrencia){
-    case 'diaria': return dias?dias.includes(dow(d)):true;
-    case 'semanal': return (dias||[dow(ini)]).includes(dow(d));
-    case 'mensal': { const a=parse(ini).getUTCDate(), x=parse(d); const alvo=Math.min(a,diasNoMes(x.getUTCFullYear(),x.getUTCMonth())); return x.getUTCDate()===alvo; }
-    case 'anual': { const a=parse(ini), x=parse(d); return a.getUTCMonth()===x.getUTCMonth()&&a.getUTCDate()===x.getUTCDate(); }
-  }
-  return false;
-}
-/* Itens de um dia: {t, data (original), dia (exibido), feito, recorrente} */
-function itensDoDia(d,{incluirCanceladas=false}={}){
-  const om=ocorrMap(), out=[];
-  for(const t of S.tarefas){
-    if(t.tipo==='unica'){
-      if(t.data!==d) continue;
-      if(t.situacao==='cancelada'&&!incluirCanceladas) continue;
-      out.push({t,data:d,dia:d,feito:t.situacao==='concluida',recorrente:false});
-    } else {
-      if(ocorreNaData(t,d)){
-        const o=om[t.id+'|'+d];
-        if(o&&(o.situacao==='reagendada'||(o.situacao==='cancelada'&&!incluirCanceladas))) continue;
-        out.push({t,data:d,dia:d,feito:!!(o&&o.situacao==='concluida'),recorrente:true});
-      }
-    }
-  }
-  for(const o of S.ocorr){
-    if(o.situacao==='reagendada'&&o.nova_data===d){
-      const t=S.tarefas.find(x=>x.id===o.tarefa_id); if(t) out.push({t,data:o.data,dia:d,feito:false,recorrente:true,movida:true});
-    }
-  }
-  const pr={alta:0,media:1,baixa:2};
-  return out.sort((a,b)=>(b.t.fixada-a.t.fixada)||((a.t.hora_inicio||'99')<(b.t.hora_inicio||'99')?-1:(a.t.hora_inicio||'99')>(b.t.hora_inicio||'99')?1:0)||(pr[a.t.prioridade]-pr[b.t.prioridade]));
-}
-function vencidas(){ return S.tarefas.filter(t=>t.tipo==='unica'&&t.situacao==='pendente'&&t.data&&t.data<S.hoje).sort((a,b)=>a.data<b.data?-1:1); }
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{ if(prefTema()==='system') renderTopo(); });
 
 /* ---------------- Ações de tarefa ---------------- */
+function trocaOcorr(o){ S.ocorr=S.ocorr.filter(x=>!(x.tarefa_id===o.tarefa_id&&x.data===o.data)); S.ocorr.push(o); }
+async function marcarOcorrencia(it,situacao){
+  const nova=it.o&&it.o.nova_data?it.o.nova_data:null;
+  trocaOcorr(await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao,nova_data:nova}));
+}
 async function alternarConcluida(it){
   try{
     if(!it.recorrente){
-      const nova=it.feito?'pendente':'concluida';
-      const r=await db.updateTarefa(it.t.id,{situacao:nova}); Object.assign(it.t,r);
-    } else if(it.movida){
-      toast('Esta ocorrência foi reagendada. Conclua-a no novo dia.');
-      return;
+      const r=await db.upd('tarefas',it.t.id,{situacao:it.feito?'pendente':'concluida',atualizado_em:new Date().toISOString()}); Object.assign(it.t,r);
     } else if(it.feito){
-      await db.deleteOcorrencia(it.t.id,it.data); S.ocorr=S.ocorr.filter(o=>!(o.tarefa_id===it.t.id&&o.data===it.data));
-    } else {
-      const o=await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'concluida',nova_data:null});
-      S.ocorr=S.ocorr.filter(x=>!(x.tarefa_id===it.t.id&&x.data===it.data)); S.ocorr.push(o);
-    }
-    toast(it.feito?'Tarefa reaberta':'Tarefa concluída');
-    render();
+      if(it.o&&it.o.nova_data) trocaOcorr(await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'reagendada',nova_data:it.o.nova_data}));
+      else { await db.deleteOcorrencia(it.t.id,it.data); S.ocorr=S.ocorr.filter(o=>!(o.tarefa_id===it.t.id&&o.data===it.data)); }
+    } else await marcarOcorrencia(it,'concluida');
+    toast(it.feito?'Tarefa reaberta':'Tarefa concluída'); render();
   }catch(e){ erro(e,'Não foi possível atualizar'); }
 }
+async function concluirAtrasada(it){
+  try{ if(!it.recorrente){ Object.assign(it.t,await db.upd('tarefas',it.t.id,{situacao:'concluida',atualizado_em:new Date().toISOString()})); } else await marcarOcorrencia(it,'concluida');
+    toast('Concluída'); render(); }catch(e){ erro(e,'Não foi possível concluir'); }
+}
+async function dispensar(it){
+  try{ if(!it.recorrente){ Object.assign(it.t,await db.upd('tarefas',it.t.id,{situacao:'dispensada',atualizado_em:new Date().toISOString()})); } else await marcarOcorrencia(it,'dispensada');
+    toast('Dispensada — pode ser reativada no Histórico',false); render(); }catch(e){ erro(e,'Não foi possível dispensar'); }
+}
+async function reativar(it){
+  try{
+    if(!it.recorrente){ Object.assign(it.t,await db.upd('tarefas',it.t.id,{situacao:'pendente',atualizado_em:new Date().toISOString()})); }
+    else if(it.o&&it.o.nova_data) trocaOcorr(await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'reagendada',nova_data:it.o.nova_data}));
+    else { await db.deleteOcorrencia(it.t.id,it.data); S.ocorr=S.ocorr.filter(o=>!(o.tarefa_id===it.t.id&&o.data===it.data)); }
+    toast('Tarefa reativada'); render();
+  }catch(e){ erro(e,'Não foi possível reativar'); }
+}
+function chaveMantida(it){ return it.t.id+'|'+it.data; }
+function mantidasHoje(){ try{ return JSON.parse(store.get('vp_mant_'+S.hoje)||'[]'); }catch(e){ return []; } }
+function manterPendente(it){ const l=mantidasHoje(); if(!l.includes(chaveMantida(it))) l.push(chaveMantida(it)); store.set('vp_mant_'+S.hoje,JSON.stringify(l)); toast('Mantida pendente. Continua em Tarefas → Atrasadas.'); render(); }
 async function alternarFixada(t){
-  try{ const r=await db.updateTarefa(t.id,{fixada:!t.fixada}); Object.assign(t,r); toast(t.fixada?'Post-it fixado no topo':'Post-it desafixado'); render(); }
+  try{ Object.assign(t,await db.upd('tarefas',t.id,{fixada:!t.fixada})); toast(t.fixada?'Post-it fixado no topo':'Post-it desafixado'); render(); }
   catch(e){ erro(e,'Não foi possível fixar'); }
 }
 function reagendar(it){
   const m=abrirModal(`<h3>${ic('calendar-clock')} Reagendar</h3>
-    <p class="muted small">${esc(it.t.titulo)}${it.recorrente?' — só esta ocorrência de '+diaCurto(it.data)+'; as próximas repetições continuam.':''}</p>
-    <div class="field"><label class="f" for="rg-d">Nova data</label><input class="inp" type="date" id="rg-d" value="${addDias(S.hoje,1)}"></div>
+    <p class="muted small">${esc(it.t.titulo)}${it.recorrente?' — só a ocorrência de '+diaCurto(it.data)+'; as próximas repetições continuam.':''}</p>
+    <div class="field"><label class="f" for="rg-d">Nova data</label><input class="inp" type="date" id="rg-d" value="${it.dia<S.hoje?S.hoje:addDias(S.hoje,1)}"></div>
     <div class="foot"><button class="btn" id="rg-c">Cancelar</button><button class="btn primary" id="rg-s">${ic('check')} Reagendar</button></div>`);
   m.querySelector('#rg-c').onclick=fecharModal;
   m.querySelector('#rg-s').onclick=async()=>{
     const d=m.querySelector('#rg-d').value; if(!d) return;
     try{
-      if(!it.recorrente){ const r=await db.updateTarefa(it.t.id,{data:d,situacao:'pendente'}); Object.assign(it.t,r); }
-      else { const o=await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'reagendada',nova_data:d}); S.ocorr=S.ocorr.filter(x=>!(x.tarefa_id===it.t.id&&x.data===it.data)); S.ocorr.push(o); }
+      if(!it.recorrente) Object.assign(it.t,await db.upd('tarefas',it.t.id,{data:d,situacao:'pendente',atualizado_em:new Date().toISOString()}));
+      else if(d===it.data){ await db.deleteOcorrencia(it.t.id,it.data); S.ocorr=S.ocorr.filter(o=>!(o.tarefa_id===it.t.id&&o.data===it.data)); }
+      else trocaOcorr(await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'reagendada',nova_data:d}));
       fecharModal(); toast('Reagendada para '+diaCurto(d)); render();
     }catch(e){ erro(e,'Não foi possível reagendar'); }
   };
 }
-async function pularOcorrencia(it){
-  if(!await confirmar('Pular esta ocorrência?',`"${it.t.titulo}" não aparecerá em ${diaCurto(it.data)}. As outras repetições continuam.`,'Pular')) return;
-  try{ const o=await db.upsertOcorrencia({tarefa_id:it.t.id,data:it.data,situacao:'cancelada',nova_data:null}); S.ocorr=S.ocorr.filter(x=>!(x.tarefa_id===it.t.id&&x.data===it.data)); S.ocorr.push(o); toast('Ocorrência pulada'); render(); }
-  catch(e){ erro(e,'Não foi possível pular'); }
+/* Excluir definitivamente. it.data = a ocorrência clicada (ou null quando vem da lista). */
+async function excluirTarefa(t,data=null){
+  try{
+    if(t.tipo!=='recorrente'){
+      if(!await confirmar('Excluir definitivamente?',`"${t.titulo}" será apagada para sempre. Esta operação não pode ser desfeita. (Se quiser só tirar do mural, use Dispensar.)`)) return;
+      await db.del('tarefas',t.id); removerLocal(t.id); toast('Tarefa excluída'); render(); return;
+    }
+    const ops=[];
+    if(data) ops.push({v:'so',l:`Excluir somente a ocorrência de ${diaCurto(data)}`,d:'As outras repetições continuam.'});
+    const ref=data||S.hoje;
+    ops.push({v:'prox',l:data?`Excluir esta e as próximas`:`Encerrar a partir de hoje`,d:`A série termina em ${diaCurto(addDias(ref,-1))}; o histórico anterior é mantido.`});
+    ops.push({v:'serie',l:'Excluir toda a série',d:'Apaga a tarefa, todas as repetições e o histórico de conclusões. Não pode ser desfeito.'});
+    const v=await escolher('Excluir tarefa automática',`"${t.titulo}" — ${descricaoRec(t)}`,ops,'Excluir');
+    if(!v) return;
+    const ini=t.rec_inicio||t.data;
+    if(v==='so'){ trocaOcorr(await db.upsertOcorrencia({tarefa_id:t.id,data,situacao:'cancelada',nova_data:null})); toast('Ocorrência excluída'); }
+    else if(v==='prox'&&ref>ini){
+      const fim=addDias(ref,-1);
+      Object.assign(t,await db.upd('tarefas',t.id,{rec_fim:t.rec_fim&&t.rec_fim<fim?t.rec_fim:fim,atualizado_em:new Date().toISOString()}));
+      await db.deleteOcorrenciasDesde(t.id,ref); S.ocorr=S.ocorr.filter(o=>!(o.tarefa_id===t.id&&o.data>=ref));
+      toast(`Série encerrada em ${diaCurto(fim)}`);
+    } else {
+      if(v==='prox'&&!await confirmar('Excluir toda a série?','Esta data é o início da série, então "esta e as próximas" equivale a apagar a série inteira.')) return;
+      await db.del('tarefas',t.id); removerLocal(t.id); toast('Série excluída');
+    }
+    render();
+  }catch(e){ erro(e,'Não foi possível excluir'); }
 }
-async function excluirTarefa(t){
-  const txt=t.tipo==='recorrente'?`Isto apaga "${t.titulo}" e todas as suas repetições e histórico de conclusões.`:`Isto apaga "${t.titulo}" definitivamente.`;
-  if(!await confirmar('Excluir tarefa?',txt)) return;
-  try{ await db.deleteTarefa(t.id); S.tarefas=S.tarefas.filter(x=>x.id!==t.id); S.ocorr=S.ocorr.filter(o=>o.tarefa_id!==t.id); if(S.t.edit===t.id){S.t.edit=null;S.t.form=null;} toast('Tarefa excluída'); render(); }
-  catch(e){ erro(e,'Não foi possível excluir'); }
-}
+function removerLocal(id){ S.tarefas=S.tarefas.filter(x=>x.id!==id); S.ocorr=S.ocorr.filter(o=>o.tarefa_id!==id); if(S.t.edit===id){ S.t.edit=null; S.t.form=null; } }
 function menuTarefa(btn,it){
   const itens=[
     {icon:'pencil',label:'Editar',run:()=>editarTarefa(it.t)},
     {icon:it.t.fixada?'pin-off':'pin',label:it.t.fixada?'Desafixar':'Fixar no topo',run:()=>alternarFixada(it.t)},
-    {icon:'calendar-clock',label:'Reagendar',run:()=>reagendar(it)}
+    {icon:'calendar-clock',label:'Reagendar',run:()=>reagendar(it)},
+    {icon:'circle-slash',label:'Dispensar',run:()=>dispensar(it)},
+    {sep:true},
+    {icon:'trash-2',label:'Excluir definitivamente',danger:true,run:()=>excluirTarefa(it.t,it.recorrente?it.data:null)}
   ];
-  if(it.recorrente&&!it.movida) itens.push({icon:'skip-forward',label:'Pular só esta vez',run:()=>pularOcorrencia(it)});
-  itens.push({icon:'trash-2',label:'Excluir tarefa',run:()=>excluirTarefa(it.t)});
   abrirMenu(btn,itens);
 }
 function editarTarefa(t){ S.t.edit=t?t.id:null; S.t.form=null; ir('tarefas'); }
 
-/* ---------------- Componente post-it ---------------- */
+/* ---------------- Post-its ---------------- */
 let REG={}; let regN=0;
 function reg(o){ const k='k'+(++regN); REG[k]=o; return k; }
-function postit(it,{venc=false,preview=false}={}){
+function postit(it,{preview=false}={}){
   const t=it.t, k=preview?'':reg(it);
-  const catIc=CAT_ICON[t.categoria]||'sticky-note';
-  return `<article class="postit c-${esc(t.cor||'amarelo')}${it.feito?' done':''}" ${k?`data-k="${k}"`:''}>
+  return `<article class="postit c-${esc(t.cor||'amarelo')}${it.feito?' done':''}${t.prioridade==='alta'&&!it.feito?' prio':''}" ${k?`data-k="${k}"`:''}>
     <div class="pt-top">
-      <button class="pt-check" ${k?`data-act="check"`:''} aria-label="${it.feito?'Reabrir':'Concluir'}: ${esc(t.titulo)}" aria-pressed="${it.feito}">${ic('check')}</button>
+      <button class="pt-check" ${k?`data-act="check"`:''} aria-label="${it.feito?'Reabrir':'Concluir'}: ${esc(t.titulo)}" aria-pressed="${!!it.feito}">${ic('check')}</button>
       <div class="pt-title">${esc(t.titulo||'Título da tarefa')}</div>
       ${t.fixada?`<span class="pt-pin" title="Fixado">${ic('pin')}</span>`:''}
       ${k?`<button class="pt-menu" data-act="menu" aria-label="Opções de ${esc(t.titulo)}">${ic('more-horizontal')}</button>`:''}
@@ -583,10 +796,20 @@ function postit(it,{venc=false,preview=false}={}){
     <div class="pt-badges">
       <span class="pt-badge${it.recorrente?' auto':''}">${it.recorrente?'Automática':'Manual'}</span>
       ${t.prioridade==='alta'?'<span class="pt-badge alta">Alta</span>':''}
-      ${venc?'<span class="pt-badge venc">Vencida</span>':''}
-      ${it.movida?'<span class="pt-badge">Reagendada</span>':''}
+      ${it.movida?`<span class="pt-badge">Reagendada de ${diaCurto(it.data)}</span>`:''}
     </div>
-    <div class="pt-foot">${ic(catIc)} <span>${esc(horario(t))}</span></div>
+    <div class="pt-foot">${ic(CAT_ICON[t.categoria]||'sticky-note')} <span>${esc(horario(t))}</span></div>
+  </article>`;
+}
+function postitEvento(e,d){
+  const c=CAT_EV[e.tipo]||CAT_EV.pessoal, k=reg({e,d});
+  return `<article class="postit c-${c[1]} evento${e.prioridade==='alta'?' prio':''}" data-ev="${k}">
+    <div class="pt-top"><span class="pt-cal" aria-hidden="true">${ic(c[2])}</span>
+      <div class="pt-title">${esc(e.titulo)}</div>
+      <button class="pt-menu" data-act="menu" aria-label="Opções de ${esc(e.titulo)}">${ic('more-horizontal')}</button></div>
+    <div class="pt-badges"><span class="pt-badge ag">${ic('calendar-days','style="width:11px;height:11px"')} Agenda · ${esc(c[0])}</span>${e.prioridade==='alta'?'<span class="pt-badge alta">Alta</span>':''}</div>
+    <div class="pt-foot">${ic('clock')} <span>${esc(horario(e))}</span></div>
+    ${e.local?`<div class="pt-foot sub">${ic('map-pin')} <span>${esc(e.local)}</span></div>`:''}
   </article>`;
 }
 function ligarPostits(scope){
@@ -596,47 +819,90 @@ function ligarPostits(scope){
     el.querySelector('[data-act="menu"]').onclick=e=>{ e.stopPropagation(); menuTarefa(e.currentTarget,it); };
     el.ondblclick=e=>{ if(!e.target.closest('button')) editarTarefa(it.t); };
   });
+  scope.querySelectorAll('.postit[data-ev]').forEach(el=>{
+    const {e,d}=REG[el.dataset.ev];
+    el.querySelector('[data-act="menu"]').onclick=ev=>{ ev.stopPropagation(); abrirMenu(ev.currentTarget,[
+      {icon:'pencil',label:'Editar evento',run:()=>formEvento(e)},
+      {icon:'calendar-days',label:'Ver na agenda',run:()=>{ S.ag.ref=d; S.ag.sel=d; ir('agenda'); }},
+      {sep:true},{icon:'trash-2',label:'Excluir evento',danger:true,run:()=>excluirEvento(e,d)}]); };
+    el.ondblclick=ev=>{ if(!ev.target.closest('button')) formEvento(e); };
+  });
+}
+/* Mistura tarefas e eventos do dia em ordem: fixadas, depois por horário */
+function cardsDoDia(d){
+  const cs=[...itensDoDia(d).map(x=>({h:x.t.hora_inicio||'99',fix:!!x.t.fixada,html:()=>postit(x)})),
+    ...eventosDoDia(d).filter(e=>e.no_mural!==false).map(e=>({h:e.hora_inicio||'99',fix:false,html:()=>postitEvento(e,d)}))];
+  return cs.sort((a,b)=>(b.fix-a.fix)||(a.h<b.h?-1:a.h>b.h?1:0)).map(c=>c.html()).join('');
 }
 
-/* ---------------- Topo + navegação ---------------- */
+/* ---------------- Topo, navegação, notificações ---------------- */
 const ROTAS=[
-  ['inicio','Início','home'],['tarefas','Tarefas','check-square'],['agenda','Agenda','calendar-days'],
+  ['inicio','Início','home'],['tarefas','Tarefas','check-square'],['agenda','Agenda','calendar-days'],['datas','Datas','cake'],
   ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb',true]
 ];
 function saudacao(){ const h=horaLocal(); return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'; }
 const LOGO=`<img class="brand-mark" src="logo.png" alt="" width="44" height="44">`;
 function shell(){
-  $('#root').innerHTML=`<div class="app">
+  $('#root').innerHTML=`<div class="app${store.get('vp_menu')==='compacto'?' compacta':''}" id="app">
     <header class="topbar" id="topbar"></header>
     <nav class="side" aria-label="Navegação principal" id="side"></nav>
     <main class="main" id="main" tabindex="-1"></main>
   </div>`;
   renderTopo(); renderSide();
 }
+function naoLidas(){ return gerarNotificacoes().filter(n=>!S.lidas.has(n.chave)); }
 function renderTopo(){
   const el=$('#topbar'); if(!el) return;
-  const nome=(S.cfg&&S.cfg.nome)||'Bispo';
+  const nome=(S.cfg&&S.cfg.nome)||'Bispo', n=S.carregado?naoLidas().length:0;
   el.innerHTML=`<a class="brand" href="#inicio">${LOGO}<div><div class="brand-name">VidaPlena</div><div class="brand-sub">Produtividade e Ministério</div></div></a>
-    <form class="search" role="search" id="busca-form">${ic('search')}<label class="sr" for="busca">Buscar</label><input id="busca" placeholder="Buscar tarefas, devocionais, passagens..." autocomplete="off"></form>
+    <form class="search" role="search" id="busca-form">${ic('search')}<label class="sr" for="busca">Buscar</label><input id="busca" placeholder="Buscar tarefas, eventos, devocionais..." autocomplete="off"></form>
     <div class="top-right">
       <span class="version" title="Versão instalada">v${CONFIG.VERSAO}</span>
+      <button class="icon-btn bell" id="sino" aria-label="Notificações${n?': '+n+' não lidas':''}" aria-haspopup="true" title="Notificações">${ic(n?'bell-ring':'bell')}${n?`<span class="bdg">${n>99?'99+':n}</span>`:''}</button>
       <button class="icon-btn" id="tema" aria-label="Alternar modo claro e escuro" title="Modo claro/escuro">${ic(temaAtual()==='dark'?'sun':'moon')}</button>
       <div class="hello"><div class="avatar">${esc(nome.charAt(0))}</div><div><b>Olá, ${esc(nome)}!</b><span>${saudacao()}. Que seja um dia frutífero!</span></div></div>
     </div>`;
   $('#tema').onclick=alternarTema;
+  $('#sino').onclick=e=>{ e.stopPropagation(); $('#notif-pop')?fecharNotif():abrirNotif(); };
   $('#busca-form').onsubmit=e=>{ e.preventDefault(); const q=$('#busca').value.trim(); if(q.length>1) buscaGlobal(q); };
   icons();
 }
+const NOTIF_IC={prio:['flag','b-bad'],atraso:['alert-octagon','b-bad'],ev:['calendar-days','b-info'],aniv:['cake','b-warn'],data:['calendar-heart','b-ok']};
+function abrirNotif(){
+  fecharNotif();
+  const todas=gerarNotificacoes(), nl=todas.filter(n=>!S.lidas.has(n.chave)), lidas=todas.filter(n=>S.lidas.has(n.chave));
+  const p=document.createElement('div'); p.id='notif-pop'; p.className='notif-pop'; p.setAttribute('role','dialog'); p.setAttribute('aria-label','Notificações');
+  const item=(n,lida)=>{const [i,c]=NOTIF_IC[n.tipo]; return `<div class="nt${lida?' lida':''}"><span class="nt-ic badge ${c}">${ic(i)}</span><button class="nt-txt" data-ir="${n.ir}"><b>${esc(n.titulo)}</b><small>${esc(n.texto)}</small></button>${lida?'':`<button class="nt-ok" data-lida="${esc(n.chave)}" aria-label="Marcar como lida" title="Marcar como lida">${ic('check')}</button>`}</div>`;};
+  p.innerHTML=`<div class="nt-head"><b>Notificações</b>${nl.length?`<button class="link" id="nt-all">Marcar todas como lidas</button>`:''}</div>
+    <div class="nt-list">${nl.length?nl.map(n=>item(n,false)).join(''):'<div class="small muted" style="padding:14px">Tudo em dia. Nenhum aviso novo.</div>'}
+    ${lidas.length?`<div class="nt-sep">Lidas</div>${lidas.slice(0,15).map(n=>item(n,true)).join('')}`:''}</div>`;
+  document.body.appendChild(p); icons();
+  p.querySelectorAll('[data-lida]').forEach(b=>b.onclick=()=>marcarLidas([b.dataset.lida]));
+  const all=$('#nt-all'); if(all) all.onclick=()=>marcarLidas(nl.map(n=>n.chave));
+  p.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>{ fecharNotif(); if(b.dataset.ir==='tarefas') S.t.filtro='atrasadas'; ir(b.dataset.ir); });
+  setTimeout(()=>document.addEventListener('mousedown',fecharNotifFora),0);
+}
+function fecharNotifFora(e){ const p=$('#notif-pop'); if(p&&!p.contains(e.target)&&!e.target.closest('#sino')) fecharNotif(); }
+function fecharNotif(){ const p=$('#notif-pop'); if(p) p.remove(); document.removeEventListener('mousedown',fecharNotifFora); }
+async function marcarLidas(keys){
+  if(!keys.length) return;
+  try{ await db.marcarLidas(keys); keys.forEach(k=>S.lidas.add(k)); renderTopo(); abrirNotif(); }
+  catch(e){ erro(e,'Não foi possível marcar como lida'); }
+}
 function renderSide(){
   const el=$('#side'); if(!el) return;
-  el.innerHTML=ROTAS.map(([id,l,i,soon])=>`<a class="nav${S.rota===id?' active':''}" href="#${id}" ${S.rota===id?'aria-current="page"':''}>${ic(i)}${l}${soon?'<span class="soon">F3</span>':''}</a>`).join('')+
+  const comp=store.get('vp_menu')==='compacto';
+  const na=S.carregado?atrasadas().length:0;
+  el.innerHTML=ROTAS.map(([id,l,i,soon])=>`<a class="nav${S.rota===id?' active':''}" href="#${id}" title="${l}" ${S.rota===id?'aria-current="page"':''}>${ic(i)}<span class="lbl">${l}</span>${soon?'<span class="soon">F3</span>':''}${id==='tarefas'&&na?`<span class="soon bad" title="${na} atrasadas">${na}</span>`:''}</a>`).join('')+
     `<div class="spacer"></div>
-    <a class="nav" href="${CONFIG.PORTICO}" target="_blank" rel="noopener">${ic('layout-grid')}Meus Apps</a>
-    <a class="nav${S.rota==='config'?' active':''}" href="#config">${ic('settings')}Ajustes</a>`;
+    <a class="nav" href="${CONFIG.PORTICO}" target="_blank" rel="noopener" title="Meus Apps">${ic('layout-grid')}<span class="lbl">Meus Apps</span></a>
+    <a class="nav${S.rota==='config'?' active':''}" href="#config" title="Ajustes">${ic('settings')}<span class="lbl">Ajustes</span></a>
+    <button class="nav recolher" id="recolher" aria-label="${comp?'Expandir menu':'Recolher menu'}" title="${comp?'Expandir menu':'Recolher menu'}">${ic(comp?'panel-left-open':'panel-left-close')}<span class="lbl">${comp?'Expandir':'Recolher'}</span></button>`;
+  $('#recolher').onclick=()=>{ const c=store.get('vp_menu')==='compacto'; store.set('vp_menu',c?'normal':'compacto'); $('#app').classList.toggle('compacta',!c); renderSide(); };
   icons();
 }
-function ir(r){ if(location.hash!=='#'+r) location.hash=r; else { S.rota=r; render(); } }
-window.addEventListener('hashchange',()=>{ S.rota=(location.hash.slice(1)||'inicio'); if(S.carregado){ renderSide(); render(); $('#main')&&$('#main').focus({preventScroll:true}); scrollTo(0,0);} });
+function ir(r){ if(location.hash!=='#'+r) location.hash=r; else { S.rota=r; renderSide(); render(); } }
+window.addEventListener('hashchange',()=>{ S.rota=(location.hash.slice(1)||'inicio'); if(S.carregado){ fecharNotif(); renderSide(); render(); $('#main')&&$('#main').focus({preventScroll:true}); scrollTo(0,0);} });
 
 function cabecalho(icone,titulo,sub,extra=''){
   return `<div class="page-head"><div class="page-title"><div class="page-icon">${ic(icone)}</div><div><h1>${titulo}</h1><p class="page-sub">${sub}</p></div></div>${extra}</div>`;
@@ -644,8 +910,17 @@ function cabecalho(icone,titulo,sub,extra=''){
 function render(){
   REG={}; regN=0;
   const m=$('#main'); if(!m) return;
-  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,devocional:pgDevocional,sugestoes:pgSugestoes,config:pgConfig}[S.rota]||pgInicio;
+  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,datas:pgDatas,devocional:pgDevocional,sugestoes:pgSugestoes,config:pgConfig}[S.rota]||pgInicio;
   f(m); icons();
+  if(S.carregado){ renderTopo(); const b=$('#side .soon.bad'), na=atrasadas().length; if((b?+b.textContent:0)!==na) renderSide(); }
+}
+async function recarregar(silencioso=false){
+  try{
+    const [t,o,ev,an,dt,li,dv]=await Promise.all([db.list('tarefas'),db.list('tarefa_ocorrencias'),db.list('eventos').catch(()=>[]),db.list('aniversarios').catch(()=>[]),
+      db.list('datas_importantes').catch(()=>[]),db.list('notificacoes_lidas').catch(()=>[]),db.getDevocional(S.hoje).catch(()=>null)]);
+    S.tarefas=t||[]; S.ocorr=o||[]; S.eventos=ev||[]; S.aniv=an||[]; S.datas=dt||[]; S.lidas=new Set((li||[]).map(x=>x.chave)); S.devHoje=dv;
+    if(!silencioso) toast('Painel atualizado');
+  }catch(e){ erro(e,'Erro ao carregar seus dados'); }
 }
 
 /* =====================================================================
@@ -653,61 +928,90 @@ function render(){
    ===================================================================== */
 function pgInicio(m){
   const hoje=S.hoje, amanha=addDias(hoje,1);
-  const iH=itensDoDia(hoje), iA=itensDoDia(amanha), venc=vencidas();
-  const feitosH=iH.filter(x=>x.feito).length;
-  const novo=`<button class="btn primary" id="nova">${ic('plus')} Nova tarefa</button>`;
+  const iH=itensDoDia(hoje), iA=itensDoDia(amanha), evH=eventosDoDia(hoje).filter(e=>e.no_mural!==false), evA=eventosDoDia(amanha).filter(e=>e.no_mural!==false);
+  const atr=atrasadas(), mant=mantidasHoje(), atrV=atr.filter(x=>!mant.includes(chaveMantida(x)));
+  const feitos=iH.filter(x=>x.feito).length, pct=iH.length?Math.round(feitos/iH.length*100):0;
+  const extra=`<div style="display:flex;gap:8px"><button class="btn" id="atualizar" title="Atualizar agora" aria-label="Atualizar painel">${ic('refresh-cw')}</button><button class="btn primary" id="nova">${ic('plus')} Nova tarefa</button></div>`;
   m.innerHTML=`<div class="grid-dash">
     <section class="card" style="padding:22px 24px">
-      ${cabecalho('check-square','Tarefas de Hoje e Amanhã','Organize seu dia, cumpra seus propósitos e sirva com excelência.',novo)}
-      ${venc.length?`<div class="overdue"><h4>${ic('alert-octagon')} ${venc.length} tarefa${venc.length>1?'s':''} vencida${venc.length>1?'s':''}</h4>
-        ${venc.slice(0,5).map(t=>{const k=reg({t,data:t.data,dia:t.data,feito:false,recorrente:false});return `<div class="od-item"><span class="dot bg-${esc(t.cor)}"></span><span class="grow">${esc(t.titulo)} <span class="muted small">· ${diaCurto(t.data)}</span></span><button class="btn sm" data-od="${k}">${ic('calendar-clock')} Reagendar</button><button class="btn sm" data-odh="${k}">Para hoje</button></div>`}).join('')}
-        ${venc.length>5?`<div class="small muted" style="margin-top:6px">e mais ${venc.length-5} em Tarefas → Vencidas</div>`:''}</div>`:''}
+      ${cabecalho('check-square','Tarefas de Hoje e Amanhã','Organize seu dia, cumpra seus propósitos e sirva com excelência.',extra)}
+      <div class="stats">
+        <div class="stat"><b>${iH.length}</b><span>tarefas hoje</span></div>
+        <div class="stat"><b>${feitos}</b><span>concluídas</span></div>
+        <div class="stat ${atr.length?'bad':''}"><b>${atr.length}</b><span>atrasadas</span></div>
+        <div class="stat"><b>${evH.length}</b><span>compromissos</span></div>
+        <div class="stat wide"><div class="prog" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso de hoje"><i style="width:${pct}%"></i></div><span>${pct}% do dia concluído</span></div>
+      </div>
+      ${atrV.length?`<div class="overdue"><h4>${ic('alert-octagon')} ${atr.length} tarefa${atr.length>1?'s':''} atrasada${atr.length>1?'s':''}<button class="link" style="margin-left:auto" data-veratr>Ver todas</button></h4>
+        ${atrV.slice(0,4).map(x=>linhaAtrasada(x,true)).join('')}
+        ${atrV.length>4?`<div class="small muted" style="margin-top:6px">e mais ${atrV.length-4} em Tarefas → Atrasadas</div>`:''}</div>`:''}
       <div class="mural-sec">
-        <div class="mural-head"><span class="sun">${ic('sun')}</span><h3>Hoje</h3><span class="date">${diaLongo(hoje)}</span><span class="count">${iH.length} tarefa${iH.length!==1?'s':''}${iH.length?` · ${feitosH} concluída${feitosH!==1?'s':''}`:''}</span></div>
-        <div class="postits">${iH.map(x=>postit(x)).join('')}<button class="add-postit" data-add="${hoje}">${ic('plus')} Adicionar para hoje</button></div>
+        <div class="mural-head"><span class="sun">${ic('sun')}</span><h3>Hoje</h3><span class="date">${diaLongo(hoje)}</span><span class="count">${iH.length+evH.length} ite${iH.length+evH.length!==1?'ns':'m'}</span></div>
+        <div class="postits">${cardsDoDia(hoje)}<button class="add-postit" data-add="${hoje}">${ic('plus')} Adicionar para hoje</button></div>
       </div>
       <div class="mural-sec" style="margin-bottom:0;padding-top:18px;border-top:1px solid var(--line-2)">
-        <div class="mural-head"><span class="cal">${ic('calendar')}</span><h3>Amanhã</h3><span class="date">${diaLongo(amanha)}</span><span class="count">${iA.length} tarefa${iA.length!==1?'s':''}</span></div>
-        <div class="postits">${iA.map(x=>postit(x)).join('')}<button class="add-postit" data-add="${amanha}">${ic('plus')} Adicionar para amanhã</button></div>
+        <div class="mural-head"><span class="cal">${ic('calendar')}</span><h3>Amanhã</h3><span class="date">${diaLongo(amanha)}</span><span class="count">${iA.length+evA.length} ite${iA.length+evA.length!==1?'ns':'m'}</span></div>
+        <div class="postits">${cardsDoDia(amanha)}<button class="add-postit" data-add="${amanha}">${ic('plus')} Adicionar para amanhã</button></div>
       </div>
     </section>
     <aside class="stack" aria-label="Informações do dia">${painelInfo()}</aside>
   </div>`;
-  ligarPostits(m);
+  ligarPostits(m); ligarAtrasadas(m);
   $('#nova').onclick=()=>novaTarefa(hoje);
+  $('#atualizar').onclick=async()=>{ const b=$('#atualizar'); b.disabled=true; await recarregar(); render(); };
   m.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>novaTarefa(b.dataset.add));
-  m.querySelectorAll('[data-od]').forEach(b=>b.onclick=()=>reagendar(REG[b.dataset.od]));
-  m.querySelectorAll('[data-odh]').forEach(b=>b.onclick=async()=>{ const it=REG[b.dataset.odh]; try{ const r=await db.updateTarefa(it.t.id,{data:S.hoje}); Object.assign(it.t,r); toast('Movida para hoje'); render(); }catch(e){erro(e,'Não foi possível mover');} });
   m.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>ir(b.dataset.go));
+  const va=m.querySelector('[data-veratr]'); if(va) va.onclick=()=>{ S.t.filtro='atrasadas'; ir('tarefas'); };
+}
+function linhaAtrasada(x,compacta=false){
+  const k=reg(x);
+  return `<div class="od-item"><span class="dot bg-${esc(x.t.cor)}"></span>
+    <span class="grow"><b style="font-weight:600">${esc(x.t.titulo)}</b> <span class="muted small">· ${diaCurto(x.dia)} · ${x.atraso} dia${x.atraso>1?'s':''} de atraso${x.recorrente?' · automática':''}</span></span>
+    <span class="od-act">
+      <button class="btn sm" data-oc="${k}" title="Concluir">${ic('check')}${compacta?'':' Concluir'}</button>
+      <button class="btn sm" data-or="${k}" title="Reagendar">${ic('calendar-clock')}${compacta?'':' Reagendar'}</button>
+      <button class="btn sm" data-om="${k}" title="Manter pendente">${ic('clock')}${compacta?'':' Manter pendente'}</button>
+      <button class="btn sm" data-od="${k}" title="Dispensar">${ic('circle-slash')}${compacta?'':' Dispensar'}</button>
+    </span></div>`;
+}
+function ligarAtrasadas(m){
+  m.querySelectorAll('[data-oc]').forEach(b=>b.onclick=()=>concluirAtrasada(REG[b.dataset.oc]));
+  m.querySelectorAll('[data-or]').forEach(b=>b.onclick=()=>reagendar(REG[b.dataset.or]));
+  m.querySelectorAll('[data-om]').forEach(b=>b.onclick=()=>manterPendente(REG[b.dataset.om]));
+  m.querySelectorAll('[data-od]').forEach(b=>b.onclick=()=>dispensar(REG[b.dataset.od]));
 }
 function novaTarefa(data){ S.t.edit=null; S.t.form=formVazio(data); ir('tarefas'); }
 
 function painelInfo(){
   const d=S.devHoje, hoje=S.hoje;
-  const prox=proximosAniv(30), evs=proximosEventos(7);
+  const anivs=S.aniv.map(a=>({...a,...proxAniv(a)})).filter(a=>a.falta<=30).sort((a,b)=>a.falta-b.falta);
+  const anivHoje=anivs.filter(a=>a.falta===0), anivProx=anivs.filter(a=>a.falta>0).slice(0,5);
+  const datas=S.datas.map(x=>({...x,p:proxDataImportante(x)})).filter(x=>x.p&&x.p.falta<=Math.max(x.antecedencia??7,0)).sort((a,b)=>a.p.falta-b.p.falta);
+  const evs=[]; for(let i=0;i<7;i++){ const dd=addDias(hoje,i); for(const e of eventosDoDia(dd)) evs.push({...e,dia:dd}); }
   return `
   <section class="card dayinfo">
     <div class="card-head"><h2>${ic('calendar-days')} Informações do Dia</h2></div>
     <div class="big">${diaLongoC(hoje)}</div>
-    ${d&&d.texto_biblico?`<div class="verse">${esc(d.texto_biblico)} <small>${esc(d.referencia||'')}</small></div>`:`<div class="small muted">Versículo do dia aparece aqui quando houver devocional para hoje.</div>`}
+    ${d&&d.texto_biblico?`<div class="verse">${esc(d.texto_biblico)} <small>${esc(d.referencia||'')}</small></div>`:`<div class="small muted">O versículo do dia aparece aqui quando houver devocional para hoje.</div>`}
   </section>
   <div class="duo">
     <section class="card mini"><div class="card-head"><h2>${ic('cloud-sun')} Clima</h2></div>
       <div class="small muted">${esc((S.cfg&&S.cfg.cidade)||'Cidade não definida')}</div>
-      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div>
-      <div class="hint">Sem dados simulados.</div></section>
+      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div><div class="hint">Sem dados simulados.</div></section>
     <section class="card mini"><div class="card-head"><h2>${ic('circle-dollar-sign')} Dólar</h2></div>
-      <div class="small muted">USD → BRL</div>
-      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div>
-      <div class="hint">Sem dados simulados.</div></section>
+      <div class="small muted">PTAX · Banco Central</div>
+      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div><div class="hint">Sem dados simulados.</div></section>
   </div>
-  <section class="card"><div class="card-head"><h2>${ic('cake')} Próximos Aniversários</h2></div>
-    ${prox.length?`<div class="list-rows">${prox.map(a=>`<div class="lr"><span class="d">${String(a.dia).padStart(2,'0')}/${String(a.mes).padStart(2,'0')}</span>${ic('gift')}<span>${esc(a.nome)}</span>${a.falta===0?'<span class="badge b-warn" style="margin-left:auto">Hoje</span>':''}</div>`).join('')}</div>`
-      :`<div class="empty">Nenhum aniversário nos próximos 30 dias. O cadastro de aniversários chega na Fase 2.</div>`}
+  <section class="card"><div class="card-head"><h2>${ic('cake')} Aniversários</h2><button class="link" data-go="datas">Ver todos</button></div>
+    ${anivHoje.length?`<div class="aniv-hoje">${ic('party-popper')}<div><b>Hoje:</b> ${anivHoje.map(a=>esc(a.nome)).join(', ')}</div></div>`:''}
+    ${anivProx.length?`<div class="list-rows">${anivProx.map(a=>`<div class="lr"><span class="d">${diaCurto(a.data)}</span>${ic('gift')}<span>${esc(a.nome)}</span><span class="badge b-mut" style="margin-left:auto">${emDias(a.falta)}</span></div>`).join('')}</div>`
+      :(anivHoje.length?'':`<div class="empty">Nenhum aniversário nos próximos 30 dias.${S.aniv.length?'':' Cadastre em Datas.'}</div>`)}
   </section>
-  <section class="card"><div class="card-head"><h2>${ic('church')} Agenda da Igreja</h2><button class="link" data-go="agenda">Ver agenda</button></div>
-    ${evs.length?`<div class="list-rows">${evs.map(e=>`<div class="lr"><span class="d">${e.data===hoje?'Hoje':diaCurto(e.data)}</span><span class="dot" style="background:${corEvento(e.tipo)}"></span><span>${esc(e.titulo)}</span><span class="muted small" style="margin-left:auto">${hhmm(e.hora_inicio)}</span></div>`).join('')}</div>`
-      :`<div class="empty">Nenhum evento nos próximos 7 dias. Cultos, reuniões e eventos serão cadastrados na Fase 2.</div>`}
+  ${datas.length?`<section class="card"><div class="card-head"><h2>${ic('calendar-heart')} Datas Importantes</h2><button class="link" data-go="datas">Ver todas</button></div>
+    <div class="list-rows">${datas.slice(0,5).map(x=>`<div class="lr"><span class="d">${diaCurto(x.p.data)}</span>${ic('star')}<span>${esc(x.nome)}</span><span class="badge ${x.p.falta===0?'b-warn':'b-mut'}" style="margin-left:auto">${emDias(x.p.falta)}</span></div>`).join('')}</div></section>`:''}
+  <section class="card"><div class="card-head"><h2>${ic('church')} Próximos Compromissos</h2><button class="link" data-go="agenda">Ver agenda</button></div>
+    ${evs.length?`<div class="list-rows">${evs.slice(0,6).map(e=>`<div class="lr"><span class="d">${e.dia===hoje?'Hoje':e.dia===addDias(hoje,1)?'Amanhã':DIAS[dow(e.dia)]}</span><span class="dot bg-${(CAT_EV[e.tipo]||CAT_EV.pessoal)[1]}"></span><span>${esc(e.titulo)}</span><span class="muted small" style="margin-left:auto">${hhmm(e.hora_inicio)}</span></div>`).join('')}</div>`
+      :`<div class="empty">Nenhum compromisso nos próximos 7 dias.</div>`}
   </section>
   <section class="card dev-mini"><div class="card-head"><h2>${ic('book-heart')} Devocional do Dia</h2><button class="link" data-go="devocional">Ver mais</button></div>
     ${d?`<div class="ref">${esc(d.referencia||'')}</div><h3>${esc(d.titulo)}</h3><p>${esc(primeiroParagrafo(d.reflexao))}</p>`
@@ -718,176 +1022,263 @@ function painelInfo(){
   </section>`;
 }
 function primeiroParagrafo(txt){ const ps=partesReflexao(txt).paras.filter(p=>p.tipo==='p'); return ps.length?ps[0].txt:''; }
-function proximosAniv(dias){
-  const h=parse(S.hoje), out=[];
-  for(const a of S.aniv){
-    let alvo=new Date(Date.UTC(h.getUTCFullYear(),a.mes-1,a.dia)); if(alvo<h) alvo=new Date(Date.UTC(h.getUTCFullYear()+1,a.mes-1,a.dia));
-    const f=Math.round((alvo-h)/864e5); if(f<=dias) out.push({...a,falta:f});
-  }
-  return out.sort((a,b)=>a.falta-b.falta).slice(0,6);
-}
-const COR_EV={culto:'#D94848',reuniao:'#E3A21A',estudo:'#2F6FD1',pastoral:'#E8772E',pessoal:'#7C5CC4',especial:'#2E9E5B',comemorativa:'#D6458F'};
-function corEvento(t){ return COR_EV[t]||'#98A2B3'; }
-function eventoNaData(e,d){
-  if(!e.recorrencia) return e.data===d;
-  if(d<e.data||(e.rec_fim&&d>e.rec_fim)) return false;
-  if(e.recorrencia==='semanal') return ((e.dias_semana&&e.dias_semana.length)?e.dias_semana:[dow(e.data)]).includes(dow(d));
-  if(e.recorrencia==='mensal') return parse(e.data).getUTCDate()===parse(d).getUTCDate();
-  if(e.recorrencia==='anual') return e.data.slice(5)===d.slice(5);
-  return false;
-}
-function eventosDoDia(d){ return S.eventos.filter(e=>eventoNaData(e,d)).sort((a,b)=>(a.hora_inicio||'')<(b.hora_inicio||'')?-1:1); }
-function proximosEventos(n){ const out=[]; for(let i=0;i<n;i++){ const d=addDias(S.hoje,i); for(const e of eventosDoDia(d)) out.push({...e,data:d}); } return out.slice(0,6); }
 
 /* =====================================================================
    PÁGINA: TAREFAS E ROTINAS
    ===================================================================== */
 function formVazio(data){
   return {titulo:'',descricao:'',categoria:'Ministério',cor:'amarelo',tipo:'unica',data:data||S.hoje,hora_inicio:'',hora_fim:'',prioridade:'media',
-    recorrencia:'diaria',dias_semana:[],rec_inicio:data||S.hoje,rec_fim:'',situacao:'pendente',fixada:false};
+    rec:'diaria',dias_semana:[],rec_inicio:data||S.hoje,rec_fim:'',intervalo:2,intervalo_unidade:'dias',excecoes:[],cobrar_atraso:true,situacao:'pendente',fixada:false};
 }
 function formDe(t){
+  let rec=t.recorrencia||'diaria'; if(rec==='semanal'&&t.dias_semana&&t.dias_semana.length) rec='dias';
   return {titulo:t.titulo||'',descricao:t.descricao||'',categoria:t.categoria||'Ministério',cor:t.cor||'amarelo',tipo:t.tipo||'unica',data:t.data||S.hoje,
-    hora_inicio:hhmm(t.hora_inicio),hora_fim:hhmm(t.hora_fim),prioridade:t.prioridade||'media',recorrencia:t.recorrencia||'diaria',
-    dias_semana:t.dias_semana||[],rec_inicio:t.rec_inicio||t.data||S.hoje,rec_fim:t.rec_fim||'',situacao:t.situacao||'pendente',fixada:!!t.fixada};
+    hora_inicio:hhmm(t.hora_inicio),hora_fim:hhmm(t.hora_fim),prioridade:t.prioridade||'media',rec,
+    dias_semana:t.dias_semana||[],rec_inicio:t.rec_inicio||t.data||S.hoje,rec_fim:t.rec_fim||'',intervalo:t.intervalo||2,intervalo_unidade:t.intervalo_unidade||'dias',
+    excecoes:t.excecoes||[],cobrar_atraso:t.cobrar_atraso!==false,situacao:t.situacao||'pendente',fixada:!!t.fixada};
 }
 function descricaoRec(t){
   if(t.tipo!=='recorrente') return 'Única';
-  const d=(t.dias_semana&&t.dias_semana.length)?' · '+t.dias_semana.slice().sort().map(i=>DIAS[i]).join(', '):'';
-  return REC[t.recorrencia]+(t.recorrencia==='semanal'||t.recorrencia==='diaria'?d:'');
+  const ds=(t.dias_semana&&t.dias_semana.length)?t.dias_semana.slice().sort().map(i=>DIAS[i]).join(', '):'';
+  if(t.recorrencia==='intervalo') return `A cada ${t.intervalo||1} ${({dias:'dia(s)',semanas:'semana(s)',meses:'mês(es)'})[t.intervalo_unidade||'dias']}`;
+  return REC_TXT[t.recorrencia]+(ds&&['diaria','semanal','quinzenal'].includes(t.recorrencia)?' · '+ds:'');
 }
 function proximaData(t){
-  if(t.tipo==='unica') return t.data;
-  for(let i=0;i<400;i++){ const d=addDias(S.hoje,i); if(ocorreNaData(t,d)) return d; }
+  if(t.tipo!=='recorrente') return t.data;
+  for(let i=0;i<800;i++){ const d=addDias(S.hoje,i); if(ocorreNaData(t,d)) return d; }
   return null;
 }
 function filtrarTarefas(){
   const f=S.t.filtro, h=S.hoje, a=addDias(h,1), q=S.t.busca.toLowerCase();
+  const ids=f==='hoje'?new Set(itensDoDia(h).map(x=>x.t.id)):f==='amanha'?new Set(itensDoDia(a).map(x=>x.t.id)):null;
   return S.tarefas.filter(t=>{
     if(S.t.cat&&t.categoria!==S.t.cat) return false;
     if(q&&!(`${t.titulo} ${t.descricao||''}`.toLowerCase().includes(q))) return false;
     switch(f){
-      case 'hoje': return itensDoDia(h).some(x=>x.t.id===t.id);
-      case 'amanha': return itensDoDia(a).some(x=>x.t.id===t.id);
+      case 'hoje': case 'amanha': return ids.has(t.id);
       case 'auto': return t.tipo==='recorrente';
-      case 'manual': return t.tipo==='unica';
-      case 'vencidas': return t.tipo==='unica'&&t.situacao==='pendente'&&t.data<h;
-      case 'concluidas': return t.tipo==='unica'&&t.situacao==='concluida';
+      case 'manual': return t.tipo!=='recorrente';
     }
     return true;
   });
 }
 function pgTarefas(m){
   if(!S.t.form){ const t=S.t.edit&&S.tarefas.find(x=>x.id===S.t.edit); S.t.form=t?formDe(t):formVazio(); if(!t) S.t.edit=null; }
-  const F=S.t.form, ed=!!S.t.edit;
-  const h=S.hoje,a=addDias(h,1);
+  const F=S.t.form, ed=!!S.t.edit, h=S.hoje, a=addDias(h,1);
+  const atr=atrasadas(), hist=historico();
   const cnt={todas:S.tarefas.length,hoje:itensDoDia(h).length,amanha:itensDoDia(a).length,auto:S.tarefas.filter(t=>t.tipo==='recorrente').length,
-    manual:S.tarefas.filter(t=>t.tipo==='unica').length,vencidas:vencidas().length,concluidas:S.tarefas.filter(t=>t.tipo==='unica'&&t.situacao==='concluida').length};
-  const FIL=[['todas','Todas','list'],['hoje','Hoje','sun'],['amanha','Amanhã','calendar'],['auto','Automáticas','repeat'],['manual','Manuais','hand'],['vencidas','Vencidas','alert-octagon'],['concluidas','Concluídas','check-circle-2']];
-  const lista=filtrarTarefas();
+    manual:S.tarefas.filter(t=>t.tipo!=='recorrente').length,atrasadas:atr.length,historico:hist.length};
+  const FIL=[['todas','Todas','list'],['hoje','Hoje','sun'],['amanha','Amanhã','calendar'],['auto','Automáticas','repeat'],['manual','Manuais','hand'],['atrasadas','Atrasadas','alert-octagon'],['historico','Histórico','history']];
   m.innerHTML=`${cabecalho('check-square','Tarefas e Rotinas','Cadastre, edite e organize suas tarefas. Mantenha seu ministério e sua vida em ordem.',
-      `<div class="tip">${ic('lightbulb')}<div><b>Dica</b><br>Tarefas automáticas se repetem conforme a recorrência e aparecem sozinhas no mural nos dias certos. Concluir um dia não apaga os próximos.</div></div>`)}
+      `<div class="tip">${ic('lightbulb')}<div><b>Dica</b><br>Tarefas automáticas aparecem sozinhas no mural nos dias certos. Concluir um dia não apaga os próximos. <b>Dispensar</b> tira do mural e pode ser desfeito; <b>Excluir</b> é definitivo.</div></div>`)}
   <div class="grid-tasks">
-    <section class="card" aria-labelledby="ft">
-      <div class="card-head"><h2 id="ft">${ic(ed?'pencil':'plus-square')} ${ed?'Editar tarefa':'Nova tarefa'}</h2>${ed?`<button class="link" id="f-novo">+ Nova</button>`:''}</div>
-      <form id="tf" novalidate>
-        <div class="field"><label class="f" for="f-tit">Título <span class="req">*</span></label><input class="inp" id="f-tit" maxlength="120" required value="${esc(F.titulo)}" placeholder="Ex.: Preparar mensagem de domingo"></div>
-        <div class="field"><label class="f" for="f-desc">Descrição</label><textarea class="inp" id="f-desc" maxlength="500" placeholder="Detalhes, passagens, observações...">${esc(F.descricao)}</textarea><div class="hint" id="f-cnt" style="text-align:right">${F.descricao.length}/500</div></div>
-        <div class="row field">
-          <div><label class="f" for="f-cat">Categoria</label><select class="inp" id="f-cat">${CATEGORIAS.map(c=>`<option ${c===F.categoria?'selected':''}>${c}</option>`).join('')}</select></div>
-          <div><label class="f" for="f-pri">Prioridade</label><select class="inp" id="f-pri">${Object.entries(PRIOR).map(([k,v])=>`<option value="${k}" ${k===F.prioridade?'selected':''}>${v}</option>`).join('')}</select></div>
-        </div>
-        <div class="field"><span class="f">Cor do post-it</span><div class="swatches" role="group" aria-label="Cor do post-it">${CORES.map(([k,l])=>`<button type="button" class="sw bg-${k}" data-cor="${k}" aria-label="${l}" aria-pressed="${F.cor===k}"></button>`).join('')}</div></div>
-        <div class="field"><span class="f">Tipo de tarefa <span class="req">*</span></span>
-          <div class="seg" role="group"><button type="button" data-tipo="unica" aria-pressed="${F.tipo==='unica'}">${ic('hand')} Manual (única)</button><button type="button" data-tipo="recorrente" aria-pressed="${F.tipo==='recorrente'}">${ic('repeat')} Automática</button></div></div>
-        <div id="f-unica" class="${F.tipo==='unica'?'':'hidden'}">
-          <div class="row field"><div><label class="f" for="f-data">Data <span class="req">*</span></label><input class="inp" type="date" id="f-data" value="${esc(F.data)}"></div>
-          ${ed?`<div><label class="f" for="f-sit">Situação</label><select class="inp" id="f-sit">${[['pendente','Pendente'],['concluida','Concluída'],['cancelada','Cancelada']].map(([k,v])=>`<option value="${k}" ${k===F.situacao?'selected':''}>${v}</option>`).join('')}</select></div>`:'<div></div>'}</div>
-        </div>
-        <div id="f-rec" class="${F.tipo==='recorrente'?'':'hidden'}">
-          <div class="field"><span class="f">Recorrência</span><div class="seg" role="group">${Object.entries(REC).map(([k,v])=>`<button type="button" data-rec="${k}" aria-pressed="${F.recorrencia===k}">${v}</button>`).join('')}</div></div>
-          <div class="field ${F.recorrencia==='diaria'||F.recorrencia==='semanal'?'':'hidden'}" id="f-dias-w"><span class="f">Dias da semana</span>
-            <div class="chips" role="group">${DIAS.map((d,i)=>`<button type="button" class="chip" data-dia="${i}" aria-pressed="${F.dias_semana.includes(i)}">${d}</button>`).join('')}</div>
-            <div class="hint" id="f-dias-h">${F.recorrencia==='diaria'?'Nenhum marcado = todos os dias.':'Nenhum marcado = mesmo dia da semana da data de início.'}</div></div>
-          <div class="row field"><div><label class="f" for="f-ini">Início <span class="req">*</span></label><input class="inp" type="date" id="f-ini" value="${esc(F.rec_inicio)}"></div>
-            <div><label class="f" for="f-fim">Término</label><input class="inp" type="date" id="f-fim" value="${esc(F.rec_fim)}"><div class="hint">Vazio = sem data para terminar.</div></div></div>
-        </div>
-        <div class="row field"><div><label class="f" for="f-hi">Horário inicial</label><input class="inp" type="time" id="f-hi" value="${esc(F.hora_inicio)}"></div>
-          <div><label class="f" for="f-hf">Horário final</label><input class="inp" type="time" id="f-hf" value="${esc(F.hora_fim)}"></div></div>
-        <div class="field"><label class="check"><input type="checkbox" id="f-fix" ${F.fixada?'checked':''}> ${ic('pin')} Fixar no topo do mural</label></div>
-        <div class="field"><span class="f">Como vai aparecer no mural</span><div class="preview-wrap" id="f-prev"></div></div>
-        <div class="foot" style="display:flex;gap:10px;justify-content:flex-end">
-          ${ed?`<button type="button" class="btn danger" id="f-del">${ic('trash-2')} Excluir</button>`:''}
-          <button type="button" class="btn" id="f-can">Limpar</button>
-          <button type="submit" class="btn primary" id="f-save">${ic('save')} Salvar tarefa</button>
-        </div>
-      </form>
-    </section>
+    <section class="card" aria-labelledby="ft">${formTarefaHTML(F,ed)}</section>
     <section class="card" aria-labelledby="mt">
       <div class="card-head"><h2 id="mt">${ic('list-checks')} Minhas Tarefas</h2></div>
-      <div class="filters">${FIL.map(([k,l,i])=>`<button class="pill" data-fil="${k}" aria-pressed="${S.t.filtro===k}">${ic(i)} ${l} <span class="n">(${cnt[k]})</span></button>`).join('')}</div>
-      <div class="filters">
-        <select class="inp" id="l-cat" style="width:200px;height:36px" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option>${CATEGORIAS.map(c=>`<option ${c===S.t.cat?'selected':''}>${c}</option>`).join('')}</select>
-        <input class="inp" id="l-q" style="flex:1;min-width:160px;height:36px" placeholder="Buscar na lista..." value="${esc(S.t.busca)}" aria-label="Buscar tarefas">
-      </div>
-      ${lista.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Tarefa</th><th class="hide-m">Categoria</th><th>Próx./Data</th><th>Tipo</th><th class="hide-m">Prioridade</th><th class="hide-m">Situação</th><th></th></tr></thead><tbody>
-        ${lista.map(t=>{const pd=proximaData(t); const venc=t.tipo==='unica'&&t.situacao==='pendente'&&t.data<h;
-          const sit=t.tipo==='recorrente'?'<span class="badge b-ok">Ativa</span>':venc?'<span class="badge b-bad">Vencida</span>':t.situacao==='concluida'?'<span class="badge b-ok">Concluída</span>':t.situacao==='cancelada'?'<span class="badge b-mut">Cancelada</span>':'<span class="badge b-warn">Pendente</span>';
-          return `<tr><td style="min-width:170px"><span style="display:flex;align-items:center;gap:8px"><span class="dot bg-${esc(t.cor)}"></span><b style="font-weight:600">${esc(t.titulo)}</b>${t.fixada?ic('pin','style="width:14px;height:14px;color:var(--bad)"'):''}</span></td>
-            <td class="hide-m"><span class="badge b-mut">${esc(t.categoria)}</span></td><td style="white-space:nowrap">${pd?diaCurto(pd):'—'}${t.hora_inicio?`<div class="small muted">${hhmm(t.hora_inicio)}</div>`:''}</td>
-            <td>${t.tipo==='recorrente'?`<span class="badge b-info">${ic('repeat','style="width:12px;height:12px"')} ${esc(descricaoRec(t))}</span>`:'<span class="badge b-mut">Manual</span>'}</td>
-            <td class="hide-m">${t.prioridade==='alta'?'<span class="badge b-bad">Alta</span>':t.prioridade==='media'?'<span class="badge b-warn">Média</span>':'<span class="badge b-mut">Baixa</span>'}</td>
-            <td class="hide-m">${sit}</td>
-            <td><div class="act"><button data-ed="${t.id}" aria-label="Editar ${esc(t.titulo)}">${ic('pencil')}</button><button data-rm="${t.id}" aria-label="Excluir ${esc(t.titulo)}">${ic('trash-2')}</button></div></td></tr>`;}).join('')}
-      </tbody></table></div>`:`<div class="empty">${S.tarefas.length?'Nenhuma tarefa neste filtro.':'Você ainda não tem tarefas. Cadastre a primeira no formulário ao lado — por exemplo, uma rotina diária de oração.'}</div>`}
+      <div class="filters">${FIL.map(([k,l,i])=>`<button class="pill${k==='atrasadas'&&cnt.atrasadas?' danger':''}" data-fil="${k}" aria-pressed="${S.t.filtro===k}">${ic(i)} ${l} <span class="n">(${cnt[k]})</span></button>`).join('')}</div>
+      ${S.t.filtro==='atrasadas'?listaAtrasadas(atr):S.t.filtro==='historico'?listaHistorico(hist):tabelaTarefas()}
     </section>
   </div>`;
-  ligarForm(m);
+  ligarForm(m); ligarAtrasadas(m);
   m.querySelectorAll('[data-fil]').forEach(b=>b.onclick=()=>{ S.t.filtro=b.dataset.fil; render(); });
-  $('#l-cat').onchange=e=>{ S.t.cat=e.target.value; render(); };
-  const q=$('#l-q'); q.oninput=e=>{ S.t.busca=e.target.value; clearTimeout(q._t); q._t=setTimeout(()=>{ const pos=q.selectionStart; render(); const n=$('#l-q'); n.focus(); n.setSelectionRange(pos,pos); },250); };
+  const lc=$('#l-cat'); if(lc) lc.onchange=e=>{ S.t.cat=e.target.value; render(); };
+  const q=$('#l-q'); if(q) q.oninput=e=>{ S.t.busca=e.target.value; clearTimeout(q._t); q._t=setTimeout(()=>{ const pos=q.selectionStart; render(); const n=$('#l-q'); n.focus(); n.setSelectionRange(pos,pos); },250); };
   m.querySelectorAll('[data-ed]').forEach(b=>b.onclick=()=>{ S.t.edit=b.dataset.ed; S.t.form=null; render(); scrollTo({top:0,behavior:'smooth'}); });
   m.querySelectorAll('[data-rm]').forEach(b=>b.onclick=()=>excluirTarefa(S.tarefas.find(t=>t.id===b.dataset.rm)));
+  m.querySelectorAll('[data-reat]').forEach(b=>b.onclick=()=>reativar(REG[b.dataset.reat]));
+}
+function listaAtrasadas(atr){
+  return atr.length?`<p class="small muted" style="margin:0 0 10px">Tarefas que passaram do dia sem conclusão. Elas não somem sozinhas. As automáticas entram aqui por até ${JANELA_ATRASO} dias; desmarque “Cobrar atraso” numa rotina se não quiser que ela apareça.</p>
+    <div class="overdue plain">${atr.map(x=>linhaAtrasada(x)).join('')}</div>`
+    :`<div class="empty">Nenhuma tarefa atrasada. ${ic('party-popper','style="width:16px;height:16px;vertical-align:-3px"')}</div>`;
+}
+function listaHistorico(hist){
+  return hist.length?`<p class="small muted" style="margin:0 0 10px">Concluídas e dispensadas nos últimos 30 dias. As dispensadas podem ser reativadas.</p>
+    <div class="list-rows">${hist.map(x=>{const k=reg(x); return `<div class="lr"><span class="d">${diaCurto(x.dia)}</span><span class="dot bg-${esc(x.t.cor)}"></span><span>${esc(x.t.titulo)}${x.recorrente?' <span class="muted small">· automática</span>':''}</span>
+      <span style="margin-left:auto;display:flex;gap:6px;align-items:center">${x.sit==='concluida'?'<span class="badge b-ok">Concluída</span>':'<span class="badge b-mut">Dispensada</span>'}<button class="btn sm" data-reat="${k}">${ic('rotate-ccw')} ${x.sit==='concluida'?'Reabrir':'Reativar'}</button></span></div>`;}).join('')}</div>`
+    :'<div class="empty">Nada concluído ou dispensado nos últimos 30 dias.</div>';
+}
+function tabelaTarefas(){
+  const h=S.hoje, lista=filtrarTarefas();
+  return `<div class="filters">
+      <select class="inp" id="l-cat" style="width:200px;height:36px" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option>${CATEGORIAS.map(c=>`<option ${c===S.t.cat?'selected':''}>${c}</option>`).join('')}</select>
+      <input class="inp" id="l-q" style="flex:1;min-width:160px;height:36px" placeholder="Buscar na lista..." value="${esc(S.t.busca)}" aria-label="Buscar tarefas">
+    </div>
+    ${lista.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Tarefa</th><th class="hide-m">Categoria</th><th>Próx./Data</th><th>Tipo</th><th class="hide-m">Prioridade</th><th class="hide-m">Situação</th><th><span class="sr">Ações</span></th></tr></thead><tbody>
+      ${lista.map(t=>{const pd=proximaData(t); const venc=t.tipo!=='recorrente'&&t.situacao==='pendente'&&t.data<h;
+        const sit=t.tipo==='recorrente'?(t.rec_fim&&t.rec_fim<h?'<span class="badge b-mut">Encerrada</span>':'<span class="badge b-ok">Ativa</span>'):venc?'<span class="badge b-bad">Atrasada</span>':t.situacao==='concluida'?'<span class="badge b-ok">Concluída</span>':t.situacao==='dispensada'?'<span class="badge b-mut">Dispensada</span>':t.situacao==='cancelada'?'<span class="badge b-mut">Cancelada</span>':'<span class="badge b-warn">Pendente</span>';
+        return `<tr><td style="min-width:170px"><span style="display:flex;align-items:center;gap:8px"><span class="dot bg-${esc(t.cor)}"></span><b style="font-weight:600">${esc(t.titulo)}</b>${t.fixada?ic('pin','style="width:14px;height:14px;color:var(--bad)"'):''}</span></td>
+          <td class="hide-m"><span class="badge b-mut">${esc(t.categoria)}</span></td><td style="white-space:nowrap">${pd?diaCurto(pd):'—'}${t.hora_inicio?`<div class="small muted">${hhmm(t.hora_inicio)}</div>`:''}</td>
+          <td>${t.tipo==='recorrente'?`<span class="badge b-info">${ic('repeat','style="width:12px;height:12px"')} ${esc(descricaoRec(t))}</span>`:'<span class="badge b-mut">Manual</span>'}</td>
+          <td class="hide-m">${t.prioridade==='alta'?'<span class="badge b-bad">Alta</span>':t.prioridade==='media'?'<span class="badge b-warn">Média</span>':'<span class="badge b-mut">Baixa</span>'}</td>
+          <td class="hide-m">${sit}</td>
+          <td><div class="act"><button data-ed="${t.id}" aria-label="Editar ${esc(t.titulo)}" title="Editar">${ic('pencil')}</button><button data-rm="${t.id}" aria-label="Excluir ${esc(t.titulo)}" title="Excluir definitivamente">${ic('trash-2')}</button></div></td></tr>`;}).join('')}
+    </tbody></table></div>`:`<div class="empty">${S.tarefas.length?'Nenhuma tarefa neste filtro.':'Você ainda não tem tarefas. Cadastre a primeira no formulário ao lado — por exemplo, uma rotina diária de oração.'}</div>`}`;
+}
+function formTarefaHTML(F,ed){
+  const diasVis=['dias','quinzenal','diaria'].includes(F.rec);
+  return `<div class="card-head"><h2 id="ft">${ic(ed?'pencil':'plus-square')} ${ed?'Editar tarefa':'Nova tarefa'}</h2>${ed?`<button class="link" id="f-novo">+ Nova</button>`:''}</div>
+  <form id="tf" novalidate>
+    <div class="field"><label class="f" for="f-tit">Título <span class="req">*</span></label><input class="inp" id="f-tit" maxlength="120" required value="${esc(F.titulo)}" placeholder="Ex.: Preparar mensagem de domingo"></div>
+    <div class="field"><label class="f" for="f-desc">Descrição</label><textarea class="inp" id="f-desc" maxlength="500" placeholder="Detalhes, passagens, observações...">${esc(F.descricao)}</textarea><div class="hint" id="f-cnt" style="text-align:right">${F.descricao.length}/500</div></div>
+    <div class="row field">
+      <div><label class="f" for="f-cat">Categoria</label><select class="inp" id="f-cat">${CATEGORIAS.map(c=>`<option ${c===F.categoria?'selected':''}>${c}</option>`).join('')}</select></div>
+      <div><label class="f" for="f-pri">Prioridade</label><select class="inp" id="f-pri">${Object.entries(PRIOR).map(([k,v])=>`<option value="${k}" ${k===F.prioridade?'selected':''}>${v}</option>`).join('')}</select></div>
+    </div>
+    <div class="field"><span class="f">Cor do post-it</span><div class="swatches" role="group" aria-label="Cor do post-it">${CORES.map(([k,l])=>`<button type="button" class="sw bg-${k}" data-cor="${k}" aria-label="${l}" aria-pressed="${F.cor===k}"></button>`).join('')}</div></div>
+    <div class="field"><span class="f">Tipo de tarefa <span class="req">*</span></span>
+      <div class="seg" role="group"><button type="button" data-tipo="unica" aria-pressed="${F.tipo!=='recorrente'}">${ic('hand')} Manual (única)</button><button type="button" data-tipo="recorrente" aria-pressed="${F.tipo==='recorrente'}">${ic('repeat')} Automática</button></div></div>
+    <div id="f-unica" class="${F.tipo!=='recorrente'?'':'hidden'}">
+      <div class="row field"><div><label class="f" for="f-data">Data <span class="req">*</span></label><input class="inp" type="date" id="f-data" value="${esc(F.data)}"></div>
+      ${ed?`<div><label class="f" for="f-sit">Situação</label><select class="inp" id="f-sit">${[['pendente','Pendente'],['concluida','Concluída'],['dispensada','Dispensada']].map(([k,v])=>`<option value="${k}" ${k===F.situacao?'selected':''}>${v}</option>`).join('')}</select></div>`:'<div></div>'}</div>
+    </div>
+    <div id="f-rec" class="${F.tipo==='recorrente'?'':'hidden'}">
+      <div class="field"><span class="f">Repetir</span><div class="seg wrap" role="group">${REC_UI.map(([k,v])=>`<button type="button" data-rec="${k}" aria-pressed="${F.rec===k}">${v}</button>`).join('')}</div></div>
+      <div class="field ${F.rec==='intervalo'?'':'hidden'}" id="f-int"><span class="f">Intervalo</span>
+        <div style="display:flex;gap:8px;align-items:center"><span>A cada</span><input class="inp" type="number" min="1" max="365" id="f-intn" value="${esc(F.intervalo)}" style="width:90px" aria-label="Quantidade">
+        <select class="inp" id="f-intu" style="width:150px" aria-label="Unidade">${[['dias','dias'],['semanas','semanas'],['meses','meses']].map(([k,v])=>`<option value="${k}" ${k===F.intervalo_unidade?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div class="hint">Conta a partir da data de início.</div></div>
+      <div class="field ${diasVis?'':'hidden'}" id="f-dias-w"><span class="f">Dias da semana</span>
+        <div class="chips" role="group">${DIAS.map((d,i)=>`<button type="button" class="chip" data-dia="${i}" aria-pressed="${F.dias_semana.includes(i)}">${d}</button>`).join('')}</div>
+        <div class="hint" id="f-dias-h">${dicaDias(F.rec)}</div></div>
+      <div class="row field"><div><label class="f" for="f-ini">Início <span class="req">*</span></label><input class="inp" type="date" id="f-ini" value="${esc(F.rec_inicio)}"></div>
+        <div><label class="f" for="f-fim">Término</label><input class="inp" type="date" id="f-fim" value="${esc(F.rec_fim)}"><div class="hint">Vazio = sem data para terminar.</div></div></div>
+      <div class="field"><span class="f">Exceções (dias em que não acontece)</span>
+        <div style="display:flex;gap:8px"><input class="inp" type="date" id="f-exc" style="width:180px" aria-label="Data de exceção"><button type="button" class="btn sm" id="f-exc-add" style="height:42px">${ic('plus')} Incluir</button></div>
+        <div class="chips" id="f-exc-l" style="margin-top:8px">${F.excecoes.slice().sort().map(d=>`<button type="button" class="chip" data-exc="${d}" aria-label="Remover exceção ${diaCurto(d)}">${diaCurto(d)}/${d.slice(2,4)} ✕</button>`).join('')}</div></div>
+      <div class="field"><label class="check"><input type="checkbox" id="f-cob" ${F.cobrar_atraso?'checked':''}> Cobrar atraso quando eu não concluir</label><div class="hint">Desmarque em rotinas que não precisam ir para Atrasadas.</div></div>
+    </div>
+    <div class="row field"><div><label class="f" for="f-hi">Horário inicial</label><input class="inp" type="time" id="f-hi" value="${esc(F.hora_inicio)}"></div>
+      <div><label class="f" for="f-hf">Horário final</label><input class="inp" type="time" id="f-hf" value="${esc(F.hora_fim)}"></div></div>
+    <div class="field"><label class="check"><input type="checkbox" id="f-fix" ${F.fixada?'checked':''}> ${ic('pin')} Fixar no topo do mural</label></div>
+    <div class="field"><span class="f">Como vai aparecer no mural</span><div class="preview-wrap" id="f-prev"></div><div class="hint" id="f-next"></div></div>
+    <div class="foot" style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap">
+      ${ed?`<button type="button" class="btn danger" id="f-del">${ic('trash-2')} Excluir</button>`:''}
+      <button type="button" class="btn" id="f-can">Limpar</button>
+      <button type="submit" class="btn primary" id="f-save">${ic('save')} Salvar tarefa</button>
+    </div>
+  </form>`;
+}
+function dicaDias(rec){ return rec==='diaria'?'Nenhum marcado = todos os dias.':rec==='dias'?'Marque pelo menos um dia.':'Nenhum marcado = mesmo dia da semana da data de início.'; }
+function tarefaDoForm(F){
+  const o={titulo:F.titulo.trim(),descricao:F.descricao.trim()||null,categoria:F.categoria,cor:F.cor,prioridade:F.prioridade,tipo:F.tipo,
+    hora_inicio:F.hora_inicio||null,hora_fim:F.hora_fim||null,fixada:F.fixada};
+  if(F.tipo!=='recorrente') return Object.assign(o,{data:F.data,recorrencia:null,dias_semana:null,rec_inicio:null,rec_fim:null,intervalo:null,intervalo_unidade:null,excecoes:null,situacao:S.t.edit?F.situacao:'pendente'});
+  const rec=F.rec==='dias'?'semanal':F.rec;
+  const dias=['dias','quinzenal','diaria'].includes(F.rec)&&F.dias_semana.length?F.dias_semana.slice().sort():null;
+  return Object.assign(o,{data:null,recorrencia:rec,dias_semana:dias,rec_inicio:F.rec_inicio,rec_fim:F.rec_fim||null,
+    intervalo:rec==='intervalo'?Math.max(1,parseInt(F.intervalo)||1):null,intervalo_unidade:rec==='intervalo'?F.intervalo_unidade:null,
+    excecoes:F.excecoes.length?F.excecoes.slice().sort():null,cobrar_atraso:F.cobrar_atraso,situacao:'pendente'});
 }
 function ligarForm(m){
   const F=S.t.form;
   const sync=()=>{
     F.titulo=$('#f-tit').value; F.descricao=$('#f-desc').value; F.categoria=$('#f-cat').value; F.prioridade=$('#f-pri').value;
     F.data=$('#f-data').value; F.rec_inicio=$('#f-ini').value; F.rec_fim=$('#f-fim').value; F.hora_inicio=$('#f-hi').value; F.hora_fim=$('#f-hf').value;
+    F.intervalo=$('#f-intn').value; F.intervalo_unidade=$('#f-intu').value; F.cobrar_atraso=$('#f-cob').checked;
     F.fixada=$('#f-fix').checked; const s=$('#f-sit'); if(s) F.situacao=s.value;
     $('#f-cnt').textContent=F.descricao.length+'/500';
-    $('#f-prev').innerHTML=postit({t:{...F,hora_inicio:F.hora_inicio||null,hora_fim:F.hora_fim||null},feito:false,recorrente:F.tipo==='recorrente'},{preview:true}); icons();
+    const t=tarefaDoForm(F);
+    $('#f-prev').innerHTML=postit({t,feito:false,recorrente:F.tipo==='recorrente'},{preview:true});
+    if(F.tipo==='recorrente'&&t.rec_inicio){ const prox=[]; for(let i=0,d=t.rec_inicio<S.hoje?S.hoje:t.rec_inicio;i<400&&prox.length<4;i++,d=addDias(d,1)) if(ocorreNaData({...t,tipo:'recorrente'},d)) prox.push(diaCurto(d)+' '+DIAS[dow(d)].toLowerCase());
+      $('#f-next').textContent=prox.length?'Próximas: '+prox.join(' · '):'Nenhuma ocorrência futura com estas regras.'; }
+    else $('#f-next').textContent='';
+    icons();
   };
   sync();
   $('#tf').addEventListener('input',sync); $('#tf').addEventListener('change',sync);
   m.querySelectorAll('[data-cor]').forEach(b=>b.onclick=()=>{ F.cor=b.dataset.cor; m.querySelectorAll('[data-cor]').forEach(x=>x.setAttribute('aria-pressed',x===b)); sync(); });
   m.querySelectorAll('[data-tipo]').forEach(b=>b.onclick=()=>{ F.tipo=b.dataset.tipo; m.querySelectorAll('[data-tipo]').forEach(x=>x.setAttribute('aria-pressed',x===b));
-    $('#f-unica').classList.toggle('hidden',F.tipo!=='unica'); $('#f-rec').classList.toggle('hidden',F.tipo!=='recorrente'); sync(); });
-  m.querySelectorAll('[data-rec]').forEach(b=>b.onclick=()=>{ F.recorrencia=b.dataset.rec; m.querySelectorAll('[data-rec]').forEach(x=>x.setAttribute('aria-pressed',x===b));
-    const w=F.recorrencia==='diaria'||F.recorrencia==='semanal'; $('#f-dias-w').classList.toggle('hidden',!w); if(!w) F.dias_semana=[];
-    $('#f-dias-h').textContent=F.recorrencia==='diaria'?'Nenhum marcado = todos os dias.':'Nenhum marcado = mesmo dia da semana da data de início.'; sync(); });
-  m.querySelectorAll('[data-dia]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.dia; F.dias_semana=F.dias_semana.includes(i)?F.dias_semana.filter(x=>x!==i):[...F.dias_semana,i]; b.setAttribute('aria-pressed',F.dias_semana.includes(i)); });
+    $('#f-unica').classList.toggle('hidden',F.tipo==='recorrente'); $('#f-rec').classList.toggle('hidden',F.tipo!=='recorrente'); sync(); });
+  m.querySelectorAll('[data-rec]').forEach(b=>b.onclick=()=>{ F.rec=b.dataset.rec; m.querySelectorAll('[data-rec]').forEach(x=>x.setAttribute('aria-pressed',x===b));
+    const w=['dias','quinzenal','diaria'].includes(F.rec); $('#f-dias-w').classList.toggle('hidden',!w); $('#f-int').classList.toggle('hidden',F.rec!=='intervalo');
+    $('#f-dias-h').textContent=dicaDias(F.rec); sync(); });
+  m.querySelectorAll('[data-dia]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.dia; F.dias_semana=F.dias_semana.includes(i)?F.dias_semana.filter(x=>x!==i):[...F.dias_semana,i]; b.setAttribute('aria-pressed',F.dias_semana.includes(i)); sync(); });
+  $('#f-exc-add').onclick=()=>{ const d=$('#f-exc').value; if(!d) return; if(!F.excecoes.includes(d)) F.excecoes.push(d); render(); };
+  m.querySelectorAll('[data-exc]').forEach(b=>b.onclick=()=>{ F.excecoes=F.excecoes.filter(x=>x!==b.dataset.exc); render(); });
   $('#f-can').onclick=()=>{ S.t.edit=null; S.t.form=formVazio(); render(); };
   const nv=$('#f-novo'); if(nv) nv.onclick=()=>{ S.t.edit=null; S.t.form=formVazio(); render(); };
   const dl=$('#f-del'); if(dl) dl.onclick=()=>excluirTarefa(S.tarefas.find(t=>t.id===S.t.edit));
   $('#tf').onsubmit=async e=>{
     e.preventDefault(); sync();
-    if(!F.titulo.trim()){ toast('Informe o título da tarefa',true); $('#f-tit').focus(); return; }
-    if(F.tipo==='unica'&&!F.data){ toast('Informe a data da tarefa',true); $('#f-data').focus(); return; }
-    if(F.tipo==='recorrente'&&!F.rec_inicio){ toast('Informe a data de início da recorrência',true); $('#f-ini').focus(); return; }
-    if(F.tipo==='recorrente'&&F.rec_fim&&F.rec_fim<F.rec_inicio){ toast('O término não pode ser antes do início',true); $('#f-fim').focus(); return; }
-    if(F.hora_inicio&&F.hora_fim&&F.hora_fim<F.hora_inicio){ toast('O horário final é antes do inicial',true); $('#f-hf').focus(); return; }
-    const o={titulo:F.titulo.trim(),descricao:F.descricao.trim()||null,categoria:F.categoria,cor:F.cor,prioridade:F.prioridade,tipo:F.tipo,
-      hora_inicio:F.hora_inicio||null,hora_fim:F.hora_fim||null,fixada:F.fixada};
-    if(F.tipo==='unica'){ Object.assign(o,{data:F.data,recorrencia:null,dias_semana:null,rec_inicio:null,rec_fim:null,situacao:S.t.edit?F.situacao:'pendente'}); }
-    else { Object.assign(o,{data:null,recorrencia:F.recorrencia,dias_semana:F.dias_semana.length?F.dias_semana.slice().sort():null,rec_inicio:F.rec_inicio,rec_fim:F.rec_fim||null,situacao:'pendente'}); }
+    const foco=(id,msg)=>{ toast(msg,true); $(id).focus(); };
+    if(!F.titulo.trim()) return foco('#f-tit','Informe o título da tarefa');
+    if(F.tipo!=='recorrente'&&!F.data) return foco('#f-data','Informe a data da tarefa');
+    if(F.tipo==='recorrente'){
+      if(!F.rec_inicio) return foco('#f-ini','Informe a data de início da repetição');
+      if(F.rec_fim&&F.rec_fim<F.rec_inicio) return foco('#f-fim','O término não pode ser antes do início');
+      if(F.rec==='dias'&&!F.dias_semana.length) return toast('Marque pelo menos um dia da semana',true);
+      if(F.rec==='intervalo'&&!(parseInt(F.intervalo)>=1)) return foco('#f-intn','Informe um intervalo de 1 ou mais');
+    }
+    if(F.hora_inicio&&F.hora_fim&&F.hora_fim<F.hora_inicio) return foco('#f-hf','O horário final é antes do inicial');
+    const o=tarefaDoForm(F); o.atualizado_em=new Date().toISOString();
     const bt=$('#f-save'); bt.disabled=true; bt.innerHTML=ic('loader')+' Salvando...'; icons();
     try{
-      if(S.t.edit){ const r=await db.updateTarefa(S.t.edit,o); const t=S.tarefas.find(x=>x.id===S.t.edit); Object.assign(t,r); toast('Tarefa atualizada'); }
-      else { const r=await db.insertTarefa(o); S.tarefas.push(r); toast('Tarefa criada'); }
+      if(S.t.edit){ const t=S.tarefas.find(x=>x.id===S.t.edit); Object.assign(t,await db.upd('tarefas',S.t.edit,o)); toast('Tarefa atualizada'); }
+      else { S.tarefas.push(await db.ins('tarefas',o)); toast('Tarefa criada'); }
       S.t.edit=null; S.t.form=formVazio(); render();
     }catch(err){ bt.disabled=false; bt.innerHTML=ic('save')+' Salvar tarefa'; icons(); erro(err,'Não foi possível salvar'); }
   };
+}
+
+/* =====================================================================
+   EVENTOS DA AGENDA
+   ===================================================================== */
+function formEvento(e,dataPadrao){
+  const v=e||{tipo:'culto',data:dataPadrao||S.hoje,prioridade:'media',no_mural:true,dias_semana:[]};
+  const rec=v.recorrencia||'';
+  const m=abrirModal(`<h3>${ic('calendar-plus')} ${e?'Editar evento':'Novo evento'}</h3>
+    <div class="field"><label class="f" for="ev-t">Título <span class="req">*</span></label><input class="inp" id="ev-t" value="${esc(v.titulo||'')}" placeholder="Ex.: Culto de Celebração"></div>
+    <div class="row field"><div><label class="f" for="ev-c">Categoria</label><select class="inp" id="ev-c">${Object.entries(CAT_EV).map(([k,c])=>`<option value="${k}" ${k===v.tipo?'selected':''}>${c[0]}</option>`).join('')}</select></div>
+      <div><label class="f" for="ev-p">Prioridade</label><select class="inp" id="ev-p">${Object.entries(PRIOR).map(([k,l])=>`<option value="${k}" ${k===(v.prioridade||'media')?'selected':''}>${l}</option>`).join('')}</select></div></div>
+    <div class="row3 field"><div><label class="f" for="ev-d">Data <span class="req">*</span></label><input class="inp" type="date" id="ev-d" value="${esc(v.data)}"></div>
+      <div><label class="f" for="ev-hi">Início</label><input class="inp" type="time" id="ev-hi" value="${esc(hhmm(v.hora_inicio))}"></div>
+      <div><label class="f" for="ev-hf">Fim</label><input class="inp" type="time" id="ev-hf" value="${esc(hhmm(v.hora_fim))}"></div></div>
+    <div class="field"><label class="f" for="ev-l">Local</label><input class="inp" id="ev-l" value="${esc(v.local||'')}" placeholder="Ex.: Templo sede, casa da irmã Ana"></div>
+    <div class="row field"><div><label class="f" for="ev-r">Repetição</label><select class="inp" id="ev-r">${[['','Não repete'],['diaria','Diária'],['semanal','Semanal'],['quinzenal','A cada 2 semanas'],['mensal','Mensal'],['anual','Anual']].map(([k,l])=>`<option value="${k}" ${k===rec?'selected':''}>${l}</option>`).join('')}</select></div>
+      <div><label class="f" for="ev-f">Término da repetição</label><input class="inp" type="date" id="ev-f" value="${esc(v.rec_fim||'')}"></div></div>
+    <div class="field ${['semanal','quinzenal'].includes(rec)?'':'hidden'}" id="ev-dias"><span class="f">Dias da semana</span>
+      <div class="chips">${DIAS.map((d,i)=>`<button type="button" class="chip" data-edia="${i}" aria-pressed="${(v.dias_semana||[]).includes(i)}">${d}</button>`).join('')}</div><div class="hint">Nenhum marcado = mesmo dia da semana da data.</div></div>
+    <div class="field"><label class="f" for="ev-de">Descrição</label><textarea class="inp" id="ev-de">${esc(v.descricao||'')}</textarea></div>
+    <div class="field"><label class="f" for="ev-o">Observações</label><textarea class="inp" id="ev-o" style="min-height:60px">${esc(v.observacoes||'')}</textarea></div>
+    <div class="field"><label class="check"><input type="checkbox" id="ev-m" ${v.no_mural!==false?'checked':''}> Mostrar como post-it no mural</label></div>
+    <div class="foot">${e?`<button class="btn danger" id="ev-x" style="margin-right:auto">${ic('trash-2')} Excluir</button>`:''}<button class="btn" id="ev-c0">Cancelar</button><button class="btn primary" id="ev-s">${ic('save')} Salvar</button></div>`,{wide:true});
+  let dias=[...(v.dias_semana||[])];
+  m.querySelector('#ev-r').onchange=x=>m.querySelector('#ev-dias').classList.toggle('hidden',!['semanal','quinzenal'].includes(x.target.value));
+  m.querySelectorAll('[data-edia]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.edia; dias=dias.includes(i)?dias.filter(x=>x!==i):[...dias,i]; b.setAttribute('aria-pressed',dias.includes(i)); });
+  m.querySelector('#ev-c0').onclick=fecharModal;
+  const ex=m.querySelector('#ev-x'); if(ex) ex.onclick=()=>{ fecharModal(); excluirEvento(e,null); };
+  m.querySelector('#ev-s').onclick=async()=>{
+    const g=id=>m.querySelector(id).value;
+    const o={titulo:g('#ev-t').trim(),tipo:g('#ev-c'),prioridade:g('#ev-p'),data:g('#ev-d'),hora_inicio:g('#ev-hi')||null,hora_fim:g('#ev-hf')||null,local:g('#ev-l').trim()||null,
+      recorrencia:g('#ev-r')||null,rec_fim:g('#ev-r')?(g('#ev-f')||null):null,dias_semana:['semanal','quinzenal'].includes(g('#ev-r'))&&dias.length?dias.sort():null,
+      descricao:g('#ev-de').trim()||null,observacoes:g('#ev-o').trim()||null,no_mural:m.querySelector('#ev-m').checked};
+    if(!o.titulo||!o.data){ toast('Informe o título e a data',true); return; }
+    if(o.hora_inicio&&o.hora_fim&&o.hora_fim<o.hora_inicio){ toast('O horário final é antes do inicial',true); return; }
+    if(o.rec_fim&&o.rec_fim<o.data){ toast('O término não pode ser antes da data',true); return; }
+    try{
+      if(e){ Object.assign(e,await db.upd('eventos',e.id,o)); toast('Evento atualizado'); }
+      else { S.eventos.push(await db.ins('eventos',o)); toast('Evento criado'); }
+      fecharModal(); render();
+    }catch(err){ erro(err,'Não foi possível salvar o evento'); }
+  };
+}
+async function excluirEvento(e,data){
+  try{
+    if(!e.recorrencia){
+      if(!await confirmar('Excluir evento?',`"${e.titulo}" será apagado definitivamente.`)) return;
+      await db.del('eventos',e.id); S.eventos=S.eventos.filter(x=>x.id!==e.id); toast('Evento excluído'); render(); return;
+    }
+    const ops=[]; if(data) ops.push({v:'so',l:`Somente ${diaCurto(data)}`,d:'As outras datas continuam.'});
+    const ref=data||S.hoje;
+    ops.push({v:'prox',l:data?'Esta e as próximas':'A partir de hoje',d:`A repetição termina em ${diaCurto(addDias(ref,-1))}.`});
+    ops.push({v:'serie',l:'Toda a série',d:'Apaga o evento e todas as repetições.'});
+    const v=await escolher('Excluir evento que se repete',`"${e.titulo}"`,ops,'Excluir'); if(!v) return;
+    if(v==='so') Object.assign(e,await db.upd('eventos',e.id,{excecoes:[...(e.excecoes||[]),data]}));
+    else if(v==='prox'&&ref>e.data) Object.assign(e,await db.upd('eventos',e.id,{rec_fim:addDias(ref,-1)}));
+    else { await db.del('eventos',e.id); S.eventos=S.eventos.filter(x=>x.id!==e.id); }
+    toast('Evento atualizado'); render();
+  }catch(err){ erro(err,'Não foi possível excluir'); }
 }
 
 /* =====================================================================
@@ -895,37 +1286,38 @@ function ligarForm(m){
    ===================================================================== */
 function itensAgenda(d){
   return [
-    ...eventosDoDia(d).map(e=>({kind:'ev',titulo:e.titulo,hora:hhmm(e.hora_inicio),cor:corEvento(e.tipo)})),
-    ...itensDoDia(d).map(x=>({kind:'t',titulo:x.t.titulo,hora:hhmm(x.t.hora_inicio),cls:'bg-'+x.t.cor,feito:x.feito,it:x}))
-  ];
+    ...eventosDoDia(d).map(e=>({kind:'ev',e,titulo:e.titulo,hora:hhmm(e.hora_inicio),cls:'bg-'+(CAT_EV[e.tipo]||CAT_EV.pessoal)[1]+' ev-ag'})),
+    ...itensDoDia(d).map(x=>({kind:'t',it:x,titulo:x.t.titulo,hora:hhmm(x.t.hora_inicio),cls:'bg-'+x.t.cor,feito:x.feito}))
+  ].sort((a,b)=>(a.hora||'99')<(b.hora||'99')?-1:1);
 }
-function chip(i){ return `<span class="ev ${i.cls||''}${i.feito?' feito':''}" ${i.cor?`style="background:${i.cor};color:#fff"`:''} title="${esc((i.hora?i.hora+' · ':'')+i.titulo)}">${i.hora?esc(i.hora)+' ':''}${esc(i.titulo)}</span>`; }
+function chip(i,tag='span'){ const k=tag==='button'?reg(i):''; return `<${tag} class="ev ${i.cls}${i.feito?' feito':''}" ${k?`data-chip="${k}"`:''} title="${esc((i.hora?i.hora+' · ':'')+i.titulo)}">${i.kind==='ev'?'◆ ':''}${i.hora?esc(i.hora)+' ':''}${esc(i.titulo)}</${tag}>`; }
+function abrirChip(i,d){ if(i.kind==='ev') formEvento(i.e); else editarTarefa(i.it.t); }
 function pgAgenda(m){
   const A=S.ag; if(!A.ref) A.ref=S.hoje; if(!A.sel) A.sel=S.hoje;
   const r=parse(A.ref), y=r.getUTCFullYear(), mo=r.getUTCMonth();
   let titulo='', corpo='';
   if(A.modo==='mes'){
     titulo=`${MESES[mo]} de ${y}`;
-    const first=fmt(new Date(Date.UTC(y,mo,1))); const start=addDias(first,-dow(first));
-    let cells=''; for(let i=0;i<42;i++){ const d=addDias(start,i); const its=itensAgenda(d); const x=parse(d);
+    const first=fmt(new Date(Date.UTC(y,mo,1))), start=addDias(first,-dow(first));
+    const semanas=Math.ceil((dow(first)+diasNoMes(y,mo))/7);
+    let cells=''; for(let i=0;i<semanas*7;i++){ const d=addDias(start,i), its=itensAgenda(d), x=parse(d);
       cells+=`<button class="day${x.getUTCMonth()!==mo?' out':''}${d===S.hoje?' today':''}${d===A.sel?' sel':''}" data-d="${d}" aria-label="${diaLongo(d)}, ${its.length} itens"><span class="n">${x.getUTCDate()}</span>
-        ${its.slice(0,3).map(chip).join('')}${its.length>3?`<span class="more">+${its.length-3}</span>`:''}
-        <span class="dotline">${its.slice(0,6).map(i=>`<span class="dot ${i.cls||''}" ${i.cor?`style="background:${i.cor}"`:''}></span>`).join('')}</span></button>`;
-      if(i===34&&addDias(start,35).slice(5,7)!==String(mo+1).padStart(2,'0')) break; }
+        ${its.slice(0,3).map(i=>chip(i)).join('')}${its.length>3?`<span class="more">+${its.length-3}</span>`:''}
+        <span class="dotline">${its.slice(0,6).map(i=>`<span class="dot ${i.cls}"></span>`).join('')}</span></button>`; }
     corpo=`<div class="month">${DIAS.map(d=>`<div class="wd">${d}</div>`).join('')}${cells}</div>`;
   } else if(A.modo==='semana'){
     const ini=addDias(A.ref,-dow(A.ref)), fim=addDias(ini,6);
     titulo=`${diaCurto(ini)} a ${diaCurto(fim)}`;
-    corpo=`<div class="week">${[0,1,2,3,4,5,6].map(i=>{const d=addDias(ini,i), its=itensAgenda(d); return `<div class="wcol${d===S.hoje?' today':''}"><h4>${DIAS[i]}<b>${parse(d).getUTCDate()}</b></h4>${its.length?its.map(chip).join(''):'<span class="muted small" style="text-align:center">—</span>'}</div>`;}).join('')}</div>`;
+    corpo=`<div class="week">${[0,1,2,3,4,5,6].map(i=>{const d=addDias(ini,i), its=itensAgenda(d); return `<div class="wcol${d===S.hoje?' today':''}"><h4>${DIAS[i]}<b>${parse(d).getUTCDate()}</b></h4>${its.length?its.map(x=>chip(x,'button')).join(''):'<span class="muted small" style="text-align:center">—</span>'}</div>`;}).join('')}</div>`;
   } else {
     titulo='Próximos 30 dias';
     let g=''; for(let i=0;i<30;i++){ const d=addDias(S.hoje,i), its=itensAgenda(d); if(!its.length) continue;
-      g+=`<div class="grp"><h4>${i===0?'Hoje · ':i===1?'Amanhã · ':''}${i<2?diaLongo(d):diaLongoC(d)}</h4><div class="stack" style="gap:6px">${its.map(chip).join('')}</div></div>`; }
+      g+=`<div class="grp"><h4>${i===0?'Hoje · ':i===1?'Amanhã · ':''}${i<2?diaLongo(d):diaLongoC(d)}</h4><div class="stack" style="gap:6px">${its.map(x=>chip(x,'button')).join('')}</div></div>`; }
     corpo=`<div class="agenda-list">${g||'<div class="empty">Nada agendado nos próximos 30 dias.</div>'}</div>`;
   }
   const sel=itensAgenda(A.sel);
   m.innerHTML=`${cabecalho('calendar-days','Agenda e Datas Importantes','Acompanhe compromissos, cultos, reuniões e momentos especiais.',
-      `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="ag-nt">${ic('plus')} Nova tarefa</button><button class="btn" disabled title="Chega na Fase 2">${ic('calendar-plus')} Novo evento <span class="tag-phase">F2</span></button><button class="btn" disabled title="Chega na Fase 2">${ic('cake')} Novo aniversário <span class="tag-phase">F2</span></button></div>`)}
+      `<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="ag-ne">${ic('calendar-plus')} Novo evento</button><button class="btn" id="ag-nt">${ic('plus')} Nova tarefa</button><button class="btn" id="ag-na">${ic('cake')} Novo aniversário</button></div>`)}
   <div class="grid-agenda">
     <section class="card">
       <div class="cal-bar">
@@ -936,24 +1328,119 @@ function pgAgenda(m){
         <div class="seg" style="margin-left:auto;flex:0 0 auto">${[['mes','Mês'],['semana','Semana'],['lista','Lista']].map(([k,l])=>`<button data-modo="${k}" aria-pressed="${A.modo===k}" style="min-width:80px">${l}</button>`).join('')}</div>
       </div>
       ${corpo}
-      <div class="legend"><span><span class="dot bg-amarelo"></span>Tarefas (cor do post-it)</span>${Object.entries({culto:'Culto',reuniao:'Reunião',estudo:'Estudo bíblico',pastoral:'Visita pastoral',especial:'Evento especial',comemorativa:'Data comemorativa'}).map(([k,v])=>`<span><span class="dot" style="background:${COR_EV[k]}"></span>${v}</span>`).join('')}</div>
+      <div class="legend"><span><span class="dot bg-amarelo"></span>Tarefas (cor do post-it)</span><span>◆ Eventos:</span>${Object.values(CAT_EV).map(c=>`<span><span class="dot bg-${c[1]}" style="border-radius:3px"></span>${c[0]}</span>`).join('')}</div>
     </section>
     <aside class="stack">
       <section class="card"><div class="card-head"><h2>${ic('calendar-check')} ${diaLongoC(A.sel)}</h2></div>
-        ${sel.length?`<div class="list-rows">${sel.map(i=>`<div class="lr"><span class="d">${i.hora||'—'}</span><span class="dot ${i.cls||''}" ${i.cor?`style="background:${i.cor}"`:''}></span><span style="${i.feito?'text-decoration:line-through;opacity:.6':''}">${esc(i.titulo)}</span></div>`).join('')}</div>`:'<div class="empty">Nada neste dia.</div>'}
-        <button class="btn sm" style="margin-top:12px" id="ag-add">${ic('plus')} Tarefa neste dia</button>
+        ${sel.length?`<div class="list-rows">${sel.map(i=>{const k=reg(i); return `<button class="lr lr-btn" data-sel="${k}"><span class="d">${i.hora||'—'}</span><span class="dot ${i.cls}"></span><span style="${i.feito?'text-decoration:line-through;opacity:.6':''}">${i.kind==='ev'?'◆ ':''}${esc(i.titulo)}${i.kind==='ev'&&i.e.local?`<small class="muted" style="display:block">${esc(i.e.local)}</small>`:''}</span></button>`;}).join('')}</div>`:'<div class="empty">Nada neste dia.</div>'}
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn sm" id="ag-adde">${ic('calendar-plus')} Evento neste dia</button><button class="btn sm" id="ag-add">${ic('plus')} Tarefa neste dia</button></div>
       </section>
-      <section class="card"><div class="card-head"><h2>${ic('info')} Eventos e aniversários</h2><span class="tag-phase">Fase 2</span></div>
-        <p class="small muted" style="margin:0">Nesta fase a agenda já mostra todas as suas tarefas, inclusive as automáticas. O cadastro de cultos, reuniões, eventos recorrentes, aniversários e datas comemorativas chega na Fase 2 — as tabelas já estão criadas no banco.</p></section>
     </aside>
   </div>`;
-  const mv=n=>{ if(A.modo==='mes'){ const x=new Date(Date.UTC(y,mo+n,1)); A.ref=fmt(x); } else if(A.modo==='semana'){ A.ref=addDias(A.ref,7*n); } render(); };
+  const mv=n=>{ if(A.modo==='mes') A.ref=fmt(new Date(Date.UTC(y,mo+n,1))); else if(A.modo==='semana') A.ref=addDias(A.ref,7*n); render(); };
   $('#ag-prev').onclick=()=>mv(-1); $('#ag-next').onclick=()=>mv(1);
   $('#ag-hoje').onclick=()=>{ A.ref=S.hoje; A.sel=S.hoje; render(); };
   m.querySelectorAll('[data-modo]').forEach(b=>b.onclick=()=>{ A.modo=b.dataset.modo; render(); });
   m.querySelectorAll('.day').forEach(b=>b.onclick=()=>{ A.sel=b.dataset.d; render(); });
+  m.querySelectorAll('[data-chip]').forEach(b=>b.onclick=()=>abrirChip(REG[b.dataset.chip]));
+  m.querySelectorAll('[data-sel]').forEach(b=>b.onclick=()=>abrirChip(REG[b.dataset.sel]));
+  $('#ag-ne').onclick=()=>formEvento(null,A.sel); $('#ag-adde').onclick=()=>formEvento(null,A.sel);
   $('#ag-nt').onclick=()=>novaTarefa(S.hoje); $('#ag-add').onclick=()=>novaTarefa(A.sel);
+  $('#ag-na').onclick=()=>formAniv(null);
   if(A.modo==='lista'){ $('#ag-prev').disabled=true; $('#ag-next').disabled=true; }
+}
+
+/* =====================================================================
+   PÁGINA: DATAS (aniversários + datas importantes)
+   ===================================================================== */
+function formAniv(a){
+  const v=a||{dia:'',mes:'',categoria:'Membros da igreja',antecedencia:7};
+  const m=abrirModal(`<h3>${ic('cake')} ${a?'Editar aniversário':'Novo aniversário'}</h3>
+    <div class="field"><label class="f" for="an-n">Nome <span class="req">*</span></label><input class="inp" id="an-n" value="${esc(v.nome||'')}"></div>
+    <div class="row3 field"><div><label class="f" for="an-d">Dia <span class="req">*</span></label><select class="inp" id="an-d"><option value="">—</option>${Array.from({length:31},(_,i)=>`<option ${+v.dia===i+1?'selected':''}>${i+1}</option>`).join('')}</select></div>
+      <div><label class="f" for="an-m">Mês <span class="req">*</span></label><select class="inp" id="an-m"><option value="">—</option>${MESES.map((x,i)=>`<option value="${i+1}" ${+v.mes===i+1?'selected':''}>${x}</option>`).join('')}</select></div>
+      <div><label class="f" for="an-a">Ano (opcional)</label><input class="inp" id="an-a" type="number" min="1900" max="2100" value="${esc(v.ano||'')}"></div></div>
+    <div class="row field"><div><label class="f" for="an-c">Categoria</label><select class="inp" id="an-c">${CAT_ANIV.map(c=>`<option ${c===v.categoria?'selected':''}>${c}</option>`).join('')}</select></div>
+      <div><label class="f" for="an-t">Telefone (opcional)</label><input class="inp" id="an-t" type="tel" value="${esc(v.telefone||'')}" placeholder="(83) 99999-9999"></div></div>
+    <div class="field"><label class="f" for="an-x">Avisar com antecedência de</label><div style="display:flex;gap:8px;align-items:center"><input class="inp" id="an-x" type="number" min="0" max="60" value="${esc(v.antecedencia??7)}" style="width:100px"> dias</div></div>
+    <div class="field"><label class="f" for="an-o">Observações</label><textarea class="inp" id="an-o" style="min-height:60px">${esc(v.observacao||'')}</textarea></div>
+    <div class="foot">${a?`<button class="btn danger" id="an-del" style="margin-right:auto">${ic('trash-2')} Excluir</button>`:''}<button class="btn" id="an-c0">Cancelar</button><button class="btn primary" id="an-s">${ic('save')} Salvar</button></div>`,{wide:true});
+  m.querySelector('#an-c0').onclick=fecharModal;
+  const dl=m.querySelector('#an-del'); if(dl) dl.onclick=async()=>{ fecharModal(); if(!await confirmar('Excluir aniversário?',`O aniversário de ${a.nome} será apagado.`)) return;
+    try{ await db.del('aniversarios',a.id); S.aniv=S.aniv.filter(x=>x.id!==a.id); toast('Aniversário excluído'); render(); }catch(e){ erro(e,'Não foi possível excluir'); } };
+  m.querySelector('#an-s').onclick=async()=>{
+    const g=id=>m.querySelector(id).value;
+    const o={nome:g('#an-n').trim(),dia:+g('#an-d'),mes:+g('#an-m'),ano:g('#an-a')?+g('#an-a'):null,categoria:g('#an-c'),telefone:g('#an-t').trim()||null,
+      antecedencia:Math.max(0,parseInt(g('#an-x'))||0),observacao:g('#an-o').trim()||null};
+    if(!o.nome||!o.dia||!o.mes){ toast('Informe nome, dia e mês',true); return; }
+    if(o.dia>[31,29,31,30,31,30,31,31,30,31,30,31][o.mes-1]){ toast('Esse dia não existe nesse mês',true); return; }
+    try{ if(a){ Object.assign(a,await db.upd('aniversarios',a.id,o)); toast('Aniversário atualizado'); } else { S.aniv.push(await db.ins('aniversarios',o)); toast('Aniversário cadastrado'); }
+      fecharModal(); render(); }catch(e){ erro(e,'Não foi possível salvar'); }
+  };
+}
+function formData(x){
+  const v=x||{data:S.hoje,categoria:'Igreja',anual:true,antecedencia:7};
+  const m=abrirModal(`<h3>${ic('calendar-heart')} ${x?'Editar data importante':'Nova data importante'}</h3>
+    <div class="field"><label class="f" for="di-n">Nome da data <span class="req">*</span></label><input class="inp" id="di-n" value="${esc(v.nome||'')}" placeholder="Ex.: Aniversário da Igreja Vidas"></div>
+    <div class="row field"><div><label class="f" for="di-d">Data <span class="req">*</span></label><input class="inp" type="date" id="di-d" value="${esc(v.data)}"></div>
+      <div><label class="f" for="di-c">Categoria</label><select class="inp" id="di-c">${CAT_DATA.map(c=>`<option ${c===v.categoria?'selected':''}>${c}</option>`).join('')}</select></div></div>
+    <div class="field"><span class="f">Tipo</span><div class="seg"><button type="button" data-an="1" aria-pressed="${!!v.anual}">${ic('repeat')} Repete todo ano</button><button type="button" data-an="0" aria-pressed="${!v.anual}">${ic('calendar')} Evento único</button></div></div>
+    <div class="field"><label class="f" for="di-x">Mostrar no painel com antecedência de</label><div style="display:flex;gap:8px;align-items:center"><input class="inp" id="di-x" type="number" min="0" max="120" value="${esc(v.antecedencia??7)}" style="width:100px"> dias</div></div>
+    <div class="field"><label class="f" for="di-de">Descrição</label><textarea class="inp" id="di-de" style="min-height:60px">${esc(v.descricao||'')}</textarea></div>
+    <div class="foot">${x?`<button class="btn danger" id="di-del" style="margin-right:auto">${ic('trash-2')} Excluir</button>`:''}<button class="btn" id="di-c0">Cancelar</button><button class="btn primary" id="di-s">${ic('save')} Salvar</button></div>`,{wide:true});
+  let anual=!!v.anual;
+  m.querySelectorAll('[data-an]').forEach(b=>b.onclick=()=>{ anual=b.dataset.an==='1'; m.querySelectorAll('[data-an]').forEach(z=>z.setAttribute('aria-pressed',z===b)); });
+  m.querySelector('#di-c0').onclick=fecharModal;
+  const dl=m.querySelector('#di-del'); if(dl) dl.onclick=async()=>{ fecharModal(); if(!await confirmar('Excluir data?',`"${x.nome}" será apagada.`)) return;
+    try{ await db.del('datas_importantes',x.id); S.datas=S.datas.filter(z=>z.id!==x.id); toast('Data excluída'); render(); }catch(e){ erro(e,'Não foi possível excluir'); } };
+  m.querySelector('#di-s').onclick=async()=>{
+    const g=id=>m.querySelector(id).value;
+    const o={nome:g('#di-n').trim(),data:g('#di-d'),categoria:g('#di-c'),anual,antecedencia:Math.max(0,parseInt(g('#di-x'))||0),descricao:g('#di-de').trim()||null};
+    if(!o.nome||!o.data){ toast('Informe o nome e a data',true); return; }
+    try{ if(x){ Object.assign(x,await db.upd('datas_importantes',x.id,o)); toast('Data atualizada'); } else { S.datas.push(await db.ins('datas_importantes',o)); toast('Data cadastrada'); }
+      fecharModal(); render(); }catch(e){ erro(e,'Não foi possível salvar'); }
+  };
+}
+function zap(tel){ const n=String(tel||'').replace(/\D/g,''); if(n.length<10) return ''; return 'https://wa.me/'+(n.length<=11?'55'+n:n); }
+function pgDatas(m){
+  const D=S.dt, aba=D.aba;
+  const filtroMes=x=>!D.mes||+x===+D.mes;
+  let corpo='';
+  if(aba==='aniv'){
+    const l=S.aniv.filter(a=>filtroMes(a.mes)&&(!D.cat||a.categoria===D.cat)).map(a=>({a,...proxAniv(a)})).sort((x,y)=>x.falta-y.falta);
+    corpo=l.length?`<div class="list-rows">${l.map(({a,data,falta})=>{const k=reg(a), idade=a.ano?parse(data).getUTCFullYear()-a.ano:null, w=zap(a.telefone);
+      return `<div class="lr"><span class="d" style="width:56px"><b>${String(a.dia).padStart(2,'0')}/${String(a.mes).padStart(2,'0')}</b></span>${ic('gift')}
+        <span style="flex:1;min-width:0"><b style="font-weight:600">${esc(a.nome)}</b>${idade?` <span class="muted small">· fará ${idade} anos</span>`:''}<small class="muted" style="display:block">${esc(a.categoria||'')}${a.observacao?' · '+esc(a.observacao):''}</small></span>
+        <span class="badge ${falta===0?'b-warn':'b-mut'}">${falta===0?'Hoje 🎉':emDias(falta)}</span>
+        ${w?`<a class="btn sm" href="${w}" target="_blank" rel="noopener" title="Enviar mensagem no WhatsApp">${ic('message-circle')}</a>`:''}
+        <button class="btn sm" data-ea="${k}" aria-label="Editar ${esc(a.nome)}">${ic('pencil')}</button></div>`;}).join('')}</div>`
+      :`<div class="empty">${S.aniv.length?'Nenhum aniversário com esses filtros.':'Nenhum aniversário cadastrado ainda.'}</div>`;
+  } else {
+    const l=S.datas.filter(x=>filtroMes(x.data.slice(5,7))&&(!D.cat||x.categoria===D.cat)).map(x=>({x,p:proxDataImportante(x)})).sort((a,b)=>(a.p?a.p.falta:1e6)-(b.p?b.p.falta:1e6));
+    corpo=l.length?`<div class="list-rows">${l.map(({x,p})=>{const k=reg(x);
+      return `<div class="lr"><span class="d" style="width:56px"><b>${diaCurto(x.data)}</b>${x.anual?'':`<small style="display:block">${x.data.slice(0,4)}</small>`}</span>${ic(x.anual?'repeat':'star')}
+        <span style="flex:1;min-width:0"><b style="font-weight:600">${esc(x.nome)}</b><small class="muted" style="display:block">${esc(x.categoria||'')} · ${x.anual?'todo ano':'evento único'}${x.descricao?' · '+esc(x.descricao):''}</small></span>
+        <span class="badge ${p&&p.falta===0?'b-warn':'b-mut'}">${p?(p.falta===0?'Hoje':emDias(p.falta)):'Já passou'}</span>
+        <button class="btn sm" data-ed2="${k}" aria-label="Editar ${esc(x.nome)}">${ic('pencil')}</button></div>`;}).join('')}</div>`
+      :`<div class="empty">${S.datas.length?'Nenhuma data com esses filtros.':'Nenhuma data importante cadastrada ainda.'}</div>`;
+  }
+  const cats=aba==='aniv'?CAT_ANIV:CAT_DATA;
+  m.innerHTML=`${cabecalho('cake','Aniversários e Datas Importantes','Lembre de quem você ama e das datas que marcam o ministério.',
+      `<button class="btn primary" id="dt-novo">${ic('plus')} ${aba==='aniv'?'Novo aniversário':'Nova data'}</button>`)}
+  <section class="card" style="max-width:980px">
+    <div class="filters"><div class="seg tabs">${[['aniv','Aniversários ('+S.aniv.length+')','cake'],['datas','Datas importantes ('+S.datas.length+')','calendar-heart']].map(([k,l,i])=>`<button data-aba="${k}" aria-pressed="${aba===k}" ">${ic(i)} ${l}</button>`).join('')}</div></div>
+    <div class="filters">
+      <select class="inp" id="dt-mes" style="width:180px;height:36px" aria-label="Filtrar por mês"><option value="">Todos os meses</option>${MESES.map((x,i)=>`<option value="${i+1}" ${+D.mes===i+1?'selected':''}>${x.charAt(0).toUpperCase()+x.slice(1)}</option>`).join('')}</select>
+      <select class="inp" id="dt-cat" style="width:200px;height:36px" aria-label="Filtrar por categoria"><option value="">Todas as categorias</option>${cats.map(c=>`<option ${c===D.cat?'selected':''}>${c}</option>`).join('')}</select>
+    </div>
+    ${corpo}
+  </section>`;
+  m.querySelectorAll('[data-aba]').forEach(b=>b.onclick=()=>{ D.aba=b.dataset.aba; D.cat=''; render(); });
+  $('#dt-mes').onchange=e=>{ D.mes=e.target.value; render(); };
+  $('#dt-cat').onchange=e=>{ D.cat=e.target.value; render(); };
+  $('#dt-novo').onclick=()=>aba==='aniv'?formAniv(null):formData(null);
+  m.querySelectorAll('[data-ea]').forEach(b=>b.onclick=()=>formAniv(REG[b.dataset.ea]));
+  m.querySelectorAll('[data-ed2]').forEach(b=>b.onclick=()=>formData(REG[b.dataset.ed2]));
 }
 
 /* =====================================================================
@@ -1057,7 +1544,7 @@ function editarDevocional(d,dev){
     const row={id:v.id||('devocional-'+data),data,titulo,referencia:m.querySelector('#de-r').value.trim()||null,texto_biblico:m.querySelector('#de-b').value,
       reflexao:m.querySelector('#de-x').value,aplicacao:m.querySelector('#de-a').value,oracao:m.querySelector('#de-o').value,
       palavras_chave:m.querySelector('#de-k').value.split(',').map(s=>s.trim()).filter(Boolean)};
-    try{ await db.upsertDevocionais([row]); fecharModal(); toast('Devocional salvo'); carregarDevocional(data); }catch(e){ erro(e,'Não foi possível salvar'); }
+    try{ await db.upsertRows('devocionais',[row],'data'); fecharModal(); toast('Devocional salvo'); carregarDevocional(data); }catch(e){ erro(e,'Não foi possível salvar'); }
   };
 }
 function importarJSON(){
@@ -1088,7 +1575,7 @@ function importarJSON(){
     go.disabled=true; const p=m.querySelector('#im-p'); p.classList.remove('hidden'); const bar=p.firstElementChild;
     const L=40; let feito=0;
     try{
-      for(let i=0;i<linhas.length;i+=L){ await db.upsertDevocionais(linhas.slice(i,i+L)); feito=Math.min(linhas.length,i+L); bar.style.width=(feito/linhas.length*100)+'%'; st.innerHTML=`Gravando... ${feito} de ${linhas.length}`; }
+      for(let i=0;i<linhas.length;i+=L){ await db.upsertRows('devocionais',linhas.slice(i,i+L),'data'); feito=Math.min(linhas.length,i+L); bar.style.width=(feito/linhas.length*100)+'%'; st.innerHTML=`Gravando... ${feito} de ${linhas.length}`; }
       st.innerHTML=`<span style="color:var(--ok);font-weight:600">${feito} devocionais importados.</span>`; toast(`${feito} devocionais importados`);
       S.dv.data=null; S.devHoje=await db.getDevocional(S.hoje).catch(()=>S.devHoje);
       setTimeout(()=>{ fecharModal(); render(); },900);
@@ -1097,7 +1584,7 @@ function importarJSON(){
 }
 function buscaDevocionais(q0){
   const m=abrirModal(`<h3>${ic('search')} Pesquisar devocionais</h3>
-    <form id="bd-f" style="display:flex;gap:8px"><input class="inp" id="bd-q" value="${esc(q0)}" placeholder="Palavra, tema ou referência (ex.: santidade, Romanos 12)"><button class="btn primary">${ic('search')}</button></form>
+    <form id="bd-f" style="display:flex;gap:8px"><input class="inp" id="bd-q" value="${esc(q0)}" placeholder="Palavra, tema ou referência (ex.: santidade, Romanos 12)"><button class="btn primary" aria-label="Pesquisar">${ic('search')}</button></form>
     <div class="results" id="bd-r" style="margin-top:12px"></div>`,{wide:true});
   const run=async()=>{ const q=m.querySelector('#bd-q').value.trim(); const r=m.querySelector('#bd-r'); if(q.length<2){ r.innerHTML='<div class="small muted">Digite pelo menos 2 letras.</div>'; return; }
     r.innerHTML='<div class="small muted">Buscando...</div>';
@@ -1110,12 +1597,18 @@ function buscaDevocionais(q0){
 }
 function buscaGlobal(q){
   const ql=q.toLowerCase();
-  const ts=S.tarefas.filter(t=>`${t.titulo} ${t.descricao||''} ${t.categoria}`.toLowerCase().includes(ql)).slice(0,12);
+  const ts=S.tarefas.filter(t=>`${t.titulo} ${t.descricao||''} ${t.categoria}`.toLowerCase().includes(ql)).slice(0,10);
+  const es=S.eventos.filter(e=>`${e.titulo} ${e.descricao||''} ${e.local||''}`.toLowerCase().includes(ql)).slice(0,8);
+  const as=[...S.aniv.filter(a=>a.nome.toLowerCase().includes(ql)),...S.datas.filter(x=>x.nome.toLowerCase().includes(ql))].slice(0,8);
   const m=abrirModal(`<h3>${ic('search')} Resultados para “${esc(q)}”</h3>
     <h4 class="small muted" style="margin:0 0 6px">TAREFAS</h4>
     <div class="results">${ts.length?ts.map(t=>`<button class="r" data-t="${t.id}"><span class="dot bg-${esc(t.cor)}" style="margin-top:6px"></span><span><b>${esc(t.titulo)}</b><small>${esc(t.categoria)} · ${esc(descricaoRec(t))}</small></span></button>`).join(''):'<div class="small muted" style="padding:6px 10px">Nenhuma tarefa.</div>'}</div>
+    ${es.length?`<h4 class="small muted" style="margin:14px 0 6px">EVENTOS</h4><div class="results">${es.map(e=>`<button class="r" data-e="${e.id}">${ic('calendar-days')}<span><b>${esc(e.titulo)}</b><small>${diaCurto(e.data)}${e.recorrencia?' · repete':''}${e.local?' · '+esc(e.local):''}</small></span></button>`).join('')}</div>`:''}
+    ${as.length?`<h4 class="small muted" style="margin:14px 0 6px">DATAS</h4><div class="results">${as.map(a=>`<button class="r" data-go="datas">${ic(a.dia?'cake':'calendar-heart')}<span><b>${esc(a.nome)}</b><small>${a.dia?String(a.dia).padStart(2,'0')+'/'+String(a.mes).padStart(2,'0'):diaCurto(a.data)}</small></span></button>`).join('')}</div>`:''}
     <h4 class="small muted" style="margin:14px 0 6px">DEVOCIONAIS</h4><div class="results" id="bg-d"><div class="small muted" style="padding:6px 10px">Buscando...</div></div>`,{wide:true});
   m.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{ fecharModal(); editarTarefa(S.tarefas.find(t=>t.id===b.dataset.t)); });
+  m.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>formEvento(S.eventos.find(e=>e.id===b.dataset.e)));
+  m.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{ fecharModal(); ir('datas'); });
   db.searchDevocionais(q).then(rows=>{ const r=m.querySelector('#bg-d'); if(!r) return;
     r.innerHTML=rows.length?rows.slice(0,12).map(x=>`<button class="r" data-d="${x.data}">${ic('book-open')}<span><b>${esc(x.titulo)}</b><small>${diaLongo(x.data)} · ${esc(x.referencia||'')}</small></span></button>`).join(''):'<div class="small muted" style="padding:6px 10px">Nenhum devocional.</div>';
     icons(); r.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{ fecharModal(); location.hash='devocional'; carregarDevocional(b.dataset.d); });
@@ -1132,58 +1625,117 @@ function pgSugestoes(m){
     <div class="card-head"><h2>${ic('construction')} Este módulo chega na Fase 3</h2><span class="tag-phase">Fase 3</span></div>
     <p>Quando estiver pronto, ele vai usar o devocional do dia${d?` — hoje, <b>${esc(d.titulo)}</b> (${esc(d.referencia||'')})`:''} como contexto e gerar:</p>
     <div class="sug-duo" style="margin:12px 0">
-      <div class="sug s1"><b>${ic('file-text')} Sugestão de sermão</b>Tema, texto bíblico, ideia central, introdução, 4 pontos principais e aplicações. Ao expandir, segue sua estrutura completa de exegese, ilustração, aplicação e transição.</div>
-      <div class="sug s2"><b>${ic('users')} Estudo de célula</b>Tema, texto, objetivo, 3 pontos, perguntas para discussão e aplicação prática.</div>
+      <div class="sug s1"><b>${ic('file-text')} Sugestão de sermão</b>Tema, texto, ideia central, objetivo, 4 pontos e aplicação. Ao desenvolver, segue sua estrutura completa: exegese, ilustração, aplicação, frase de impacto e transição em cada ponto, com conclusão, desafio e apelo.</div>
+      <div class="sug s2"><b>${ic('users')} Estudo de célula</b>Tema, texto, objetivo, 3 pontos, perguntas para discussão, aplicação e desafio da semana — para cerca de 45 minutos.</div>
     </div>
-    <p class="ai-note">${ic('sparkles')} Tudo o que for gerado virá identificado como texto de IA. A chave da IA ficará no Worker do Cloudflare, nunca no app.</p>
+    <p class="ai-note">${ic('sparkles')} Tudo o que for gerado virá identificado como texto de IA, usando o Worker do PromptFlow (a chave fica no servidor, nunca no app).</p>
   </section>`;
 }
 
 /* =====================================================================
-   PÁGINA: AJUSTES
+   PÁGINA: AJUSTES (tema, perfil, PIN, backup)
    ===================================================================== */
+const TABELAS_BACKUP=[['config','id'],['tarefas','id'],['tarefa_ocorrencias','tarefa_id,data'],['eventos','id'],['aniversarios','id'],['datas_importantes','id'],
+  ['anotacoes','data,tipo'],['notificacoes_lidas','chave'],['devocional_leituras','data'],['biblioteca','id'],['devocionais','data']];
+function baixar(nome,texto,tipo='application/json'){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([texto],{type:tipo})); a.download=nome; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }
+async function exportarBackup(comDev){
+  const tab={}, falhas=[];
+  for(const [t] of TABELAS_BACKUP){ if(t==='devocionais'&&!comDev) continue; try{ tab[t]=await db.list(t); }catch(e){ falhas.push(t); } }
+  if(tab.config) tab.config=tab.config.map(c=>({...c,pin_hash:undefined}));
+  const pacote={app:'VidaPlena',versao:CONFIG.VERSAO,exportado_em:new Date().toISOString(),tabelas:tab};
+  baixar(`vidaplena-backup-${S.hoje}.json`,JSON.stringify(pacote,null,1));
+  toast(`Backup gerado (${Object.values(tab).reduce((s,r)=>s+r.length,0)} registros)`+(falhas.length?` — sem: ${falhas.join(', ')}`:''),!!falhas.length);
+}
+function importarBackup(){
+  const m=abrirModal(`<h3>${ic('archive-restore')} Restaurar backup</h3>
+    <p class="small muted">Escolha um arquivo gerado pelo VidaPlena. A restauração <b>acrescenta e atualiza</b> registros com o mesmo identificador; nada que existe hoje é apagado. O PIN não é alterado.</p>
+    <div class="field"><input type="file" id="rb-f" accept=".json,application/json" class="inp" style="padding:8px;height:auto"></div>
+    <div id="rb-s" class="small"></div><div class="progress hidden" id="rb-p"><i></i></div>
+    <div class="foot"><button class="btn" id="rb-c">Fechar</button><button class="btn primary" id="rb-go" disabled>${ic('archive-restore')} Restaurar</button></div>`,{wide:true});
+  let pac=null; const st=m.querySelector('#rb-s'), go=m.querySelector('#rb-go');
+  m.querySelector('#rb-c').onclick=fecharModal;
+  m.querySelector('#rb-f').onchange=async e=>{
+    pac=null; go.disabled=true;
+    try{ const j=JSON.parse(await e.target.files[0].text());
+      if(j.app!=='VidaPlena'||!j.tabelas||typeof j.tabelas!=='object') throw new Error('não é um backup do VidaPlena');
+      const conhecidas=TABELAS_BACKUP.map(x=>x[0]), linhas=Object.entries(j.tabelas).filter(([t,r])=>conhecidas.includes(t)&&Array.isArray(r));
+      if(!linhas.length) throw new Error('nenhuma tabela reconhecida');
+      pac=j;
+      st.innerHTML=`Backup de <b>${new Date(j.exportado_em).toLocaleString('pt-BR')}</b> (versão ${esc(j.versao)}):<ul style="margin:6px 0">${linhas.map(([t,r])=>`<li>${t}: ${r.length} registro(s)</li>`).join('')}</ul>Confira antes de restaurar.`;
+      go.disabled=false;
+    }catch(err){ st.innerHTML=`<span style="color:var(--bad)">Arquivo inválido: ${esc(err.message)}</span>`; }
+  };
+  go.onclick=async()=>{
+    if(!await confirmarInline()) return;
+    go.disabled=true; const p=m.querySelector('#rb-p'); p.classList.remove('hidden'); const bar=p.firstElementChild;
+    const ordem=TABELAS_BACKUP.filter(([t])=>Array.isArray(pac.tabelas[t]));
+    let i=0;
+    try{
+      for(const [t,conf] of ordem){ let rows=pac.tabelas[t]; if(t==='config') rows=rows.map(({pin_hash,...r})=>r);
+        for(let k=0;k<rows.length;k+=200) await db.upsertRows(t,rows.slice(k,k+200),conf);
+        bar.style.width=(++i/ordem.length*100)+'%'; st.innerHTML=`Restaurando... ${t}`; }
+      st.innerHTML='<span style="color:var(--ok);font-weight:600">Backup restaurado.</span>'; toast('Backup restaurado');
+      S.cfg=await db.getConfig(); await recarregar(true); setTimeout(()=>{ fecharModal(); render(); },900);
+    }catch(e){ erro(e,'A restauração parou'); go.disabled=false; }
+  };
+  function confirmarInline(){ return Promise.resolve(window.confirm('Restaurar este backup? Registros com o mesmo identificador serão atualizados com o conteúdo do arquivo.')); }
+}
 function pgConfig(m){
-  const c=S.cfg||{};
+  const c=S.cfg||{}, tema=prefTema();
   const fusos=['America/Fortaleza','America/Recife','America/Bahia','America/Sao_Paulo','America/Manaus','America/Belem','America/Cuiaba','America/Porto_Velho','America/Rio_Branco','America/Noronha'];
   m.innerHTML=`${cabecalho('settings','Ajustes','Preferências do VidaPlena.')}
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:980px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1040px">
     <section class="card"><div class="card-head"><h2>${ic('user')} Perfil e local</h2></div>
       <div class="field"><label class="f" for="c-n">Como quer ser chamado</label><input class="inp" id="c-n" value="${esc(c.nome||'Bispo')}"></div>
       <div class="field"><label class="f" for="c-c">Cidade (para o clima, Fase 3)</label><input class="inp" id="c-c" value="${esc(c.cidade||'')}"></div>
       <div class="field"><label class="f" for="c-f">Fuso horário</label><select class="inp" id="c-f">${fusos.map(f=>`<option ${f===c.fuso?'selected':''}>${f}</option>`).join('')}</select></div>
       <button class="btn primary" id="c-s">${ic('save')} Salvar</button></section>
+    <section class="card"><div class="card-head"><h2>${ic('palette')} Aparência</h2></div>
+      <span class="f">Tema</span>
+      <div class="seg" role="group" aria-label="Tema">${[['light','Claro','sun'],['dark','Escuro','moon'],['system','Sistema','monitor']].map(([k,l,i])=>`<button data-tema="${k}" aria-pressed="${tema===k}">${ic(i)} ${l}</button>`).join('')}</div>
+      <div class="hint" style="margin-bottom:14px">“Sistema” acompanha a configuração do computador ou celular.</div>
+      <span class="f">Menu lateral</span>
+      <div class="seg" role="group" aria-label="Menu lateral">${[['normal','Com nomes'],['compacto','Só ícones']].map(([k,l])=>`<button data-menu="${k}" aria-pressed="${(store.get('vp_menu')||'normal')===k}">${l}</button>`).join('')}</div></section>
     <section class="card"><div class="card-head"><h2>${ic('key-round')} Alterar PIN</h2></div>
       <div class="field"><label class="f" for="p-a">PIN atual</label><input class="inp" id="p-a" type="password" inputmode="numeric" maxlength="8"></div>
       <div class="field"><label class="f" for="p-n">Novo PIN (4 a 8 números)</label><input class="inp" id="p-n" type="password" inputmode="numeric" maxlength="8"></div>
       <button class="btn" id="p-s">${ic('check')} Trocar PIN</button></section>
+    <section class="card"><div class="card-head"><h2>${ic('database-backup')} Backup dos dados</h2></div>
+      <p class="small muted" style="margin:0 0 12px">Seus dados ficam no Supabase (nuvem), não no navegador. O backup é uma cópia extra em arquivo, para guardar no computador.</p>
+      <label class="check" style="margin-bottom:12px"><input type="checkbox" id="bk-dev"> Incluir os devocionais (arquivo maior)</label>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="bk-x">${ic('download')} Exportar backup</button><button class="btn" id="bk-i">${ic('archive-restore')} Restaurar backup</button></div></section>
     <section class="card"><div class="card-head"><h2>${ic('info')} Sobre</h2></div>
-      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 1 — Fundação</p>
+      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 2 — Automações e agenda</p>
       <p class="small muted" style="margin:0 0 14px">Dados no Supabase, schema <code>${CONFIG.SCHEMA}</code>.</p>
-      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" id="c-t">${ic(temaAtual()==='dark'?'sun':'moon')} Modo ${temaAtual()==='dark'?'claro':'escuro'}</button><button class="btn danger" id="c-x">${ic('log-out')} Sair</button></div></section>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="testes.html" target="_blank" rel="noopener">${ic('flask-conical')} Rodar testes</a><button class="btn danger" id="c-x">${ic('log-out')} Sair</button></div></section>
   </div>`;
   $('#c-s').onclick=async()=>{ try{ S.cfg=await db.saveConfig({nome:$('#c-n').value.trim()||'Bispo',cidade:$('#c-c').value.trim(),fuso:$('#c-f').value}); S.hoje=hojeStr(); renderTopo(); toast('Ajustes salvos'); }catch(e){ erro(e,'Não foi possível salvar'); } };
+  m.querySelectorAll('[data-tema]').forEach(b=>b.onclick=()=>{ store.set('vp_tema',b.dataset.tema); aplicarTema(); renderTopo(); render(); });
+  m.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>{ store.set('vp_menu',b.dataset.menu); $('#app').classList.toggle('compacta',b.dataset.menu==='compacto'); renderSide(); render(); });
   $('#p-s').onclick=async()=>{ const a=$('#p-a').value, n=$('#p-n').value;
     if(await sha256(a)!==S.cfg.pin_hash){ toast('PIN atual incorreto',true); return; }
     if(!/^\d{4,8}$/.test(n)){ toast('O novo PIN deve ter de 4 a 8 números',true); return; }
-    try{ const h=await sha256(n); S.cfg=await db.saveConfig({pin_hash:h}); if(store.get('vp_sessao')) store.set('vp_sessao',h); sessionStorage.setItem('vp_sessao',h); $('#p-a').value=$('#p-n').value=''; toast('PIN alterado'); }catch(e){ erro(e,'Não foi possível trocar o PIN'); } };
-  $('#c-t').onclick=()=>{ alternarTema(); render(); };
+    try{ const h=await sha256(n); S.cfg=await db.saveConfig({pin_hash:h}); if(store.get('vp_sessao')) store.set('vp_sessao',h); try{sessionStorage.setItem('vp_sessao',h)}catch(e){} $('#p-a').value=$('#p-n').value=''; toast('PIN alterado'); }catch(e){ erro(e,'Não foi possível trocar o PIN'); } };
+  $('#bk-x').onclick=async()=>{ const b=$('#bk-x'); b.disabled=true; try{ await exportarBackup($('#bk-dev').checked); }catch(e){ erro(e,'Falha no backup'); } b.disabled=false; };
+  $('#bk-i').onclick=importarBackup;
   $('#c-x').onclick=()=>{ store.del('vp_sessao'); try{sessionStorage.removeItem('vp_sessao')}catch(e){} location.reload(); };
 }
 
 /* =====================================================================
    LOGIN POR PIN + INICIALIZAÇÃO
    ===================================================================== */
+const LOGO_G=LOGO.replace('class="brand-mark"','class="brand-mark" style="width:96px;height:96px;margin:0 auto;border-radius:22px"');
 function telaErro(e){
-  $('#root').innerHTML=`<div class="login"><div class="login-card" style="text-align:left">${LOGO}<h1 style="font-size:20px">Não consegui acessar o banco</h1>
+  $('#root').innerHTML=`<div class="login"><div class="login-card" style="text-align:left">${LOGO_G}<h1 style="font-size:20px">Não consegui acessar o banco</h1>
     <p class="small">Confira estes dois pontos no Supabase (projeto quiz-biblico):</p>
-    <ol class="small"><li>O script <b>schema-vidaplena.sql</b> foi rodado no SQL Editor.</li><li>Em <b>Project Settings → Data API → Exposed schemas</b>, o schema <b>vidaplena</b> foi incluído.</li></ol>
+    <ol class="small"><li>Os scripts <b>schema-vidaplena.sql</b> e <b>fase2-vidaplena.sql</b> foram rodados no SQL Editor.</li><li>Em <b>Project Settings → Data API → Exposed schemas</b>, o schema <b>vidaplena</b> foi incluído.</li></ol>
     <p class="small muted">Detalhe técnico: ${esc(e&&e.message||e)}</p><button class="btn primary" onclick="location.reload()">Tentar de novo</button>
     <p class="hint">v${CONFIG.VERSAO}</p></div></div>`;
 }
 function telaLogin(){
   const criar=!S.cfg.pin_hash;
   $('#root').innerHTML=`<div class="login"><form class="login-card" id="lg">
-    ${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:96px;height:96px;margin:0 auto;border-radius:22px"')}
+    ${LOGO_G}
     <h1>VidaPlena</h1><p class="page-sub" style="margin-bottom:18px">Produtividade e Ministério</p>
     <label class="f" for="lg-p">${criar?'Crie seu PIN (4 a 8 números)':'Digite seu PIN'}</label>
     <input class="inp pin" id="lg-p" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password" autofocus>
@@ -1204,7 +1756,7 @@ function telaLogin(){
   };
 }
 async function iniciar(){
-  $('#root').innerHTML=`<div class="login"><div style="color:#fff;text-align:center">${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:96px;height:96px;margin:0 auto;border-radius:22px"')}<p style="font-family:var(--font-title);letter-spacing:.06em">VidaPlena</p></div></div>`;
+  $('#root').innerHTML=`<div class="login"><div style="color:#fff;text-align:center">${LOGO_G}<p style="font-family:var(--font-title);letter-spacing:.06em">VidaPlena</p></div></div>`;
   try{ S.cfg=await db.getConfig(); if(!S.cfg) S.cfg=await db.saveConfig({}); }
   catch(e){ telaErro(e); return; }
   S.hoje=hojeStr();
@@ -1212,19 +1764,27 @@ async function iniciar(){
   ses=ses||store.get('vp_sessao');
   if(S.cfg.pin_hash&&ses===S.cfg.pin_hash) entrar(); else telaLogin();
 }
+function verificarDia(){
+  const h=hojeStr(); if(h===S.hoje) return;
+  S.hoje=h; db.getDevocional(h).then(d=>{ S.devHoje=d; if(S.rota==='inicio') render(); }).catch(()=>{});
+  if(S.rota!=='devocional'&&!modalAberto) render(); renderTopo(); renderSide();
+}
 async function entrar(){
   S.rota=location.hash.slice(1)||'inicio';
   shell();
   $('#main').innerHTML=`<div class="grid-dash"><div class="skel" style="min-height:520px"></div><div class="stack"><div class="skel"></div><div class="skel"></div></div></div>`;
-  try{
-    const [t,o,ev,an,dv]=await Promise.all([db.listTarefas(),db.listOcorrencias(),db.listEventos(S.hoje,addDias(S.hoje,400)).catch(()=>[]),db.listAniversarios().catch(()=>[]),db.getDevocional(S.hoje).catch(()=>null)]);
-    S.tarefas=t||[]; S.ocorr=o||[]; S.eventos=ev||[]; S.aniv=an||[]; S.devHoje=dv;
-  }catch(e){ erro(e,'Erro ao carregar seus dados'); }
-  S.carregado=true; render();
-  // Atualiza sozinho quando o dia muda (meia-noite no fuso configurado)
-  setInterval(async()=>{ const h=hojeStr(); if(h!==S.hoje){ S.hoje=h; try{ S.devHoje=await db.getDevocional(h); }catch(e){} if(S.rota!=='devocional') render(); renderTopo(); } },60000);
+  await recarregar(true);
+  S.carregado=true; renderSide(); render();
+  // Recalcula quando o dia muda no fuso configurado, mesmo com a aba aberta, e quando a aba volta ao foco
+  setInterval(verificarDia,60000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) verificarDia(); });
 }
-if('serviceWorker' in navigator && location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
+/* Atualização do app: avisa quando uma versão nova foi instalada, sem recarregar sozinho (não perde o que está sendo digitado) */
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  const tinha=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.register('sw.js').then(r=>{ setInterval(()=>r.update().catch(()=>{}),30*60*1000); }).catch(()=>{});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(tinha) toast('Há uma nova versão do VidaPlena.',false,{label:'Atualizar agora',run:()=>location.reload()}); });
+}
 iniciar();
 </script>
 </body>
