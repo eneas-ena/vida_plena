@@ -476,6 +476,11 @@ button.sug:hover{filter:brightness(.97)}
   .nav{min-width:64px}
 }
 
+/* aniversários e datas importantes na agenda */
+.ev.aniv-ag{background:var(--gold-soft);color:var(--text);box-shadow:inset 0 0 0 1px var(--gold)}
+.ev.data-ag{background:var(--info-bg);color:var(--info);box-shadow:inset 0 0 0 1px var(--info)}
+.dot.aniv-ag{background:var(--gold)} .dot.data-ag{background:var(--info)}
+
 /* ================= RESPONSIVO ================= */
 @media (max-width:1180px){
   .grid-dash,.grid-agenda,.grid-dev,.grid-tasks{grid-template-columns:minmax(0,1fr)}
@@ -507,7 +512,7 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.0.0',
+  VERSAO: '3.0.1',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -1482,13 +1487,17 @@ async function excluirEvento(e,data){
    PÁGINA: AGENDA
    ===================================================================== */
 function itensAgenda(d){
-  return [
+  // Aniversários e datas importantes entram primeiro no dia (sem horário), depois eventos e tarefas por horário
+  const ano=+d.slice(0,4);
+  const anivs=S.aniv.filter(a=>proxAniv(a,d).data===d).map(a=>({kind:'aniv',a,titulo:'🎂 '+a.nome+(a.ano?` (${ano-a.ano} anos)`:''),hora:'',ord:'0',cls:'aniv-ag'}));
+  const datas=S.datas.filter(x=>{ const p=proxDataImportante(x,d); return p&&p.data===d; }).map(x=>({kind:'data',x,titulo:'★ '+x.nome,hora:'',ord:'0',cls:'data-ag'}));
+  return [...anivs,...datas,...[
     ...eventosDoDia(d).map(e=>({kind:'ev',e,titulo:e.titulo,hora:hhmm(e.hora_inicio),cls:'bg-'+(CAT_EV[e.tipo]||CAT_EV.pessoal)[1]+' ev-ag'})),
     ...itensDoDia(d).map(x=>({kind:'t',it:x,titulo:x.t.titulo,hora:hhmm(x.t.hora_inicio),cls:'bg-'+x.t.cor,feito:x.feito}))
-  ].sort((a,b)=>(a.hora||'99')<(b.hora||'99')?-1:1);
+  ].sort((a,b)=>(a.hora||'99')<(b.hora||'99')?-1:1)];
 }
 function chip(i,tag='span'){ const k=tag==='button'?reg(i):''; return `<${tag} class="ev ${i.cls}${i.feito?' feito':''}" ${k?`data-chip="${k}"`:''} title="${esc((i.hora?i.hora+' · ':'')+i.titulo)}">${i.kind==='ev'?'◆ ':''}${i.hora?esc(i.hora)+' ':''}${esc(i.titulo)}</${tag}>`; }
-function abrirChip(i,d){ if(i.kind==='ev') formEvento(i.e); else editarTarefa(i.it.t); }
+function abrirChip(i,d){ if(i.kind==='ev') formEvento(i.e); else if(i.kind==='aniv') formAniv(i.a); else if(i.kind==='data') formData(i.x); else editarTarefa(i.it.t); }
 function pgAgenda(m){
   const A=S.ag; if(!A.ref) A.ref=S.hoje; if(!A.sel) A.sel=S.hoje;
   const r=parse(A.ref), y=r.getUTCFullYear(), mo=r.getUTCMonth();
@@ -1525,7 +1534,7 @@ function pgAgenda(m){
         <div class="seg" style="margin-left:auto;flex:0 0 auto">${[['mes','Mês'],['semana','Semana'],['lista','Lista']].map(([k,l])=>`<button data-modo="${k}" aria-pressed="${A.modo===k}" style="min-width:80px">${l}</button>`).join('')}</div>
       </div>
       ${corpo}
-      <div class="legend"><span><span class="dot bg-amarelo"></span>Tarefas (cor do post-it)</span><span>◆ Eventos:</span>${Object.values(CAT_EV).map(c=>`<span><span class="dot bg-${c[1]}" style="border-radius:3px"></span>${c[0]}</span>`).join('')}</div>
+      <div class="legend"><span><span class="dot aniv-ag"></span>🎂 Aniversários</span><span><span class="dot data-ag"></span>★ Datas importantes</span><span><span class="dot bg-amarelo"></span>Tarefas (cor do post-it)</span><span>◆ Eventos:</span>${Object.values(CAT_EV).map(c=>`<span><span class="dot bg-${c[1]}" style="border-radius:3px"></span>${c[0]}</span>`).join('')}</div>
     </section>
     <aside class="stack">
       <section class="card"><div class="card-head"><h2>${ic('calendar-check')} ${diaLongoC(A.sel)}</h2></div>
