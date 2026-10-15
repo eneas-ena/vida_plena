@@ -7,8 +7,9 @@
 <meta name="description" content="VidaPlena — Produtividade e Ministério">
 <meta name="theme-color" content="#0F1B33">
 <link rel="manifest" href="manifest.json">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -67,7 +68,7 @@ a{color:inherit}
 .app{display:grid;grid-template-columns:96px 1fr;grid-template-rows:72px 1fr;min-height:100vh;background:linear-gradient(to right,var(--navy-2) 96px,transparent 96px)}
 .topbar{grid-column:1/-1;display:flex;align-items:center;gap:20px;padding:0 24px;background:var(--navy);color:#fff;position:sticky;top:0;z-index:20}
 .brand{display:flex;align-items:center;gap:12px;min-width:240px;text-decoration:none}
-.brand-mark{width:40px;height:40px}
+.brand-mark{width:44px;height:44px;display:block}
 .brand-name{font-family:var(--font-title);font-weight:700;font-size:22px;letter-spacing:.04em;color:#fff;line-height:1}
 .brand-sub{font-size:12px;color:var(--gold-2);letter-spacing:.06em;margin-top:3px}
 .search{flex:1;max-width:520px;position:relative}
@@ -345,7 +346,7 @@ textarea.inp{height:auto;min-height:84px;padding:10px 12px;resize:vertical}
    Fase 1 — Fundação
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '1.0.0',
+  VERSAO: '1.0.1',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -603,7 +604,7 @@ const ROTAS=[
   ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb',true]
 ];
 function saudacao(){ const h=horaLocal(); return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'; }
-const LOGO=`<svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" fill="#C9A227"/><path d="M32 50c0-12 0-18 0-24" stroke="#0F1B33" stroke-width="4" stroke-linecap="round"/><path d="M32 30c-2-9-9-14-17-13 0 9 7 15 17 13z" fill="#0F1B33"/><path d="M32 36c3-10 11-15 19-13-1 10-9 15-19 13z" fill="#0F1B33" opacity=".85"/></svg>`;
+const LOGO=`<img class="brand-mark" src="logo.png" alt="" width="44" height="44">`;
 function shell(){
   $('#root').innerHTML=`<div class="app">
     <header class="topbar" id="topbar"></header>
@@ -1182,7 +1183,7 @@ function telaErro(e){
 function telaLogin(){
   const criar=!S.cfg.pin_hash;
   $('#root').innerHTML=`<div class="login"><form class="login-card" id="lg">
-    ${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:64px;height:64px"')}
+    ${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:96px;height:96px;margin:0 auto;border-radius:22px"')}
     <h1>VidaPlena</h1><p class="page-sub" style="margin-bottom:18px">Produtividade e Ministério</p>
     <label class="f" for="lg-p">${criar?'Crie seu PIN (4 a 8 números)':'Digite seu PIN'}</label>
     <input class="inp pin" id="lg-p" type="password" inputmode="numeric" maxlength="8" autocomplete="current-password" autofocus>
@@ -1203,7 +1204,7 @@ function telaLogin(){
   };
 }
 async function iniciar(){
-  $('#root').innerHTML=`<div class="login"><div style="color:#fff;text-align:center">${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:64px;height:64px"')}<p style="font-family:var(--font-title);letter-spacing:.06em">VidaPlena</p></div></div>`;
+  $('#root').innerHTML=`<div class="login"><div style="color:#fff;text-align:center">${LOGO.replace('class="brand-mark"','class="brand-mark" style="width:96px;height:96px;margin:0 auto;border-radius:22px"')}<p style="font-family:var(--font-title);letter-spacing:.06em">VidaPlena</p></div></div>`;
   try{ S.cfg=await db.getConfig(); if(!S.cfg) S.cfg=await db.saveConfig({}); }
   catch(e){ telaErro(e); return; }
   S.hoje=hojeStr();
