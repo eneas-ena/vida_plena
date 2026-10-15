@@ -117,6 +117,7 @@ h1{font-family:var(--font-title);font-size:26px;font-weight:600;margin:0;letter-
 /* ================= BUTTONS / FORMS ================= */
 .btn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px}
 .btn:hover{border-color:var(--gold)}
+a.btn{text-decoration:none;color:inherit}
 .btn.primary{background:var(--navy);border-color:var(--navy);color:#fff}
 .btn.primary [data-lucide]{color:var(--gold)}
 .btn.primary:hover{background:#1B2C52}
@@ -386,6 +387,95 @@ button.ev{border:0;text-align:left;cursor:pointer}
 }
 @media (min-width:861px) and (max-width:1280px){ .stats{grid-template-columns:repeat(4,minmax(0,1fr))} .stat.wide{grid-column:1/-1} }
 
+/* ================= FASE 3 ================= */
+.icon-mini{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;padding:0}
+.icon-mini [data-lucide]{width:14px;height:14px}
+.icon-mini:hover{color:var(--text);border-color:var(--gold)}
+.wx{display:flex;align-items:center;gap:8px}
+.wx b{font-family:var(--font-title);font-size:30px;line-height:1.1}
+.wx .fx-v{font-size:22px}
+.wx-ic [data-lucide]{width:30px;height:30px;color:var(--gold)}
+.wx-cond{font-weight:600;font-size:13.5px;margin:2px 0 4px}
+.wx-l{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:4px}
+.wx-l [data-lucide]{width:13px;height:13px}
+.fx{font-size:13px;font-weight:700;display:flex;align-items:center;gap:4px;margin:2px 0}
+.fx [data-lucide]{width:15px;height:15px}
+.fx.up{color:var(--bad)} .fx.down{color:var(--ok)}
+.fx .muted{font-weight:500;font-size:12px}
+button.sug{border:0;text-align:left;width:100%;cursor:pointer;display:flex;flex-direction:column;gap:2px;font:inherit;font-size:13px}
+button.sug:hover{filter:brightness(.97)}
+.sug-t{font-weight:600;line-height:1.3}
+.sug small{opacity:.75;font-size:11.5px}
+.dev-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.btn.lido{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.dev-origem{display:flex;gap:8px;align-items:flex-start;background:var(--info-bg);color:var(--info);border-radius:10px;padding:8px 12px;font-size:13px;margin-top:12px}
+.lr-btn.atual{background:var(--gold-soft)}
+.lr .ell{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ok-ic{color:var(--ok)} .mut-ic{color:var(--faint)}
+.im-res{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:6px 0}
+.im-res>div{background:var(--surface-2);border:1px solid var(--line-2);border-radius:10px;padding:8px 10px}
+.im-res b{display:block;font-size:20px;font-family:var(--font-title)}
+.im-res span{font-size:12px;color:var(--muted)}
+.im-res .ok b{color:var(--ok)} .im-res .warn b{color:var(--warn)}
+.im-err{color:var(--bad);font-size:12.5px;margin-top:8px}
+/* sugestões */
+.sg-dev{margin-bottom:16px;padding:14px 20px}
+.sg-dev-t{font-family:var(--font-title);font-size:20px;font-weight:600;margin:2px 0}
+.sg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.sg-tema{font-family:var(--font-title);font-size:20px;font-weight:600;line-height:1.25}
+.sg-ref{color:var(--info);font-weight:700;font-size:13.5px;margin:2px 0 10px}
+.sg-dl{margin:0 0 10px;font-size:14px}
+.sg-dl dt{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin-top:8px}
+.sg-dl dd{margin:2px 0 0}
+.sg-pts{margin:0 0 10px;padding-left:22px;display:flex;flex-direction:column;gap:8px;font-size:14px}
+.sg-acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ia-work{display:flex;gap:12px;align-items:center;background:var(--info-bg);border-radius:12px;padding:14px;margin-bottom:12px;font-size:14px}
+.spin{width:22px;height:22px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--gold);animation:gira .8s linear infinite;flex:none}
+@keyframes gira{to{transform:rotate(360deg)}}
+/* biblioteca */
+.bib-list{display:flex;flex-direction:column}
+.bib-row{display:flex;align-items:center;gap:12px;padding:12px 8px;border:0;border-top:1px solid var(--line-2);background:none;text-align:left;width:100%;cursor:pointer;border-radius:10px}
+.bib-row:first-child{border-top:0}
+.bib-row:hover{background:var(--surface-2)}
+.bib-ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none}
+.bib-ic.sermao{background:#FFF0E2;color:#8A4B12} .bib-ic.celula{background:#E4F6EC;color:#1E6B40}
+.bib-tx{flex:1;min-width:0}
+.bib-tx b{display:block;font-weight:600}
+.bib-tx small{display:block;color:var(--muted);font-size:12.5px}
+.leitor-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;max-width:900px}
+.leitor-acts{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.leitor-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px;font-family:var(--font-ui);font-size:14px}
+.leitura{max-width:900px;padding:32px 40px}
+.md{font-family:var(--font-read);font-size:20px;line-height:1.6}
+.md h1,.md h2,.md h3,.md h4{font-family:var(--font-title);line-height:1.25;margin:1.3em 0 .45em}
+.md h2{font-size:30px;margin-top:.2em}
+.md h3{font-size:23px;color:var(--navy)}
+.md h4{font-size:18px;font-family:var(--font-ui);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+:root[data-theme="dark"] .md h3{color:var(--gold-2)}
+.md p{margin:0 0 .85em}
+.md blockquote{margin:1em 0;padding:8px 16px;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:0 10px 10px 0;font-style:italic}
+.md ul,.md ol{margin:0 0 1em;padding-left:1.4em}
+.md li{margin-bottom:.35em}
+.md hr{border:0;border-top:1px solid var(--line);margin:1.6em 0}
+.ed-md{min-height:60vh;font-family:ui-monospace,Menlo,monospace;font-size:14px;line-height:1.55}
+/* ajustes */
+.cfg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1100px}
+.cfg-wide{grid-column:1/-1}
+.tst{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;padding:6px 0}
+.tst.ok [data-lucide]{color:var(--ok)} .tst.bad [data-lucide]{color:var(--bad)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .md h3{color:var(--gold-2)} :root:not([data-theme="light"]) .bib-ic.sermao{background:#3A2614;color:#F8D6B4} :root:not([data-theme="light"]) .bib-ic.celula{background:#14321F;color:#BDEBCF}}
+:root[data-theme="dark"] .bib-ic.sermao{background:#3A2614;color:#F8D6B4} :root[data-theme="dark"] .bib-ic.celula{background:#14321F;color:#BDEBCF}
+@media (max-width:860px){
+  .sg-grid{grid-template-columns:minmax(0,1fr)}
+  .leitura{padding:20px 18px}
+  .md{font-size:18.5px}
+  .md h2{font-size:25px}
+  .im-res{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .leitor-acts{margin-left:0}
+  .side{gap:0}
+  .nav{min-width:64px}
+}
+
 /* ================= RESPONSIVO ================= */
 @media (max-width:1180px){
   .grid-dash,.grid-agenda,.grid-dev,.grid-tasks{grid-template-columns:minmax(0,1fr)}
@@ -417,11 +507,14 @@ button.ev{border:0;text-align:left;cursor:pointer}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '2.0.0',
+  VERSAO: '3.0.0',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
-  PORTICO: 'https://eneas-ena.github.io/portico/'
+  PORTICO: 'https://eneas-ena.github.io/portico/',
+  WORKER: 'https://promptflow-ia.eneaspr.workers.dev',   // proxy da IA (a chave fica no Worker)
+  IA_MODELO: 'claude-sonnet-5-5',
+  IA_LIMITE_DIA: 60
 };
 
 const CATEGORIAS = ['Vida Espiritual','Ministério','Pregação','Aconselhamento','Administração','Estudo','Família','Vida Pessoal','Saúde'];
@@ -458,6 +551,12 @@ function criarDB(){
     searchDevocionais: async(q)=>{ const s=q.replace(/[%,()]/g,' '); return ok(await sb.from('devocionais').select('data,titulo,referencia').or(`titulo.ilike.%${s}%,referencia.ilike.%${s}%,reflexao.ilike.%${s}%,texto_biblico.ilike.%${s}%`).order('data').limit(40)); },
     getAnotacoes: async(d)=> ok(await sb.from('anotacoes').select('*').eq('data',d)),
     saveAnotacao: async(d,tipo,texto)=> ok(await sb.from('anotacoes').upsert({data:d,tipo,texto,atualizado_em:new Date().toISOString()},{onConflict:'data,tipo'})),
+    listBiblioteca: async()=> ok(await sb.from('biblioteca').select('id,tipo,titulo,tema,texto_base,resumo,devocional_data,desenvolvido,gerado_por_ia,criado_em,atualizado_em').order('criado_em',{ascending:false}).limit(2000)),
+    getItem: async(t,id)=> ok(await sb.from(t).select('*').eq('id',id).maybeSingle()),
+    devocionaisEntre: async(a,b)=> ok(await sb.from('devocionais').select('data,titulo,referencia').gte('data',a).lte('data',b).order('data',{ascending:false})),
+    devocionaisEm: async(datas,campos='*')=>{ let out=[]; for(let i=0;i<datas.length;i+=100){ out=out.concat(ok(await sb.from('devocionais').select(campos).in('data',datas.slice(i,i+100)))); } return out; },
+    delWhere: async(t,col,val)=> ok(await sb.from(t).delete().eq(col,val)),
+    contarDesde: async(t,col,iso)=>{ const r=await sb.from(t).select('id',{count:'exact',head:true}).gte(col,iso); if(r.error) throw r.error; return r.count||0; },
     marcarLidas: async(keys)=> ok(await sb.from('notificacoes_lidas').upsert(keys.map(k=>({chave:k,lida_em:new Date().toISOString()})),{onConflict:'chave'}))
   };
 }
@@ -470,7 +569,10 @@ const S = {
   t:{ filtro:'todas', cat:'', busca:'', edit:null, form:null },
   ag:{ modo:'mes', ref:null, sel:null },
   dv:{ data:null, dev:null, notas:{}, carregando:false },
-  dt:{ aba:'aniv', mes:'', cat:'' }
+  dt:{ aba:'aniv', mes:'', cat:'' },
+  bib:[], leituras:new Set(), clima:null, dolar:null,
+  sg:{ data:null, devData:null, dev:undefined },
+  bb:{ tipo:'', q:'', ordem:'recente', aberto:null, item:null, editar:false }
 };
 
 /* ---------------- Utilidades de tela ---------------- */
@@ -838,7 +940,7 @@ function cardsDoDia(d){
 /* ---------------- Topo, navegação, notificações ---------------- */
 const ROTAS=[
   ['inicio','Início','home'],['tarefas','Tarefas','check-square'],['agenda','Agenda','calendar-days'],['datas','Datas','cake'],
-  ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb',true]
+  ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb'],['biblioteca','Biblioteca','library']
 ];
 function saudacao(){ const h=horaLocal(); return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'; }
 const LOGO=`<img class="brand-mark" src="logo.png" alt="" width="44" height="44">`;
@@ -910,18 +1012,108 @@ function cabecalho(icone,titulo,sub,extra=''){
 function render(){
   REG={}; regN=0;
   const m=$('#main'); if(!m) return;
-  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,datas:pgDatas,devocional:pgDevocional,sugestoes:pgSugestoes,config:pgConfig}[S.rota]||pgInicio;
+  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,datas:pgDatas,devocional:pgDevocional,sugestoes:pgSugestoes,biblioteca:pgBiblioteca,config:pgConfig}[S.rota]||pgInicio;
   f(m); icons();
   if(S.carregado){ renderTopo(); const b=$('#side .soon.bad'), na=atrasadas().length; if((b?+b.textContent:0)!==na) renderSide(); }
 }
 async function recarregar(silencioso=false){
   try{
-    const [t,o,ev,an,dt,li,dv]=await Promise.all([db.list('tarefas'),db.list('tarefa_ocorrencias'),db.list('eventos').catch(()=>[]),db.list('aniversarios').catch(()=>[]),
-      db.list('datas_importantes').catch(()=>[]),db.list('notificacoes_lidas').catch(()=>[]),db.getDevocional(S.hoje).catch(()=>null)]);
+    const [t,o,ev,an,dt,li,dv,bb,le]=await Promise.all([db.list('tarefas'),db.list('tarefa_ocorrencias'),db.list('eventos').catch(()=>[]),db.list('aniversarios').catch(()=>[]),
+      db.list('datas_importantes').catch(()=>[]),db.list('notificacoes_lidas').catch(()=>[]),db.getDevocional(S.hoje).catch(()=>null),
+      db.listBiblioteca().catch(()=>[]),db.list('devocional_leituras').catch(()=>[])]);
     S.tarefas=t||[]; S.ocorr=o||[]; S.eventos=ev||[]; S.aniv=an||[]; S.datas=dt||[]; S.lidas=new Set((li||[]).map(x=>x.chave)); S.devHoje=dv;
+    S.bib=bb||[]; S.leituras=new Set((le||[]).map(x=>x.data));
     if(!silencioso) toast('Painel atualizado');
   }catch(e){ erro(e,'Erro ao carregar seus dados'); }
 }
+
+/* =====================================================================
+   INTEGRAÇÕES: CLIMA (Open-Meteo) E DÓLAR (PTAX — Banco Central)
+   Sem valores inventados: se a fonte falhar, mostra o último dado válido com o horário.
+   ===================================================================== */
+const WMO={0:['Céu limpo','sun'],1:['Predomínio de sol','sun'],2:['Parcialmente nublado','cloud-sun'],3:['Nublado','cloud'],45:['Nevoeiro','cloud-fog'],48:['Nevoeiro','cloud-fog'],
+  51:['Garoa fraca','cloud-drizzle'],53:['Garoa','cloud-drizzle'],55:['Garoa forte','cloud-drizzle'],56:['Garoa','cloud-drizzle'],57:['Garoa','cloud-drizzle'],
+  61:['Chuva fraca','cloud-rain'],63:['Chuva','cloud-rain'],65:['Chuva forte','cloud-rain'],66:['Chuva','cloud-rain'],67:['Chuva forte','cloud-rain'],
+  71:['Neve','cloud-snow'],73:['Neve','cloud-snow'],75:['Neve','cloud-snow'],77:['Neve','cloud-snow'],80:['Pancadas de chuva','cloud-rain-wind'],81:['Pancadas de chuva','cloud-rain-wind'],
+  82:['Pancadas fortes','cloud-rain-wind'],85:['Neve','cloud-snow'],86:['Neve','cloud-snow'],95:['Trovoadas','cloud-lightning'],96:['Trovoadas com granizo','cloud-lightning'],99:['Trovoadas com granizo','cloud-lightning']};
+function cacheGet(k){ try{ return JSON.parse(store.get(k)||'null'); }catch(e){ return null; } }
+function cacheSet(k,v){ store.set(k,JSON.stringify(v)); }
+async function fetchJSON(url,ms=12000){
+  const ac=new AbortController(), t=setTimeout(()=>ac.abort(),ms);
+  try{ const r=await fetch(url,{signal:ac.signal}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }
+  catch(e){ if(e.name==='AbortError') throw new Error('tempo esgotado'); throw e; }
+  finally{ clearTimeout(t); }
+}
+function coordsCidade(){ const c=S.cfg||{}; return (c.cidade_lat!=null&&c.cidade_lon!=null)?{lat:+c.cidade_lat,lon:+c.cidade_lon,nome:c.cidade||''}:null; }
+async function atualizarClima(forcar=false){
+  const co=coordsCidade();
+  if(!co){ S.clima={erro:'Escolha a cidade em Ajustes → Cidade do clima.'}; pintar('clima'); return; }
+  const chave=co.lat.toFixed(3)+','+co.lon.toFixed(3), cache=cacheGet('vp_clima');
+  if(cache&&cache.chave===chave){ S.clima=cache; if(!forcar&&Date.now()-cache.obtido<30*60e3){ pintar('clima'); return; } }
+  if(!navigator.onLine){ if(S.clima&&S.clima.chave===chave) S.clima={...S.clima,falhou:true}; else S.clima={erro:'Sem internet: clima indisponível.'}; pintar('clima'); return; }
+  try{
+    const u=`https://api.open-meteo.com/v1/forecast?latitude=${co.lat}&longitude=${co.lon}&current=temperature_2m,apparent_temperature,weather_code,is_day&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=${encodeURIComponent(fuso())}&forecast_days=1`;
+    const j=await fetchJSON(u), c=j.current||{}, dl=j.daily||{};
+    if(c.temperature_2m==null||!c.time) throw new Error('resposta sem dados');
+    S.clima={chave,obtido:Date.now(),cidade:co.nome,temp:c.temperature_2m,sens:c.apparent_temperature,cod:c.weather_code,dia:c.is_day,hora:c.time,
+      max:dl.temperature_2m_max?dl.temperature_2m_max[0]:null,min:dl.temperature_2m_min?dl.temperature_2m_min[0]:null,chuva:dl.precipitation_probability_max?dl.precipitation_probability_max[0]:null};
+    cacheSet('vp_clima',S.clima);
+  }catch(e){
+    if(S.clima&&S.clima.chave===chave) S.clima={...S.clima,falhou:true};
+    else S.clima={erro:`Clima indisponível no momento (${e.message}).`};
+  }
+  pintar('clima');
+}
+function htmlClima(){
+  const c=S.clima; if(!c) return '<div class="small muted">Carregando…</div>';
+  if(c.erro) return `<div class="small muted">${esc(c.erro)}</div>`;
+  const [cond,i0]=WMO[c.cod]||['Condição desconhecida','cloud'];
+  const icn=c.dia===0?(i0==='sun'?'moon':i0==='cloud-sun'?'cloud-moon':i0):i0;
+  const g=n=>n==null?'—':Math.round(n)+'°';
+  return `<div class="wx"><span class="wx-ic">${ic(icn)}</span><b>${g(c.temp)}</b></div>
+    <div class="wx-cond">${esc(cond)}</div>
+    <div class="wx-l">Sensação ${g(c.sens)}</div>
+    <div class="wx-l">Máx ${g(c.max)} · Mín ${g(c.min)}</div>
+    <div class="wx-l">${ic('umbrella')} Chuva ${c.chuva==null?'—':c.chuva+'%'}</div>
+    <div class="hint">${esc(c.cidade)} · ${c.falhou?'<b>sem atualizar</b>, dados de ':''}${diaCurto(c.hora.slice(0,10))} ${c.hora.slice(11,16)}</div>`;
+}
+function mdY(d){ return `${d.slice(5,7)}-${d.slice(8,10)}-${d.slice(0,4)}`; }
+async function atualizarDolar(forcar=false){
+  const cache=cacheGet('vp_dolar');
+  if(cache&&cache.venda){ S.dolar=cache; if(!forcar&&Date.now()-cache.obtido<60*60e3&&cache.diaBusca===S.hoje){ pintar('dolar'); return; } }
+  if(!navigator.onLine){ S.dolar=S.dolar&&S.dolar.venda?{...S.dolar,falhou:true}:{erro:'Sem internet: cotação indisponível.'}; pintar('dolar'); return; }
+  try{
+    let lista=[], fonte='Banco Central (Olinda)';
+    try{
+      const u=`https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarPeriodo(dataInicial=@dataInicial,dataFinalCotacao=@dataFinalCotacao)?@dataInicial='${mdY(addDias(S.hoje,-12))}'&@dataFinalCotacao='${mdY(S.hoje)}'&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao`;
+      const j=await fetchJSON(u);
+      lista=(j.value||[]).map(v=>({venda:+v.cotacaoVenda,compra:+v.cotacaoCompra,quando:String(v.dataHoraCotacao)})).sort((a,b)=>a.quando<b.quando?-1:1);
+    }catch(e1){
+      // Segunda fonte do próprio Banco Central: série SGS 1 = dólar PTAX (venda), diário
+      const j=await fetchJSON('https://api.bcb.gov.br/dados/serie/bcdata.sgs.1/dados/ultimos/2?formato=json');
+      lista=(j||[]).map(v=>{ const [d,m,y]=String(v.data).split('/'); return {venda:+String(v.valor).replace(',','.'),compra:null,quando:`${y}-${m}-${d}`}; });
+      fonte='Banco Central (SGS)';
+    }
+    lista=lista.filter(x=>x.venda>0);
+    if(!lista.length) throw new Error('sem cotação no período');
+    const u1=lista[lista.length-1], u0=lista.length>1?lista[lista.length-2]:null;
+    S.dolar={obtido:Date.now(),diaBusca:S.hoje,fonte,venda:u1.venda,compra:u1.compra,quando:u1.quando,ant:u0?u0.venda:null,antData:u0?u0.quando.slice(0,10):null,
+      var:u0?((u1.venda-u0.venda)/u0.venda*100):null};
+    cacheSet('vp_dolar',S.dolar);
+  }catch(e){ S.dolar=S.dolar&&S.dolar.venda?{...S.dolar,falhou:true}:{erro:`Cotação indisponível no momento (${e.message}).`}; }
+  pintar('dolar');
+}
+function htmlDolar(){
+  const d=S.dolar; if(!d) return '<div class="small muted">Carregando…</div>';
+  if(d.erro) return `<div class="small muted">${esc(d.erro)}</div>`;
+  const brl=n=>n.toLocaleString('pt-BR',{minimumFractionDigits:4,maximumFractionDigits:4});
+  const dia=d.quando.slice(0,10), hora=d.quando.slice(11,16), v=d.var;
+  return `<div class="wx"><b class="fx-v">R$ ${brl(d.venda)}</b></div>
+    ${v!=null?`<div class="fx ${v>0.0001?'up':v<-0.0001?'down':''}">${ic(v>0.0001?'trending-up':v<-0.0001?'trending-down':'minus')} ${v>0?'+':''}${v.toFixed(2).replace('.',',')}% <span class="muted">vs. ${diaCurto(d.antData)}</span></div>`:''}
+    ${d.compra?`<div class="wx-l">Compra R$ ${brl(d.compra)}</div>`:''}
+    <div class="hint">PTAX venda · ${esc(d.fonte)} · ref. ${diaCurto(dia)}${hora?' às '+hora:''}${dia<S.hoje?' — última disponível':''}${d.falhou?' · <b>sem atualizar</b>':''}</div>`;
+}
+function pintar(qual){ const el=$('#'+qual+'-box'); if(!el) return; el.innerHTML=qual==='clima'?htmlClima():htmlDolar(); icons(); }
 
 /* =====================================================================
    PÁGINA: INÍCIO (Dashboard)
@@ -961,6 +1153,7 @@ function pgInicio(m){
   $('#atualizar').onclick=async()=>{ const b=$('#atualizar'); b.disabled=true; await recarregar(); render(); };
   m.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>novaTarefa(b.dataset.add));
   m.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>ir(b.dataset.go));
+  m.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>b.dataset.rf==='clima'?atualizarClima(true):atualizarDolar(true));
   const va=m.querySelector('[data-veratr]'); if(va) va.onclick=()=>{ S.t.filtro='atrasadas'; ir('tarefas'); };
 }
 function linhaAtrasada(x,compacta=false){
@@ -988,6 +1181,8 @@ function painelInfo(){
   const anivHoje=anivs.filter(a=>a.falta===0), anivProx=anivs.filter(a=>a.falta>0).slice(0,5);
   const datas=S.datas.map(x=>({...x,p:proxDataImportante(x)})).filter(x=>x.p&&x.p.falta<=Math.max(x.antecedencia??7,0)).sort((a,b)=>a.p.falta-b.p.falta);
   const evs=[]; for(let i=0;i<7;i++){ const dd=addDias(hoje,i); for(const e of eventosDoDia(dd)) evs.push({...e,dia:dd}); }
+  const sgS=S.bib.find(b=>b.tipo==='sermao'&&b.devocional_data===hoje), sgC=S.bib.find(b=>b.tipo==='celula'&&b.devocional_data===hoje);
+  const lido=S.leituras.has(hoje);
   return `
   <section class="card dayinfo">
     <div class="card-head"><h2>${ic('calendar-days')} Informações do Dia</h2></div>
@@ -995,12 +1190,10 @@ function painelInfo(){
     ${d&&d.texto_biblico?`<div class="verse">${esc(d.texto_biblico)} <small>${esc(d.referencia||'')}</small></div>`:`<div class="small muted">O versículo do dia aparece aqui quando houver devocional para hoje.</div>`}
   </section>
   <div class="duo">
-    <section class="card mini"><div class="card-head"><h2>${ic('cloud-sun')} Clima</h2></div>
-      <div class="small muted">${esc((S.cfg&&S.cfg.cidade)||'Cidade não definida')}</div>
-      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div><div class="hint">Sem dados simulados.</div></section>
-    <section class="card mini"><div class="card-head"><h2>${ic('circle-dollar-sign')} Dólar</h2></div>
-      <div class="small muted">PTAX · Banco Central</div>
-      <div style="margin-top:8px"><span class="tag-phase">Integração na Fase 3</span></div><div class="hint">Sem dados simulados.</div></section>
+    <section class="card mini"><div class="card-head"><h2>${ic('cloud-sun')} Clima</h2><button class="icon-mini" data-rf="clima" aria-label="Atualizar clima" title="Atualizar">${ic('refresh-cw')}</button></div>
+      <div id="clima-box" aria-live="polite">${htmlClima()}</div></section>
+    <section class="card mini"><div class="card-head"><h2>${ic('circle-dollar-sign')} Dólar</h2><button class="icon-mini" data-rf="dolar" aria-label="Atualizar cotação" title="Atualizar">${ic('refresh-cw')}</button></div>
+      <div id="dolar-box" aria-live="polite">${htmlDolar()}</div></section>
   </div>
   <section class="card"><div class="card-head"><h2>${ic('cake')} Aniversários</h2><button class="link" data-go="datas">Ver todos</button></div>
     ${anivHoje.length?`<div class="aniv-hoje">${ic('party-popper')}<div><b>Hoje:</b> ${anivHoje.map(a=>esc(a.nome)).join(', ')}</div></div>`:''}
@@ -1013,12 +1206,16 @@ function painelInfo(){
     ${evs.length?`<div class="list-rows">${evs.slice(0,6).map(e=>`<div class="lr"><span class="d">${e.dia===hoje?'Hoje':e.dia===addDias(hoje,1)?'Amanhã':DIAS[dow(e.dia)]}</span><span class="dot bg-${(CAT_EV[e.tipo]||CAT_EV.pessoal)[1]}"></span><span>${esc(e.titulo)}</span><span class="muted small" style="margin-left:auto">${hhmm(e.hora_inicio)}</span></div>`).join('')}</div>`
       :`<div class="empty">Nenhum compromisso nos próximos 7 dias.</div>`}
   </section>
-  <section class="card dev-mini"><div class="card-head"><h2>${ic('book-heart')} Devocional do Dia</h2><button class="link" data-go="devocional">Ver mais</button></div>
+  <section class="card dev-mini"><div class="card-head"><h2>${ic('book-heart')} Devocional do Dia</h2><button class="link" data-go="devocional">${d?(lido?'Lido ✓':'Ler agora'):'Abrir'}</button></div>
     ${d?`<div class="ref">${esc(d.referencia||'')}</div><h3>${esc(d.titulo)}</h3><p>${esc(primeiroParagrafo(d.reflexao))}</p>`
       :`<div class="empty">Ainda não há devocional para hoje. Importe o arquivo do ano em Devocional.</div>`}
   </section>
-  <section class="card"><div class="card-head"><h2>${ic('lightbulb')} Sugestões</h2><span class="tag-phase">Fase 3</span></div>
-    <div class="sug-duo"><div class="sug s1"><b>${ic('file-text')} Sermão</b>Gerado por IA a partir do devocional do dia.</div><div class="sug s2"><b>${ic('users')} Estudo de Célula</b>Tema, perguntas e aplicação.</div></div>
+  <section class="card"><div class="card-head"><h2>${ic('lightbulb')} Sugestões Ministeriais</h2><button class="link" data-go="sugestoes">Abrir</button></div>
+    <div class="sug-duo">
+      <button class="sug s1" data-go="sugestoes"><b>${ic('file-text')} Sermão</b>${sgS?`<span class="sug-t">${esc(sgS.tema||sgS.titulo)}</span><small>${sgS.desenvolvido?'Completo':'Sugestão salva'}</small>`:(d?'Gerar a partir do devocional de hoje':'Sem devocional hoje')}</button>
+      <button class="sug s2" data-go="sugestoes"><b>${ic('users')} Célula</b>${sgC?`<span class="sug-t">${esc(sgC.tema||sgC.titulo)}</span><small>${sgC.desenvolvido?'Completo':'Sugestão salva'}</small>`:(d?'Gerar estudo a partir do devocional':'Sem devocional hoje')}</button>
+    </div>
+    <div class="hint">A IA só é chamada quando o senhor pede.</div>
   </section>`;
 }
 function primeiroParagrafo(txt){ const ps=partesReflexao(txt).paras.filter(p=>p.tipo==='p'); return ps.length?ps[0].txt:''; }
@@ -1466,31 +1663,52 @@ function partesReflexao(txt){
 async function carregarDevocional(d){
   S.dv.data=d; S.dv.carregando=true; render();
   try{
-    const [dev,notas]=await Promise.all([db.getDevocional(d),db.getAnotacoes(d)]);
+    let [dev,notas]=await Promise.all([db.getDevocional(d),db.getAnotacoes(d)]);
+    let origem=null;
+    // Calendário anual: se não há devocional para esta data, usa o mesmo dia e mês de um ano anterior (o mais recente)
+    if(!dev&&d.slice(5)!=='02-29'){
+      const y=+d.slice(0,4), cands=[]; for(let k=1;k<=6;k++) cands.push(`${y-k}${d.slice(4)}`);
+      const achados=await db.devocionaisEm(cands).catch(()=>[]);
+      if(achados.length){ dev=achados.sort((a,b)=>a.data<b.data?1:-1)[0]; origem=dev.data.slice(0,4); }
+    }
     if(S.dv.data!==d) return;
-    S.dv.dev=dev; S.dv.notas={}; (notas||[]).forEach(n=>S.dv.notas[n.tipo]=n.texto||'');
+    S.dv.dev=dev; S.dv.origem=origem; S.dv.notas={}; (notas||[]).forEach(n=>S.dv.notas[n.tipo]=n.texto||'');
     if(d===S.hoje) S.devHoje=dev;
   }catch(e){ erro(e,'Não foi possível carregar o devocional'); S.dv.dev=null; }
   S.dv.carregando=false; render();
 }
+async function alternarLeitura(d){
+  try{
+    if(S.leituras.has(d)){ await db.delWhere('devocional_leituras','data',d); S.leituras.delete(d); toast('Leitura desmarcada'); }
+    else { await db.upsertRows('devocional_leituras',[{data:d,concluida_em:new Date().toISOString()}],'data'); S.leituras.add(d); toast('Leitura concluída. Deus abençoe o seu dia!'); }
+    render();
+  }catch(e){ erro(e,'Não foi possível registrar a leitura'); }
+}
+function carregarHistorico(){
+  if(S.dv.histDia===S.hoje) return; S.dv.histDia=S.hoje;
+  db.devocionaisEntre(addDias(S.hoje,-13),S.hoje).then(r=>{ S.dv.hist=r||[]; if(S.rota==='devocional') render(); }).catch(()=>{ S.dv.hist=[]; });
+}
 function pgDevocional(m){
   if(!S.dv.data){ carregarDevocional(S.hoje); return; }
-  const d=S.dv.data, dev=S.dv.dev, P=dev?partesReflexao(dev.reflexao):null;
+  carregarHistorico();
+  const d=S.dv.data, dev=S.dv.dev, P=dev?partesReflexao(dev.reflexao):null, lido=S.leituras.has(d);
   const barra=`<div class="dev-bar">
     <button class="btn sm" id="dv-prev" aria-label="Dia anterior">${ic('chevron-left')}</button>
     <input class="inp" type="date" id="dv-dt" value="${d}" style="width:170px;height:32px" aria-label="Escolher data">
     <button class="btn sm" id="dv-next" aria-label="Próximo dia">${ic('chevron-right')}</button>
     <button class="btn sm" id="dv-hoje">Hoje</button>
     <button class="btn sm" id="dv-busca">${ic('search')} Pesquisar</button>
-    <button class="btn sm" id="dv-imp">${ic('upload')} Importar JSON</button>
-    <button class="btn sm" id="dv-ed">${ic(dev?'pencil':'plus')} ${dev?'Editar':'Cadastrar'}</button>
+    <button class="btn sm" id="dv-imp">${ic('upload')} Importar</button>
+    <button class="btn sm" id="dv-ed">${ic(dev&&!S.dv.origem?'pencil':'plus')} ${dev&&!S.dv.origem?'Editar':'Cadastrar'}</button>
   </div>`;
   let card;
   if(S.dv.carregando) card=`<section class="card dev-card"><div class="skel" style="min-height:420px"></div></section>`;
   else if(!dev) card=`<section class="card dev-card"><div class="dev-date">${diaLongoC(d)}</div>
-      <div class="empty" style="margin-top:14px">Não há devocional cadastrado para esta data.<br>Use <b>Importar JSON</b> para carregar o ano inteiro, ou <b>Cadastrar</b> para escrever este dia.</div></section>`;
+      <div class="empty" style="margin-top:14px">Não há devocional cadastrado para esta data.<br>Use <b>Importar</b> (JSON ou CSV) para carregar o ano inteiro, ou <b>Cadastrar</b> para escrever este dia.</div></section>`;
   else card=`<article class="card dev-card">
-      <div class="dev-date">${diaLongoC(d)}</div>
+      <div class="dev-top"><div class="dev-date">${diaLongoC(d)}</div>
+        <button class="btn sm ${lido?'lido':''}" id="dv-lido" aria-pressed="${lido}">${ic(lido?'check-circle-2':'circle')} ${lido?'Leitura concluída':'Marcar como lido'}</button></div>
+      ${S.dv.origem?`<div class="dev-origem">${ic('info')} Ainda não há devocional de ${d.slice(0,4)} para este dia. Mostrando o de <b>${S.dv.origem}</b> (mesmo dia e mês).</div>`:''}
       ${P.tema?`<div class="dev-eyebrow">${esc(P.tema)}</div>`:''}
       <h2 class="dev-title">${esc(dev.titulo)}</h2>
       <div class="dev-ref">${esc(dev.referencia||'')}</div>
@@ -1502,7 +1720,13 @@ function pgDevocional(m){
         ${P.leitura?`<div class="dbox lt"><h4>${ic('book-marked')} Leitura anual da Bíblia</h4><p>${esc(P.leitura)}</p></div>`:''}
       </div>
     </article>`;
-  const N=S.dv.notas;
+  const N=S.dv.notas, H=S.dv.hist;
+  const hist=H?(()=>{ const porData={}; H.forEach(x=>porData[x.data]=x); const dias=[]; for(let i=0;i<14;i++) dias.push(addDias(S.hoje,-i));
+    const lidos=dias.filter(x=>S.leituras.has(x)).length;
+    return `<div class="small muted" style="margin-bottom:6px">${lidos} de 14 dias lidos</div><div class="list-rows">${dias.map(x=>{ const r=porData[x];
+      return `<button class="lr lr-btn${x===d?' atual':''}" data-hd="${x}"><span class="d">${x===S.hoje?'Hoje':diaCurto(x)}</span>${S.leituras.has(x)?ic('check-circle-2','class="ok-ic"'):ic('circle','class="mut-ic"')}<span class="ell">${r?esc(r.titulo):'<span class="muted">Sem devocional</span>'}</span></button>`;}).join('')}</div>`; })()
+    :'<div class="small muted">Carregando…</div>';
+  const temSug=dev&&S.bib.some(b=>b.devocional_data===(S.dv.origem?dev.data:d));
   m.innerHTML=`${cabecalho('book-open','Devocional','Alimente sua vida espiritual e registre o que Deus está falando.',barra)}
   <div class="grid-dev">${card}
     <aside class="stack">
@@ -1512,16 +1736,21 @@ function pgDevocional(m){
         ${[['aplicacao','target','Aplicação pessoal','O que Deus está falando comigo hoje? Como vou praticar?'],['anotacao','sticky-note','Anotações','Insights, aprendizados, ideias para pregação...'],['oracao','hand-heart','Oração','Agradecimentos, pedidos e intercessões de hoje.']]
           .map(([k,i,l,ph])=>`<div class="note"><h4>${ic(i)} ${l}<span class="saved" id="sv-${k}"></span></h4><textarea class="inp" data-nota="${k}" placeholder="${ph}" aria-label="${l}">${esc(N[k]||'')}</textarea></div>`).join('')}
         <div class="hint">Salvo automaticamente, por data.</div></section>
-      <section class="card"><div class="card-head"><h2>${ic('lightbulb')} Sugestões Ministeriais</h2><span class="tag-phase">Fase 3</span></div>
-        <p class="small muted" style="margin:0">Sermão (4 pontos) e estudo de célula gerados por IA a partir deste devocional, com o seu perfil teológico. Tudo virá marcado como “gerado por IA”.</p></section>
+      <section class="card"><div class="card-head"><h2>${ic('lightbulb')} Sugestões Ministeriais</h2></div>
+        <p class="small muted" style="margin:0 0 10px">Sermão e estudo de célula gerados por IA a partir deste devocional, com o seu perfil teológico. ${temSug?'<b>Já existe sugestão salva para este dia.</b>':''}</p>
+        <button class="btn sm" id="dv-sug" ${dev?'':'disabled'}>${ic('sparkles')} Abrir sugestões deste dia</button></section>
+      <section class="card"><div class="card-head"><h2>${ic('history')} Últimos 14 dias</h2></div>${hist}</section>
     </aside>
   </div>`;
   const vai=x=>carregarDevocional(x);
   $('#dv-prev').onclick=()=>vai(addDias(d,-1)); $('#dv-next').onclick=()=>vai(addDias(d,1)); $('#dv-hoje').onclick=()=>vai(S.hoje);
   $('#dv-dt').onchange=e=>{ if(e.target.value) vai(e.target.value); };
   $('#dv-busca').onclick=()=>buscaDevocionais('');
-  $('#dv-imp').onclick=importarJSON;
-  $('#dv-ed').onclick=()=>editarDevocional(d,dev);
+  $('#dv-imp').onclick=importarDevocionais;
+  $('#dv-ed').onclick=()=>editarDevocional(d,S.dv.origem?null:dev);
+  const li=$('#dv-lido'); if(li) li.onclick=()=>alternarLeitura(d);
+  $('#dv-sug').onclick=()=>{ S.sg.data=S.dv.origem?dev.data:d; ir('sugestoes'); };
+  m.querySelectorAll('[data-hd]').forEach(b=>b.onclick=()=>vai(b.dataset.hd));
   m.querySelectorAll('[data-nota]').forEach(ta=>{
     ta.oninput=()=>{ const k=ta.dataset.nota; S.dv.notas[k]=ta.value; $('#sv-'+k).textContent='...'; clearTimeout(ta._t);
       ta._t=setTimeout(async()=>{ try{ await db.saveAnotacao(d,k,ta.value); const s=$('#sv-'+k); if(s) s.textContent='Salvo'; }catch(e){ erro(e,'Anotação não salva'); } },800); };
@@ -1547,39 +1776,107 @@ function editarDevocional(d,dev){
     try{ await db.upsertRows('devocionais',[row],'data'); fecharModal(); toast('Devocional salvo'); carregarDevocional(data); }catch(e){ erro(e,'Não foi possível salvar'); }
   };
 }
-function importarJSON(){
+/* ---------- Importação segura de devocionais (JSON e CSV) ---------- */
+const ALIAS_DEV={data:['data','date'],dia:['dia','day'],mes:['mes','month'],ano:['ano','year'],titulo:['titulo','title','tema'],
+  texto_biblico:['texto_biblico','bible_text','texto','versiculo','versiculo_do_dia'],referencia:['referencia','reference','ref'],
+  reflexao:['reflexao','reflection','mensagem','devocional'],aplicacao:['aplicacao','application','aplicacao_pratica'],oracao:['oracao','prayer'],
+  palavras_chave:['palavras_chave','keywords','tags','palavras'],id:['id']};
+function chaveNorm(k){ return String(k).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim().replace(/[\s\-]+/g,'_'); }
+function canonDev(obj){ const o={}; for(const [k,v] of Object.entries(obj)){ const n=chaveNorm(k); for(const [c,al] of Object.entries(ALIAS_DEV)) if(al.includes(n)&&o[c]==null) o[c]=v; } return o; }
+function dataValida(s){ if(!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false; const x=parse(s); return fmt(x)===s; }
+function linhaDev(o){
+  let data='';
+  const dd=String(o.data??'').trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(dd)) data=dd.slice(0,10);
+  else if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dd)){ const [a,b,c]=dd.split('/'); data=`${c}-${b.padStart(2,'0')}-${a.padStart(2,'0')}`; }
+  else if(/^\d{1,2}\/\d{1,2}$/.test(dd)&&o.ano){ const [a,b]=dd.split('/'); data=`${o.ano}-${b.padStart(2,'0')}-${a.padStart(2,'0')}`; }
+  else if(o.ano&&o.mes&&o.dia) data=`${o.ano}-${String(o.mes).padStart(2,'0')}-${String(o.dia).padStart(2,'0')}`;
+  if(!dataValida(data)) throw new Error('data ausente ou inválida');
+  const titulo=String(o.titulo??'').trim(); if(!titulo) throw new Error('sem título');
+  let kw=o.palavras_chave; if(!Array.isArray(kw)) kw=String(kw||'').split(/[;|,]/).map(s=>s.trim()).filter(Boolean);
+  const v=x=>x==null||x===''?null:String(x);
+  return {id:o.id?String(o.id):('devocional-'+data),data,titulo,texto_biblico:v(o.texto_biblico),referencia:v(o.referencia),reflexao:v(o.reflexao),
+    aplicacao:v(o.aplicacao),oracao:v(o.oracao),palavras_chave:kw};
+}
+function parseCSV(txt){
+  txt=txt.replace(/^﻿/,'');
+  const l1=txt.split(/\r?\n/)[0]||'';
+  const sep=l1.includes('\t')?'\t':(l1.split(';').length>l1.split(',').length?';':',');
+  const rows=[]; let row=[],f='',q=false;
+  for(let i=0;i<txt.length;i++){ const c=txt[i];
+    if(q){ if(c==='"'){ if(txt[i+1]==='"'){ f+='"'; i++; } else q=false; } else f+=c; }
+    else if(c==='"') q=true;
+    else if(c===sep){ row.push(f); f=''; }
+    else if(c==='\n'||c==='\r'){ if(c==='\r'&&txt[i+1]==='\n') i++; row.push(f); rows.push(row); row=[]; f=''; }
+    else f+=c; }
+  if(f!==''||row.length){ row.push(f); rows.push(row); }
+  const lim=rows.filter(r=>r.some(x=>String(x).trim()!==''));
+  if(lim.length<2) throw new Error('o CSV precisa de uma linha de cabeçalho e pelo menos um devocional');
+  const cab=lim[0]; return lim.slice(1).map(r=>{ const o={}; cab.forEach((h,i)=>o[h]=r[i]); return o; });
+}
+async function exportarDevocionais(){
+  const rows=await db.list('devocionais');
+  baixar(`vidaplena-devocionais-${S.hoje}.json`,JSON.stringify({app:'VidaPlena',versao:CONFIG.VERSAO,exportado_em:new Date().toISOString(),tabelas:{devocionais:rows}},null,1));
+  toast(`Backup com ${rows.length} devocionais baixado`);
+}
+function importarDevocionais(){
   const m=abrirModal(`<h3>${ic('upload')} Importar devocionais</h3>
-    <p class="small muted">Selecione um ou mais arquivos JSON no formato do seu devocional anual (campos <code>day</code>, <code>month</code>, <code>year</code>, <code>title</code>, <code>bible_text</code>, <code>reference</code>, <code>reflection</code>, <code>application</code>, <code>prayer</code>, <code>keywords</code>). Os textos são gravados exatamente como estão. Se já houver devocional na mesma data, ele é substituído.</p>
-    <div class="field"><input type="file" id="im-f" accept=".json,application/json" multiple class="inp" style="padding:8px;height:auto"></div>
-    <div id="im-s" class="small"></div><div class="progress hidden" id="im-p"><i></i></div>
-    <div class="foot"><button class="btn" id="im-c">Fechar</button><button class="btn primary" id="im-go" disabled>${ic('upload')} Importar</button></div>`);
-  let linhas=[];
+    <p class="small muted" style="margin-top:0">Arquivos <b>JSON</b> (o formato do seu devocional anual) ou <b>CSV</b> (planilha salva como CSV, com cabeçalho: <code>data; titulo; texto_biblico; referencia; reflexao; aplicacao; oracao; palavras_chave</code>). Os textos são gravados exatamente como estão. Nada é apagado. Arquivos DOCX ficam para uma etapa futura.</p>
+    <div class="field"><input type="file" id="im-f" accept=".json,.csv,application/json,text/csv" multiple class="inp" style="padding:8px;height:auto" aria-label="Escolher arquivos"></div>
+    <div id="im-s" class="small"></div>
+    <div class="progress hidden" id="im-p"><i></i></div>
+    <div class="foot" style="flex-wrap:wrap"><button class="btn" id="im-bk" style="margin-right:auto">${ic('download')} Baixar backup dos devocionais</button><button class="btn" id="im-c">Fechar</button><button class="btn primary" id="im-go" disabled>${ic('upload')} Importar</button></div>`,{wide:true});
+  let novos=[], existentes=[];
   const st=m.querySelector('#im-s'), go=m.querySelector('#im-go');
   m.querySelector('#im-c').onclick=fecharModal;
+  m.querySelector('#im-bk').onclick=async()=>{ try{ await exportarDevocionais(); }catch(e){ erro(e,'Falha no backup'); } };
+  const resumo=()=>{ const subst=m.querySelector('#im-sub'); const n=novos.length+(subst&&subst.checked?existentes.length:0);
+    go.disabled=!n; go.innerHTML=`${ic('upload')} Importar ${n}`; icons(); };
   m.querySelector('#im-f').onchange=async e=>{
-    linhas=[]; const erros=[], anos={};
+    novos=[]; existentes=[]; go.disabled=true; st.innerHTML='Lendo arquivos…';
+    const erros=[], porData={}; let repetidos=0, lidos=0;
     for(const f of e.target.files){
-      try{ const arr=JSON.parse(await f.text()); if(!Array.isArray(arr)) throw new Error('o arquivo não é uma lista');
-        arr.forEach((x,i)=>{ if(!x||!x.year||!x.month||!x.day||!x.title){ erros.push(`${f.name}: item ${i+1} sem data ou título`); return; }
-          const data=`${x.year}-${String(x.month).padStart(2,'0')}-${String(x.day).padStart(2,'0')}`;
-          linhas.push({id:x.id||('devocional-'+data),data,titulo:x.title,texto_biblico:x.bible_text??null,referencia:x.reference??null,reflexao:x.reflection??null,
-            aplicacao:x.application??null,oracao:x.prayer??null,palavras_chave:Array.isArray(x.keywords)?x.keywords:[]});
-          anos[x.year]=(anos[x.year]||0)+1; });
+      try{
+        const txt=await f.text(); let itens;
+        if(/\.csv$/i.test(f.name)||f.type==='text/csv') itens=parseCSV(txt);
+        else { const j=JSON.parse(txt); itens=Array.isArray(j)?j:(j&&j.tabelas&&Array.isArray(j.tabelas.devocionais)?j.tabelas.devocionais:null); if(!itens) throw new Error('o JSON não contém uma lista de devocionais'); }
+        itens.forEach((x,i)=>{ lidos++; try{ const r=linhaDev(canonDev(x||{})); if(porData[r.data]) repetidos++; porData[r.data]=r; }catch(err){ erros.push(`${f.name}, item ${i+1}: ${err.message}`); } });
       }catch(err){ erros.push(`${f.name}: ${err.message}`); }
     }
-    const uniq={}; linhas.forEach(l=>uniq[l.data]=l); linhas=Object.values(uniq);
-    st.innerHTML=`<b>${linhas.length}</b> devocionais prontos (${Object.entries(anos).map(([a,n])=>`${a}: ${n}`).join(' · ')||'nenhum'}).${erros.length?`<div style="color:var(--bad);margin-top:6px">${erros.slice(0,5).map(esc).join('<br>')}</div>`:''}`;
-    go.disabled=!linhas.length;
+    const linhas=Object.values(porData).sort((a,b)=>a.data<b.data?-1:1);
+    if(!linhas.length){ st.innerHTML=`<div class="im-err">Nenhum devocional válido encontrado.${erros.length?'<br>'+erros.slice(0,6).map(esc).join('<br>'):''}</div>`; return; }
+    st.innerHTML='Conferindo o que já existe no banco…';
+    let ja=new Set();
+    try{ ja=new Set((await db.devocionaisEm(linhas.map(l=>l.data),'data')).map(x=>x.data)); }
+    catch(err){ st.innerHTML=`<div class="im-err">Não consegui conferir o banco: ${esc(err.message)}</div>`; return; }
+    novos=linhas.filter(l=>!ja.has(l.data)); existentes=linhas.filter(l=>ja.has(l.data));
+    const anos={}; linhas.forEach(l=>{ const a=l.data.slice(0,4); anos[a]=(anos[a]||0)+1; });
+    st.innerHTML=`<div class="im-res">
+        <div><b>${linhas.length}</b><span>válidos (${Object.entries(anos).map(([a,n])=>a+': '+n).join(' · ')})</span></div>
+        <div class="ok"><b>${novos.length}</b><span>novos, serão criados</span></div>
+        <div class="${existentes.length?'warn':''}"><b>${existentes.length}</b><span>já existem no banco</span></div>
+        <div><b>${repetidos}</b><span>datas repetidas no arquivo (fica o último)</span></div>
+      </div>
+      ${existentes.length?`<label class="check" style="margin:10px 0"><input type="checkbox" id="im-sub"> Substituir também os ${existentes.length} que já existem (os atuais serão sobrescritos)</label>`:''}
+      ${erros.length?`<div class="im-err">${erros.length} item(ns) ignorado(s):<br>${erros.slice(0,6).map(esc).join('<br>')}${erros.length>6?'<br>…':''}</div>`:''}
+      <div style="overflow-x:auto;margin-top:8px"><table class="tbl"><thead><tr><th>Data</th><th>Título</th><th>Referência</th><th>Ação</th></tr></thead><tbody>
+      ${linhas.slice(0,6).map(l=>`<tr><td style="white-space:nowrap">${diaCurto(l.data)}/${l.data.slice(0,4)}</td><td>${esc(l.titulo)}</td><td>${esc(l.referencia||'')}</td><td>${ja.has(l.data)?'<span class="badge b-warn">Já existe</span>':'<span class="badge b-ok">Novo</span>'}</td></tr>`).join('')}
+      </tbody></table>${linhas.length>6?`<div class="hint">Prévia dos 6 primeiros de ${linhas.length}.</div>`:''}</div>`;
+    const sb=m.querySelector('#im-sub'); if(sb) sb.onchange=resumo;
+    resumo();
   };
   go.onclick=async()=>{
+    const sb=m.querySelector('#im-sub'), lote=novos.concat(sb&&sb.checked?existentes:[]);
+    if(!lote.length) return;
+    if(sb&&sb.checked&&!await new Promise(r=>r(window.confirm(`Confirma substituir ${existentes.length} devocional(is) que já existem? Sugestão: baixe o backup antes.`)))) return;
     go.disabled=true; const p=m.querySelector('#im-p'); p.classList.remove('hidden'); const bar=p.firstElementChild;
     const L=40; let feito=0;
     try{
-      for(let i=0;i<linhas.length;i+=L){ await db.upsertRows('devocionais',linhas.slice(i,i+L),'data'); feito=Math.min(linhas.length,i+L); bar.style.width=(feito/linhas.length*100)+'%'; st.innerHTML=`Gravando... ${feito} de ${linhas.length}`; }
-      st.innerHTML=`<span style="color:var(--ok);font-weight:600">${feito} devocionais importados.</span>`; toast(`${feito} devocionais importados`);
-      S.dv.data=null; S.devHoje=await db.getDevocional(S.hoje).catch(()=>S.devHoje);
+      for(let i=0;i<lote.length;i+=L){ await db.upsertRows('devocionais',lote.slice(i,i+L),'data'); feito=Math.min(lote.length,i+L); bar.style.width=(feito/lote.length*100)+'%'; st.innerHTML=`Gravando… ${feito} de ${lote.length}`; }
+      st.innerHTML=`<span style="color:var(--ok);font-weight:600">${feito} devocional(is) importado(s).</span>`; toast(`${feito} devocionais importados`);
+      S.dv.data=null; S.dv.histDia=null; S.devHoje=await db.getDevocional(S.hoje).catch(()=>S.devHoje);
       setTimeout(()=>{ fecharModal(); render(); },900);
-    }catch(e){ erro(e,`Importação parou em ${feito}`); go.disabled=false; }
+    }catch(e){ erro(e,`A importação parou em ${feito}`); go.disabled=false; }
   };
 }
 function buscaDevocionais(q0){
@@ -1616,20 +1913,437 @@ function buscaGlobal(q){
 }
 
 /* =====================================================================
-   PÁGINA: SUGESTÕES (Fase 3)
+   PÁGINA: SUGESTÕES
    ===================================================================== */
+/* =====================================================================
+   ASSISTENTE MINISTERIAL (IA via Worker promptflow-ia — a chave fica no servidor)
+   ===================================================================== */
+const PERFIL_PADRAO=`Perspectiva evangélica conservadora, tradição batista.
+Centralidade e autoridade das Escrituras.
+Interpretação histórico-gramatical e contextual; fidelidade exegética.
+Escatologia amilenista (não dispensacionalista).
+Continuísmo equilibrado quanto aos dons espirituais.
+Ênfase em discipulado e crescimento espiritual.
+Linguagem pastoral, didática e prática.
+Evitar alegorizações arbitrárias.
+Nunca inventar passagens ou referências bíblicas.
+Distinguir claramente interpretação do texto e aplicação pastoral.`;
+const IA={ocupado:null,msg:'',parar:false};
+function perfilTeologico(){ return (S.cfg&&S.cfg.perfil_teologico)||PERFIL_PADRAO; }
+function modeloIA(){ return (S.cfg&&S.cfg.ia_modelo)||CONFIG.IA_MODELO; }
+function limiteIA(){ return (S.cfg&&S.cfg.ia_limite_dia)||CONFIG.IA_LIMITE_DIA; }
+function sistemaIA(){
+  return `Você é um assistente de homilética a serviço do Bispo Enéas Araújo, pastor da Igreja Vidas (João Pessoa-PB). Escreva sempre em português do Brasil.
+
+PERFIL TEOLÓGICO E MINISTERIAL (siga em tudo):
+${perfilTeologico()}
+
+REGRAS PERMANENTES:
+- O devocional enviado é texto autoral do pastor. Use-o como base e contexto; não o reescreva nem o apresente como seu.
+- Separe com clareza a interpretação do texto (o que significava para os primeiros leitores) da aplicação pastoral (o que significa para a igreja hoje).
+- Cite somente passagens bíblicas que existem, com livro, capítulo e versículo corretos. Na dúvida, não cite.
+- Não invente fatos históricos, estatísticas, autores ou citações. Ilustrações podem ser cenas do cotidiano, sem atribuí-las a pessoas reais.
+- Linguagem pastoral, clara, contemporânea e bíblica. Sem alegorizações arbitrárias.`;
+}
+function traduzErroIA(m,status){
+  if(/credit|balance|billing/i.test(m)) return 'Os créditos da API da Anthropic parecem ter acabado. Confira o saldo no Console da Anthropic.';
+  if(status===404||/not_found|model/i.test(m)&&/not.?found|invalid|does not exist/i.test(m)) return `O modelo "${modeloIA()}" não foi aceito pela API. Troque o modelo em Ajustes → Inteligência artificial.`;
+  if(status===401||/api.?key|authentication/i.test(m)) return 'O Worker não conseguiu se autenticar na Anthropic (confira a chave ANTHROPIC_API_KEY no Worker).';
+  if(status===429) return 'Muitas chamadas seguidas. Aguarde um minuto e tente de novo.';
+  if(/overloaded/i.test(m)||status===529) return 'Os servidores da IA estão sobrecarregados agora. Tente de novo em alguns minutos.';
+  return m;
+}
+async function chamarIA({tipo,pedido,max=8000,dataDev=null}){
+  if(!navigator.onLine) throw new Error('Sem conexão com a internet. A IA depende de conexão.');
+  const usadas=await db.contarDesde('ia_log','criado_em',new Date(Date.now()-864e5).toISOString()).catch(()=>0);
+  if(usadas>=limiteIA()) throw new Error(`Limite de ${limiteIA()} chamadas à IA nas últimas 24 horas atingido. Se precisar, aumente em Ajustes → Inteligência artificial.`);
+  const sis=sistemaIA();
+  // As instruções vão também na mensagem do usuário: mesmo que o Worker troque o "system", o pedido chega completo.
+  const corpo={model:modeloIA(),max_tokens:max,system:sis,messages:[{role:'user',content:`${sis}\n\n==================== PEDIDO ====================\n${pedido}`}]};
+  let ultimo=null;
+  for(let tentativa=0;tentativa<2;tentativa++){
+    const ac=new AbortController(), t=setTimeout(()=>ac.abort(),240000);
+    try{
+      const r=await fetch(CONFIG.WORKER,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(corpo),signal:ac.signal});
+      const raw=await r.text(); let j;
+      try{ j=JSON.parse(raw); }catch(e){ const er=new Error(`Resposta inesperada do Worker (HTTP ${r.status}).`); er.repetir=r.status>=500; throw er; }
+      if(!r.ok||j.error){ const msg=typeof j.error==='string'?j.error:(j.error&&j.error.message)||('HTTP '+r.status);
+        const er=new Error(traduzErroIA(msg,r.status)); er.repetir=[500,502,503,529].includes(r.status)||/overloaded/i.test(msg); throw er; }
+      const txt=(j.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim(), u=j.usage||{};
+      db.ins('ia_log',{tipo,devocional_data:dataDev,modelo:j.model||corpo.model,tokens_entrada:u.input_tokens||null,tokens_saida:u.output_tokens||null,ok:!!txt,erro:txt?null:'sem texto: '+(j.stop_reason||'?')}).catch(()=>{});
+      if(!txt){ const er=new Error(j.stop_reason==='max_tokens'?'A IA gastou todo o limite de resposta antes de escrever. Tente de novo.':'A IA respondeu sem texto. Tente de novo.'); er.logado=true; throw er; }
+      return {texto:txt,parada:j.stop_reason};
+    }catch(e){
+      ultimo=e.name==='AbortError'?new Error('A IA demorou mais de 4 minutos para responder.'):(e instanceof TypeError?Object.assign(new Error('Não consegui falar com o Worker da IA (sem internet ou endereço bloqueado).'),{repetir:true}):e);
+      if(!ultimo.repetir||tentativa===1) break;
+      await new Promise(res=>setTimeout(res,4000));
+    }finally{ clearTimeout(t); }
+  }
+  if(!ultimo.logado) db.ins('ia_log',{tipo,devocional_data:dataDev,modelo:corpo.model,ok:false,erro:String(ultimo.message).slice(0,500)}).catch(()=>{});
+  throw ultimo;
+}
+function extrairJSON(t){
+  const s=String(t).replace(/```json|```/g,''); const a=s.indexOf('{'), z=s.lastIndexOf('}');
+  if(a<0||z<a) throw new Error('A IA não devolveu a sugestão no formato esperado. Tente de novo.');
+  try{ return JSON.parse(s.slice(a,z+1)); }catch(e){ throw new Error('A sugestão veio com formato inválido. Tente de novo.'); }
+}
+function limparMd(t){ return String(t).replace(/^```(?:markdown|md)?\s*/i,'').replace(/```\s*$/,'').trim(); }
+function ctxDevocional(dev){
+  if(!dev) return 'DEVOCIONAL: (não encontrado — use apenas a sugestão abaixo)';
+  return `DEVOCIONAL DE ${diaCurto(dev.data)}/${dev.data.slice(0,4)} (texto autoral do pastor)
+Título: ${dev.titulo}
+Referência: ${dev.referencia||'—'}
+Texto bíblico: ${dev.texto_biblico||'—'}
+Reflexão:
+${String(dev.reflexao||'').replace(/Leitura Anual da B[íi]blia[\s\S]*$/i,'').slice(0,5000)}
+Aplicação: ${dev.aplicacao||'—'}`;
+}
+const FMT_SERMAO=`{"tema":"título do sermão","texto_base":"Livro cap:vers-vers","ideia_central":"uma frase","objetivo":"o que a igreja deve crer, sentir ou fazer","pontos":[{"titulo":"","texto":"versículos do texto base que sustentam o ponto","resumo":"duas frases"},{"titulo":"","texto":"","resumo":""},{"titulo":"","texto":"","resumo":""},{"titulo":"","texto":"","resumo":""}],"aplicacao_geral":"um parágrafo curto"}`;
+const FMT_CELULA=`{"tema":"título do estudo","texto_base":"Livro cap:vers-vers","ideia_central":"uma frase","objetivo":"o que o grupo deve aprender e praticar","pontos":[{"titulo":"","texto":"","resumo":"duas frases"},{"titulo":"","texto":"","resumo":""},{"titulo":"","texto":"","resumo":""}]}`;
+async function gerarSugestao(tipo,dev){
+  const sermao=tipo==='sermao';
+  const pedido=`${ctxDevocional(dev)}
+
+TAREFA: a partir deste devocional, proponha uma sugestão de ${sermao?'SERMÃO expositivo para o culto de domingo':'ESTUDO BÍBLICO PARA CÉLULA (pequeno grupo, cerca de 45 minutos)'}.
+- Texto base: o do devocional ou uma passagem diretamente ligada a ele.
+- Exatamente ${sermao?'4':'3'} pontos principais, que nasçam do próprio texto bíblico, em ordem lógica.
+${sermao?'':'- Linguagem acessível para líderes de célula e participantes novos na fé.\n'}
+Responda SOMENTE com um JSON válido, sem comentários e sem texto fora dele, neste formato:
+${sermao?FMT_SERMAO:FMT_CELULA}`;
+  const r=await chamarIA({tipo:'sugestao_'+tipo,pedido,max:6000,dataDev:dev.data});
+  const R=extrairJSON(r.texto);
+  if(!R.tema||!Array.isArray(R.pontos)||R.pontos.length!==(sermao?4:3)) throw new Error(`A sugestão veio incompleta (esperava ${sermao?4:3} pontos). Tente de novo.`);
+  const row=await db.ins('biblioteca',{tipo,titulo:R.tema,tema:R.tema,texto_base:R.texto_base||null,resumo:R,devocional_data:dev.data,gerado_por_ia:true,desenvolvido:false,conteudo:null});
+  S.bib.unshift(row); return row;
+}
+function cabecalhoMd(item){
+  const R=item.resumo||{};
+  return `# ${R.tema||item.titulo}
+
+**Texto base:** ${R.texto_base||item.texto_base||'—'}
+
+> *${item.tipo==='sermao'?'Sermão':'Estudo de célula'} gerado por IA a partir do devocional de ${item.devocional_data?diaCurto(item.devocional_data)+'/'+item.devocional_data.slice(0,4):'—'}. Não faz parte do devocional original. Revise antes de usar.*`;
+}
+function resumoMd(item){
+  const R=item.resumo||{};
+  return `${cabecalhoMd(item)}
+
+**Ideia central:** ${R.ideia_central||'—'}
+
+**Objetivo:** ${R.objetivo||'—'}
+
+## ${item.tipo==='sermao'?'Quatro pontos':'Três pontos'}
+
+${(R.pontos||[]).map((p,i)=>`${i+1}. **${p.titulo}** (${p.texto||''}) — ${p.resumo||''}`).join('\n')}
+${R.aplicacao_geral?`\n## Aplicação geral\n\n${R.aplicacao_geral}`:''}`;
+}
+function etapasSermao(R,dev){
+  const base=`${ctxDevocional(dev)}
+
+SUGESTÃO APROVADA PELO PASTOR (siga-a):
+Tema: ${R.tema}
+Texto base: ${R.texto_base}
+Ideia central: ${R.ideia_central}
+Objetivo: ${R.objetivo}
+Pontos:
+${R.pontos.map((p,i)=>`${i+1}. ${p.titulo} (${p.texto||''}) — ${p.resumo||''}`).join('\n')}
+Aplicação geral: ${R.aplicacao_geral||''}
+
+O sermão completo está sendo escrito em partes. Escreva SOMENTE a parte pedida abaixo, em Markdown, sem repetir as outras partes e sem comentários sobre o pedido.`;
+  const e=[{nome:'abertura (dados iniciais, introdução e contexto)',pedido:`${base}
+
+PARTE PEDIDA: ABERTURA.
+## Dados iniciais
+(lista curta: Tema, Texto base, Ideia central, Objetivo, Público: igreja reunida no culto de domingo)
+## Introdução
+(350 a 500 palavras; comece com um gancho que prenda a atenção e conduza ao texto e à ideia central)
+## Contexto e análise do texto
+(500 a 700 palavras: autor, destinatários, situação histórica, contexto literário, estrutura do trecho e palavras-chave; termos no original só quando houver certeza)`}];
+  R.pontos.forEach((p,i)=>{
+    const prox=i<3?`para o ponto ${i+2}: "${R.pontos[i+1].titulo}"`:'para a conclusão do sermão';
+    e.push({nome:`ponto ${i+1} de 4`,pedido:`${base}
+
+PARTE PEDIDA: PONTO ${i+1} DE 4 — "${p.titulo}" (${p.texto||''}).
+Escreva entre 800 e 1000 palavras, com estes subtítulos exatos:
+## ${i+1}. ${p.titulo}
+### Exegese
+(o que o texto dizia aos primeiros leitores: gramática, contexto, ligação com o restante da Escritura)
+### Ilustração
+(uma ilustração viva e verossímil, sem atribuir a pessoas reais)
+### Aplicação prática
+(o que isso significa para a igreja hoje, com passos concretos)
+### Frase de impacto
+(uma única frase curta e marcante, escrita como citação: > frase)
+### Transição
+(duas a quatro frases que levem ${prox})`});
+  });
+  e.push({nome:'conclusão, desafio e apelo',pedido:`${base}
+
+PARTE PEDIDA: FECHAMENTO.
+## Conclusão
+(300 a 450 palavras: retome a ideia central e os quatro pontos sem repeti-los por extenso)
+## Desafio
+(um desafio concreto e verificável para a semana)
+## Apelo
+(apelo pastoral fiel ao texto: chamado à fé em Cristo para quem ainda não creu e à consagração para a igreja; termine com uma breve oração)`});
+  return e;
+}
+async function desenvolverConteudo(id){
+  if(IA.ocupado) return;
+  const item=await db.getItem('biblioteca',id); if(!item) throw new Error('Item não encontrado na biblioteca.');
+  const R=item.resumo; if(!R||!Array.isArray(R.pontos)) throw new Error('Esta sugestão não tem os pontos salvos.');
+  const dev=item.devocional_data?await db.getDevocional(item.devocional_data).catch(()=>null):null;
+  IA.ocupado=item.tipo; IA.parar=false; IA.id=id;
+  const status=m=>{ IA.msg=m; const el=$('#ia-msg-'+item.tipo); if(el) el.textContent=m; };
+  try{
+    let md;
+    if(item.tipo==='sermao'){
+      const etapas=etapasSermao(R,dev);
+      const partes=item.progresso&&Array.isArray(item.progresso.partes)?item.progresso.partes.slice():[];
+      if(S.rota==='sugestoes'||S.rota==='biblioteca') render();
+      for(let i=partes.length;i<etapas.length;i++){
+        if(IA.parar){ toast(`Pausado. ${partes.length} de ${etapas.length} partes já salvas; continue quando quiser.`); return; }
+        status(`Escrevendo ${i+1} de ${etapas.length}: ${etapas[i].nome}…`);
+        const r=await chamarIA({tipo:'sermao_parte',pedido:etapas[i].pedido,max:8000,dataDev:item.devocional_data});
+        partes.push(limparMd(r.texto));
+        await db.upd('biblioteca',id,{progresso:{partes},atualizado_em:new Date().toISOString()});
+      }
+      md=`${cabecalhoMd(item)}\n\n${partes.join('\n\n---\n\n')}\n`;
+    } else {
+      status('Escrevendo o estudo completo…');
+      if(S.rota==='sugestoes'||S.rota==='biblioteca') render();
+      const r=await chamarIA({tipo:'celula_completa',max:10000,dataDev:item.devocional_data,pedido:`${ctxDevocional(dev)}
+
+SUGESTÃO APROVADA PELO PASTOR (siga-a):
+Tema: ${R.tema}
+Texto base: ${R.texto_base}
+Ideia central: ${R.ideia_central}
+Objetivo: ${R.objetivo}
+Pontos:
+${R.pontos.map((p,i)=>`${i+1}. ${p.titulo} (${p.texto||''}) — ${p.resumo||''}`).join('\n')}
+
+TAREFA: escreva o ESTUDO DE CÉLULA COMPLETO em Markdown, para cerca de 45 minutos, com linguagem acessível, nesta estrutura e com estes subtítulos:
+## Tema e texto bíblico
+## Objetivo
+## Quebra-gelo (5 min)
+## Introdução (5 min)
+## 1. (título do ponto 1) — 10 min
+(explicação acessível; depois "**Perguntas para discussão:**" com 2 ou 3 perguntas; depois "**Aplicação prática:**")
+## 2. (título do ponto 2) — 10 min
+(mesma estrutura)
+## 3. (título do ponto 3) — 10 min
+(mesma estrutura)
+## Conclusão (3 min)
+## Desafio da semana
+## Oração final (2 min)
+Não repita o cabeçalho do documento; comece direto em "## Tema e texto bíblico".`});
+      md=`${cabecalhoMd(item)}\n\n${limparMd(r.texto)}\n`;
+    }
+    const row=await db.upd('biblioteca',id,{conteudo:md,desenvolvido:true,progresso:null,atualizado_em:new Date().toISOString()});
+    const k=S.bib.findIndex(b=>b.id===id); if(k>=0) S.bib[k]={...S.bib[k],desenvolvido:true,atualizado_em:row.atualizado_em};
+    if(S.bb.item&&S.bb.item.id===id) S.bb.item=row;
+    toast(item.tipo==='sermao'?'Sermão completo salvo na Biblioteca':'Estudo completo salvo na Biblioteca');
+  } finally { IA.ocupado=null; IA.msg=''; IA.id=null; render(); }
+}
+function blocoResumo(R){
+  return `<div class="sg-tema">${esc(R.tema)}</div><div class="sg-ref">${esc(R.texto_base||'')}</div>
+    <dl class="sg-dl"><dt>Ideia central</dt><dd>${esc(R.ideia_central||'—')}</dd><dt>Objetivo</dt><dd>${esc(R.objetivo||'—')}</dd></dl>
+    <ol class="sg-pts">${(R.pontos||[]).map(p=>`<li><b>${esc(p.titulo)}</b>${p.texto?` <span class="muted small">(${esc(p.texto)})</span>`:''}<div class="small">${esc(p.resumo||'')}</div></li>`).join('')}</ol>
+    ${R.aplicacao_geral?`<p class="small" style="margin:0"><b>Aplicação geral:</b> ${esc(R.aplicacao_geral)}</p>`:''}`;
+}
 function pgSugestoes(m){
-  const d=S.devHoje;
-  m.innerHTML=`${cabecalho('lightbulb','Sugestões Ministeriais','Ideias de sermão e estudo de célula a partir do devocional do dia.')}
-  <section class="card" style="max-width:820px">
-    <div class="card-head"><h2>${ic('construction')} Este módulo chega na Fase 3</h2><span class="tag-phase">Fase 3</span></div>
-    <p>Quando estiver pronto, ele vai usar o devocional do dia${d?` — hoje, <b>${esc(d.titulo)}</b> (${esc(d.referencia||'')})`:''} como contexto e gerar:</p>
-    <div class="sug-duo" style="margin:12px 0">
-      <div class="sug s1"><b>${ic('file-text')} Sugestão de sermão</b>Tema, texto, ideia central, objetivo, 4 pontos e aplicação. Ao desenvolver, segue sua estrutura completa: exegese, ilustração, aplicação, frase de impacto e transição em cada ponto, com conclusão, desafio e apelo.</div>
-      <div class="sug s2"><b>${ic('users')} Estudo de célula</b>Tema, texto, objetivo, 3 pontos, perguntas para discussão, aplicação e desafio da semana — para cerca de 45 minutos.</div>
+  const d=S.sg.data||S.hoje;
+  if(S.sg.devData!==d){ S.sg.devData=d; S.sg.dev=undefined;
+    db.getDevocional(d).then(x=>{ if(S.sg.devData!==d) return; S.sg.dev=x; if(S.rota==='sugestoes') render(); }).catch(e=>{ S.sg.dev=null; erro(e,'Não foi possível carregar o devocional'); }); }
+  const dev=S.sg.dev;
+  const card=(tipo)=>{
+    const sermao=tipo==='sermao', itens=S.bib.filter(b=>b.tipo===tipo&&b.devocional_data===d), atual=itens[0];
+    const trab=IA.ocupado===tipo, outroTrab=IA.ocupado&&!trab;
+    const titulo=sermao?'Sugestão de sermão':'Estudo de célula';
+    let corpo;
+    if(trab) corpo=`<div class="ia-work"><span class="spin" aria-hidden="true"></span><div><b id="ia-msg-${tipo}">${esc(IA.msg||'Consultando a IA…')}</b>
+        <div class="small muted">${sermao&&IA.id?'Cada parte é salva assim que fica pronta. Pode navegar pelo app enquanto isso.':'Isso costuma levar de 20 segundos a 2 minutos.'}</div></div></div>
+        ${sermao&&IA.id?'<button class="btn sm" id="ia-parar">'+ic('pause')+' Pausar depois desta parte</button>':''}`;
+    else if(atual){
+      const parcial=!atual.desenvolvido&&atual.resumo&&atual.resumo._parcial;
+      corpo=`${blocoResumo(atual.resumo||{})}
+        <div class="sg-acts">
+          ${atual.desenvolvido?`<button class="btn primary" data-abrir="${atual.id}">${ic('book-open-text')} Abrir ${sermao?'sermão':'estudo'} completo</button>`
+            :`<button class="btn primary" data-dev="${atual.id}" ${outroTrab?'disabled':''}>${ic('wand-sparkles')} ${sermao?'Desenvolver sermão completo':'Desenvolver estudo completo'}</button>`}
+          <button class="btn" data-abrir="${atual.id}">${ic('library')} Ver na biblioteca</button>
+          <button class="btn" data-nova="${tipo}" ${outroTrab||!dev?'disabled':''}>${ic('refresh-cw')} Gerar outra</button>
+        </div>
+        ${itens.length>1?`<div class="hint">Há ${itens.length} sugestões de ${sermao?'sermão':'estudo'} para este dia. As anteriores estão na Biblioteca.</div>`:''}`;
+    } else corpo=`<p class="small muted">${sermao?'Tema, texto base, ideia central, objetivo, quatro pontos e aplicação. Depois, se aprovar, o sermão completo no seu padrão: exegese, ilustração, aplicação, frase de impacto e transição em cada ponto, com conclusão, desafio e apelo.'
+        :'Tema, texto, ideia central, objetivo e três pontos. Depois, o estudo completo para 45 minutos, com perguntas para discussão e desafio da semana.'}</p>
+        <button class="btn primary" data-nova="${tipo}" ${!dev||IA.ocupado?'disabled':''}>${ic('sparkles')} Gerar sugestão</button>`;
+    return `<section class="card sg-card"><div class="card-head"><h2>${ic(sermao?'file-text':'users')} ${titulo}</h2><span class="badge b-info">${ic('sparkles','style="width:12px;height:12px"')} Gerado por IA</span></div>${corpo}</section>`;
+  };
+  m.innerHTML=`${cabecalho('lightbulb','Sugestões Ministeriais','Ideias de sermão e estudo de célula a partir do devocional, segundo o seu perfil teológico.',
+    `<div class="dev-bar"><button class="btn sm" id="sg-prev" aria-label="Dia anterior">${ic('chevron-left')}</button>
+      <input class="inp" type="date" id="sg-dt" value="${d}" style="width:170px;height:32px" aria-label="Data do devocional">
+      <button class="btn sm" id="sg-next" aria-label="Próximo dia">${ic('chevron-right')}</button><button class="btn sm" id="sg-hoje">Hoje</button></div>`)}
+  <section class="card sg-dev">
+    ${dev===undefined?'<div class="small muted">Carregando devocional…</div>':dev?`<div class="small muted">Devocional de ${diaLongo(d)}</div><div class="sg-dev-t">${esc(dev.titulo)}</div><div class="dev-ref">${esc(dev.referencia||'')}</div>`
+      :`<div class="empty">Não há devocional cadastrado para ${diaLongo(d)}. As sugestões partem sempre de um devocional.</div>`}
+  </section>
+  <div class="sg-grid">${card('sermao')}${card('celula')}</div>
+  <p class="ai-note">${ic('shield-check')} O texto gerado é identificado como IA e fica separado do devocional original. A chave da IA fica no Worker, nunca no app. Nada é gerado sem o seu clique.</p>`;
+  const mudar=x=>{ S.sg.data=x; render(); };
+  $('#sg-prev').onclick=()=>mudar(addDias(d,-1)); $('#sg-next').onclick=()=>mudar(addDias(d,1)); $('#sg-hoje').onclick=()=>mudar(S.hoje);
+  $('#sg-dt').onchange=e=>{ if(e.target.value) mudar(e.target.value); };
+  m.querySelectorAll('[data-nova]').forEach(b=>b.onclick=async()=>{
+    const tipo=b.dataset.nova, ja=S.bib.some(x=>x.tipo===tipo&&x.devocional_data===d);
+    if(ja&&!await confirmar('Gerar outra sugestão?','A sugestão atual continua salva na Biblioteca. Uma nova chamada à IA será feita.','Gerar outra')) return;
+    IA.ocupado=tipo; IA.msg='Lendo o devocional e preparando a sugestão…'; render();
+    try{ await gerarSugestao(tipo,dev); toast('Sugestão gerada e salva na Biblioteca'); }
+    catch(e){ erro(e,'Não foi possível gerar'); }
+    finally{ IA.ocupado=null; IA.msg=''; render(); }
+  });
+  m.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>desenvolverConteudo(b.dataset.dev).catch(e=>{ erro(e,'A geração parou'); }));
+  m.querySelectorAll('[data-abrir]').forEach(b=>b.onclick=()=>abrirItem(b.dataset.abrir));
+  const pr=$('#ia-parar'); if(pr) pr.onclick=()=>{ IA.parar=true; pr.disabled=true; pr.textContent='Pausando depois desta parte…'; };
+}
+
+/* =====================================================================
+   BIBLIOTECA MINISTERIAL
+   ===================================================================== */
+function mdInline(s){
+  return esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/(^|[^*])\*([^*\s][^*]*)\*/g,'$1<em>$2</em>');
+}
+function mdBlocos(md){
+  const L=String(md||'').replace(/\r/g,'').split('\n'), B=[]; let p=[];
+  const flush=()=>{ if(p.length){ B.push({t:'p',txt:p.join(' ')}); p=[]; } };
+  for(let i=0;i<L.length;i++){
+    const s=L[i].trim(); let m;
+    if(!s){ flush(); continue; }
+    if((m=s.match(/^(#{1,4})\s+(.*)$/))){ flush(); B.push({t:'h',n:m[1].length,txt:m[2]}); continue; }
+    if(/^(-{3,}|\*{3,}|_{3,})$/.test(s)){ flush(); B.push({t:'hr'}); continue; }
+    if(s.startsWith('>')){ flush(); const q=[s.replace(/^>\s?/,'')]; while(i+1<L.length&&L[i+1].trim().startsWith('>')) q.push(L[++i].trim().replace(/^>\s?/,'')); B.push({t:'q',txt:q.join(' ')}); continue; }
+    if((m=s.match(/^[-*•]\s+(.*)$/))){ flush(); const it=[m[1]]; while(i+1<L.length&&/^\s*[-*•]\s+/.test(L[i+1])) it.push(L[++i].trim().replace(/^[-*•]\s+/,'')); B.push({t:'ul',itens:it}); continue; }
+    if((m=s.match(/^\d+[.)]\s+(.*)$/))){ flush(); const it=[m[1]]; while(i+1<L.length&&/^\s*\d+[.)]\s+/.test(L[i+1])) it.push(L[++i].trim().replace(/^\d+[.)]\s+/,'')); B.push({t:'ol',itens:it}); continue; }
+    p.push(s);
+  }
+  flush(); return B;
+}
+function mdHTML(md){
+  return mdBlocos(md).map(b=>b.t==='h'?`<h${b.n+1}>${mdInline(b.txt)}</h${b.n+1}>`:b.t==='hr'?'<hr>':b.t==='q'?`<blockquote>${mdInline(b.txt)}</blockquote>`
+    :b.t==='ul'?`<ul>${b.itens.map(x=>`<li>${mdInline(x)}</li>`).join('')}</ul>`:b.t==='ol'?`<ol>${b.itens.map(x=>`<li>${mdInline(x)}</li>`).join('')}</ol>`:`<p>${mdInline(b.txt)}</p>`).join('');
+}
+/* Nome de arquivo a partir do tema: preserva acentos, remove caracteres proibidos no Windows/Mac, limita o tamanho */
+function nomeArquivo(nome,ext,padrao='Documento VidaPlena'){
+  let n=String(nome||'').normalize('NFC').replace(/[\u0000-\u001f<>:"/\\|?*]+/g,' ').replace(/\s+/g,' ').trim().replace(/[. ]+$/,'').replace(/^[. ]+/,'');
+  if(!n) n=padrao;
+  if(/^(con|prn|aux|nul|com\d|lpt\d)$/i.test(n)) n='_'+n;
+  if(n.length>120){ const c=n.slice(0,120); n=(c.replace(/\s+\S*$/,'')||c).trim(); }
+  return `${n}.${ext}`;
+}
+function carregarScript(src,global){
+  if(window[global]) return Promise.resolve(window[global]);
+  return new Promise((ok,no)=>{ const s=document.createElement('script'); s.src=src; s.onload=()=>window[global]?ok(window[global]):no(new Error('biblioteca não carregou')); s.onerror=()=>no(new Error('sem conexão para carregar o gerador de DOCX')); document.head.appendChild(s); });
+}
+async function exportarDocx(item,md){
+  const D=await carregarScript('https://cdn.jsdelivr.net/npm/docx@9.5.1/dist/index.iife.js','docx');
+  const runs=(txt,base={})=>{ const out=[], re=/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*)/g; let last=0,m;
+    while((m=re.exec(txt))){ if(m.index>last) out.push(new D.TextRun({text:txt.slice(last,m.index),...base}));
+      const tk=m[0]; out.push(tk.startsWith('**')?new D.TextRun({text:tk.slice(2,-2),bold:true,...base}):new D.TextRun({text:tk.slice(1,-1),italics:true,...base})); last=m.index+tk.length; }
+    if(last<txt.length) out.push(new D.TextRun({text:txt.slice(last),...base})); return out; };
+  const H=[D.HeadingLevel.TITLE,D.HeadingLevel.HEADING_1,D.HeadingLevel.HEADING_2,D.HeadingLevel.HEADING_3];
+  const filhos=[];
+  for(const b of mdBlocos(md)){
+    if(b.t==='h') filhos.push(new D.Paragraph({heading:H[Math.min(b.n,4)-1],children:runs(b.txt),spacing:{before:240,after:120}}));
+    else if(b.t==='hr') filhos.push(new D.Paragraph({thematicBreak:true,children:[]}));
+    else if(b.t==='q') filhos.push(new D.Paragraph({children:runs(b.txt,{italics:true}),indent:{left:567},spacing:{after:160}}));
+    else if(b.t==='ul') b.itens.forEach(x=>filhos.push(new D.Paragraph({bullet:{level:0},children:runs(x),spacing:{after:80}})));
+    else if(b.t==='ol') b.itens.forEach((x,i)=>filhos.push(new D.Paragraph({children:[new D.TextRun({text:`${i+1}. `,bold:true}),...runs(x)],indent:{left:360},spacing:{after:80}})));
+    else filhos.push(new D.Paragraph({children:runs(b.txt),spacing:{after:160,line:300},alignment:D.AlignmentType.JUSTIFIED}));
+  }
+  const doc=new D.Document({creator:'VidaPlena',title:item.tema||item.titulo,description:item.tipo==='sermao'?'Sermão':'Estudo de célula',
+    styles:{default:{document:{run:{font:'Calibri',size:24}}}},sections:[{children:filhos}]});
+  const blob=await D.Packer.toBlob(doc);
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nomeArquivo(item.tema||item.titulo,'docx',item.tipo==='sermao'?'Sermão':'Estudo de célula');
+  document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },800);
+}
+function abrirItem(id){ S.bb.aberto=id; S.bb.item=null; S.bb.editar=false; ir('biblioteca'); if(S.rota==='biblioteca') render(); }
+function pgBiblioteca(m){
+  if(S.bb.aberto) return leitorBiblioteca(m);
+  const B=S.bb, q=B.q.toLowerCase();
+  let l=S.bib.filter(x=>(!B.tipo||x.tipo===B.tipo)&&(!q||`${x.titulo} ${x.tema||''} ${x.texto_base||''}`.toLowerCase().includes(q)));
+  const cmp=(a,b)=>String(a||'').localeCompare(String(b||''),'pt-BR',{sensitivity:'base',numeric:true});
+  if(B.ordem==='tema') l.sort((a,b)=>cmp(a.tema||a.titulo,b.tema||b.titulo));
+  else if(B.ordem==='texto') l.sort((a,b)=>cmp(a.texto_base,b.texto_base));
+  else l.sort((a,b)=>a.criado_em<b.criado_em?1:-1);
+  const n={'':S.bib.length,sermao:S.bib.filter(x=>x.tipo==='sermao').length,celula:S.bib.filter(x=>x.tipo==='celula').length};
+  m.innerHTML=`${cabecalho('library','Biblioteca Ministerial','Sermões e estudos salvos, prontos para revisar, editar e exportar.')}
+  <section class="card" style="max-width:1040px">
+    <div class="filters">${[['','Todos','layers'],['sermao','Sermões','file-text'],['celula','Células','users']].map(([k,l2,i])=>`<button class="pill" data-tp="${k}" aria-pressed="${B.tipo===k}">${ic(i)} ${l2} <span class="n">(${n[k]})</span></button>`).join('')}</div>
+    <div class="filters">
+      <input class="inp" id="bb-q" style="flex:1;min-width:180px;height:38px" placeholder="Buscar por tema, título ou texto bíblico..." value="${esc(B.q)}" aria-label="Buscar na biblioteca">
+      <select class="inp" id="bb-o" style="width:200px;height:38px" aria-label="Ordenar">${[['recente','Mais recentes'],['tema','Tema (A–Z)'],['texto','Texto bíblico']].map(([k,l2])=>`<option value="${k}" ${B.ordem===k?'selected':''}>${l2}</option>`).join('')}</select>
     </div>
-    <p class="ai-note">${ic('sparkles')} Tudo o que for gerado virá identificado como texto de IA, usando o Worker do PromptFlow (a chave fica no servidor, nunca no app).</p>
+    ${l.length?`<div class="bib-list">${l.map(x=>`<button class="bib-row" data-ab="${x.id}">
+        <span class="bib-ic ${x.tipo}">${ic(x.tipo==='sermao'?'file-text':'users')}</span>
+        <span class="bib-tx"><b>${esc(x.tema||x.titulo)}</b><small>${esc(x.texto_base||'—')} · ${x.tipo==='sermao'?'Sermão':'Célula'}${x.devocional_data?' · devocional de '+diaCurto(x.devocional_data)+'/'+x.devocional_data.slice(0,4):''}</small></span>
+        <span class="badge ${x.desenvolvido?'b-ok':'b-mut'}">${x.desenvolvido?'Completo':'Sugestão'}</span></button>`).join('')}</div>`
+      :`<div class="empty">${S.bib.length?'Nada encontrado com esses filtros.':'A biblioteca está vazia. Gere uma sugestão em Sugestões e ela é salva aqui automaticamente.'}</div>`}
   </section>`;
+  m.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{ B.tipo=b.dataset.tp; render(); });
+  $('#bb-o').onchange=e=>{ B.ordem=e.target.value; render(); };
+  const qi=$('#bb-q'); qi.oninput=e=>{ B.q=e.target.value; clearTimeout(qi._t); qi._t=setTimeout(()=>{ const pos=qi.selectionStart; render(); const n2=$('#bb-q'); n2.focus(); n2.setSelectionRange(pos,pos); },250); };
+  m.querySelectorAll('[data-ab]').forEach(b=>b.onclick=()=>abrirItem(b.dataset.ab));
+}
+function leitorBiblioteca(m){
+  const B=S.bb;
+  if(!B.item||B.item.id!==B.aberto){
+    m.innerHTML=`<div class="skel" style="min-height:420px;max-width:900px"></div>`;
+    db.getItem('biblioteca',B.aberto).then(r=>{ if(!r){ toast('Item não encontrado',true); B.aberto=null; } else B.item=r; if(S.rota==='biblioteca') render(); }).catch(e=>{ erro(e,'Não foi possível abrir'); B.aberto=null; render(); });
+    return;
+  }
+  const it=B.item, md=it.conteudo||resumoMd(it), sermao=it.tipo==='sermao', trab=IA.ocupado&&IA.id===it.id;
+  const partes=it.progresso&&it.progresso.partes?it.progresso.partes.length:0;
+  const voltar=`<button class="btn sm" id="bb-v">${ic('arrow-left')} Biblioteca</button>`;
+  if(B.editar){
+    m.innerHTML=`<div class="leitor-bar">${voltar}<span class="muted small">Editando — o texto usa Markdown (# título, ## subtítulo, **negrito**, *itálico*, > citação)</span></div>
+    <section class="card" style="max-width:900px">
+      <div class="field"><label class="f" for="ed-t">Título / tema</label><input class="inp" id="ed-t" value="${esc(it.tema||it.titulo)}"></div>
+      <div class="field"><label class="f" for="ed-r">Texto base</label><input class="inp" id="ed-r" value="${esc(it.texto_base||'')}"></div>
+      <div class="field"><label class="f" for="ed-c">Conteúdo</label><textarea class="inp ed-md" id="ed-c">${esc(md)}</textarea></div>
+      <div class="foot" style="display:flex;gap:10px;justify-content:flex-end"><button class="btn" id="ed-x">Cancelar</button><button class="btn primary" id="ed-s">${ic('save')} Salvar</button></div>
+    </section>`;
+    $('#bb-v').onclick=()=>{ B.editar=false; B.aberto=null; render(); };
+    $('#ed-x').onclick=()=>{ B.editar=false; render(); };
+    $('#ed-s').onclick=async()=>{
+      const tema=$('#ed-t').value.trim(); if(!tema){ toast('Informe o título',true); return; }
+      try{ const r=await db.upd('biblioteca',it.id,{titulo:tema,tema,texto_base:$('#ed-r').value.trim()||null,conteudo:$('#ed-c').value,desenvolvido:it.desenvolvido||!!$('#ed-c').value.trim(),atualizado_em:new Date().toISOString()});
+        B.item=r; const k=S.bib.findIndex(x=>x.id===r.id); if(k>=0) S.bib[k]={...S.bib[k],titulo:r.titulo,tema:r.tema,texto_base:r.texto_base,desenvolvido:r.desenvolvido,atualizado_em:r.atualizado_em};
+        B.editar=false; toast('Alterações salvas'); render(); }catch(e){ erro(e,'Não foi possível salvar'); } };
+    return;
+  }
+  m.innerHTML=`<div class="leitor-bar">${voltar}
+      <div class="leitor-acts">
+        ${!it.desenvolvido&&it.resumo&&it.resumo.pontos?`<button class="btn sm primary" id="bb-dev" ${IA.ocupado?'disabled':''}>${ic('wand-sparkles')} ${partes?`Continuar (${partes} de ${sermao?6:1} partes prontas)`:sermao?'Desenvolver sermão completo':'Desenvolver estudo completo'}</button>`:''}
+        <button class="btn sm" id="bb-e">${ic('pencil')} Editar</button>
+        <button class="btn sm" id="bb-d">${ic('copy')} Duplicar</button>
+        <button class="btn sm" id="bb-md">${ic('file-down')} Markdown</button>
+        <button class="btn sm" id="bb-docx">${ic('file-type-2')} Word (DOCX)</button>
+        <button class="btn sm danger" id="bb-x">${ic('trash-2')} Excluir</button>
+      </div></div>
+    ${trab?`<div class="ia-work" style="max-width:900px;margin-bottom:14px"><span class="spin"></span><b id="ia-msg-${it.tipo}">${esc(IA.msg)}</b></div>`:''}
+    <article class="card leitura md">
+      <div class="leitor-meta"><span class="badge ${sermao?'b-warn':'b-ok'}">${sermao?'Sermão':'Estudo de célula'}</span>${it.gerado_por_ia?'<span class="badge b-info">Gerado por IA</span>':''}<span class="badge ${it.desenvolvido?'b-ok':'b-mut'}">${it.desenvolvido?'Completo':'Sugestão'}</span>
+        ${it.devocional_data?`<button class="link" id="bb-dv">Devocional de ${diaCurto(it.devocional_data)}/${it.devocional_data.slice(0,4)}</button>`:''}</div>
+      ${mdHTML(md)}
+    </article>`;
+  $('#bb-v').onclick=()=>{ B.aberto=null; B.item=null; render(); };
+  const dv=$('#bb-dv'); if(dv) dv.onclick=()=>{ S.dv.data=null; location.hash='devocional'; carregarDevocional(it.devocional_data); };
+  const bd=$('#bb-dev'); if(bd) bd.onclick=()=>desenvolverConteudo(it.id).catch(e=>erro(e,'A geração parou'));
+  $('#bb-e').onclick=()=>{ B.editar=true; render(); };
+  $('#bb-d').onclick=async()=>{ try{ const {id,criado_em,atualizado_em,...resto}=it; const r=await db.ins('biblioteca',{...resto,titulo:(it.tema||it.titulo)+' (cópia)',tema:(it.tema||it.titulo)+' (cópia)',progresso:null});
+      const {conteudo,progresso,...leve}=r; S.bib.unshift(leve); B.aberto=r.id; B.item=r; toast('Cópia criada'); render(); }catch(e){ erro(e,'Não foi possível duplicar'); } };
+  $('#bb-md').onclick=()=>{ baixar(nomeArquivo(it.tema||it.titulo,'md',sermao?'Sermão':'Estudo de célula'),md,'text/markdown;charset=utf-8'); toast('Arquivo Markdown baixado'); };
+  $('#bb-docx').onclick=async()=>{ const b=$('#bb-docx'); b.disabled=true; try{ await exportarDocx(it,md); toast('Arquivo Word baixado'); }catch(e){ erro(e,'Não foi possível gerar o DOCX'); } b.disabled=false; };
+  $('#bb-x').onclick=async()=>{ if(!await confirmar('Excluir da biblioteca?',`"${it.tema||it.titulo}" será apagado definitivamente.`)) return;
+    try{ await db.del('biblioteca',it.id); S.bib=S.bib.filter(x=>x.id!==it.id); B.aberto=null; B.item=null; toast('Excluído da biblioteca'); render(); }catch(e){ erro(e,'Não foi possível excluir'); } };
 }
 
 /* =====================================================================
@@ -1680,16 +2394,50 @@ function importarBackup(){
   };
   function confirmarInline(){ return Promise.resolve(window.confirm('Restaurar este backup? Registros com o mesmo identificador serão atualizados com o conteúdo do arquivo.')); }
 }
+async function buscarCidade(nome){
+  const j=await fetchJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(nome)}&count=6&language=pt&format=json`);
+  return (j.results||[]).map(r=>({nome:r.name,uf:r.admin1||'',pais:r.country||'',lat:r.latitude,lon:r.longitude}));
+}
+async function testarIntegracoes(el){
+  const linha=(ok,t)=>`<div class="tst ${ok?'ok':'bad'}">${ic(ok?'check-circle-2':'x-circle')} ${t}</div>`;
+  el.innerHTML='<div class="small muted">Testando…</div>';
+  let h='';
+  await atualizarClima(true); h+=linha(S.clima&&!S.clima.erro&&!S.clima.falhou,'Clima (Open-Meteo): '+(S.clima&&S.clima.erro?esc(S.clima.erro):S.clima&&S.clima.falhou?'não atualizou, mostrando o último dado salvo':`${Math.round(S.clima.temp)}° em ${esc(S.clima.cidade)}`));
+  el.innerHTML=h;
+  await atualizarDolar(true); h+=linha(S.dolar&&!S.dolar.erro&&!S.dolar.falhou,'Dólar PTAX (Banco Central): '+(S.dolar&&S.dolar.erro?esc(S.dolar.erro):S.dolar&&S.dolar.falhou?'não atualizou, mostrando o último dado salvo':`R$ ${S.dolar.venda.toFixed(4).replace('.',',')} (${esc(S.dolar.fonte)})`));
+  el.innerHTML=h+'<div class="small muted">Testando a IA…</div>';
+  try{ const r=await chamarIA({tipo:'teste',pedido:'Teste de conexão. Responda apenas com a palavra: funcionando',max:2000}); h+=linha(true,`IA (${esc(modeloIA())}): respondeu “${esc(r.texto.slice(0,40))}”`); }
+  catch(e){ h+=linha(false,'IA: '+esc(e.message)); }
+  el.innerHTML=h; icons();
+}
 function pgConfig(m){
   const c=S.cfg||{}, tema=prefTema();
   const fusos=['America/Fortaleza','America/Recife','America/Bahia','America/Sao_Paulo','America/Manaus','America/Belem','America/Cuiaba','America/Porto_Velho','America/Rio_Branco','America/Noronha'];
   m.innerHTML=`${cabecalho('settings','Ajustes','Preferências do VidaPlena.')}
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;max-width:1040px">
-    <section class="card"><div class="card-head"><h2>${ic('user')} Perfil e local</h2></div>
+  <div class="cfg-grid">
+    <section class="card"><div class="card-head"><h2>${ic('user')} Perfil</h2></div>
       <div class="field"><label class="f" for="c-n">Como quer ser chamado</label><input class="inp" id="c-n" value="${esc(c.nome||'Bispo')}"></div>
-      <div class="field"><label class="f" for="c-c">Cidade (para o clima, Fase 3)</label><input class="inp" id="c-c" value="${esc(c.cidade||'')}"></div>
-      <div class="field"><label class="f" for="c-f">Fuso horário</label><select class="inp" id="c-f">${fusos.map(f=>`<option ${f===c.fuso?'selected':''}>${f}</option>`).join('')}</select></div>
+      <div class="field"><label class="f" for="c-f">Fuso horário</label><select class="inp" id="c-f">${fusos.map(f=>`<option ${f===c.fuso?'selected':''}>${f}</option>`).join('')}</select><div class="hint">Define quando o dia muda no app e o devocional de cada dia.</div></div>
       <button class="btn primary" id="c-s">${ic('save')} Salvar</button></section>
+    <section class="card"><div class="card-head"><h2>${ic('map-pin')} Cidade do clima</h2></div>
+      <p class="small" style="margin:0 0 10px">Atual: <b>${esc(c.cidade||'não definida')}</b>${c.cidade_lat!=null?` <span class="muted">(${(+c.cidade_lat).toFixed(2)}, ${(+c.cidade_lon).toFixed(2)})</span>`:''}</p>
+      <form id="cid-f" style="display:flex;gap:8px"><input class="inp" id="cid-q" placeholder="Ex.: Campina Grande" aria-label="Buscar cidade"><button class="btn" style="height:42px">${ic('search')} Buscar</button></form>
+      <div id="cid-r" class="results" style="margin-top:8px"></div></section>
+    <section class="card cfg-wide"><div class="card-head"><h2>${ic('book-marked')} Perfil Teológico e Ministerial</h2></div>
+      <p class="small muted" style="margin:0 0 10px">Instruções permanentes enviadas à IA em toda sugestão de sermão e de estudo. Uma ideia por linha.</p>
+      <textarea class="inp" id="pf-t" style="min-height:250px;line-height:1.55">${esc(perfilTeologico())}</textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px"><button class="btn primary" id="pf-s">${ic('save')} Salvar perfil</button><button class="btn" id="pf-r">${ic('rotate-ccw')} Restaurar o padrão</button></div></section>
+    <section class="card"><div class="card-head"><h2>${ic('sparkles')} Inteligência artificial</h2></div>
+      <div class="field"><label class="f" for="ia-m">Modelo</label><input class="inp" id="ia-m" list="ia-ml" value="${esc(modeloIA())}">
+        <datalist id="ia-ml"><option value="claude-sonnet-5-5"><option value="claude-opus-5-5"><option value="claude-haiku-5-5"><option value="claude-sonnet-5"></datalist>
+        <div class="hint">Sonnet: melhor equilíbrio para sermões. Haiku: mais barato e rápido. Opus: o mais caprichado e o mais caro.</div></div>
+      <div class="field"><label class="f" for="ia-l">Limite de chamadas em 24 horas</label><input class="inp" id="ia-l" type="number" min="5" max="500" value="${esc(limiteIA())}" style="width:120px">
+        <div class="hint" id="ia-uso">Um sermão completo usa 6 chamadas; um estudo de célula, 1.</div></div>
+      <p class="small muted" style="margin:0 0 12px">Worker: <code>${esc(CONFIG.WORKER.replace('https://',''))}</code>. A chave da API fica guardada no Worker, nunca no app.</p>
+      <button class="btn primary" id="ia-s">${ic('save')} Salvar</button></section>
+    <section class="card"><div class="card-head"><h2>${ic('plug-zap')} Testar integrações</h2></div>
+      <p class="small muted" style="margin:0 0 12px">Confere clima, dólar e IA agora. O teste da IA faz uma chamada bem curta.</p>
+      <button class="btn" id="tst-go">${ic('play')} Testar agora</button><div id="tst-r" style="margin-top:12px"></div></section>
     <section class="card"><div class="card-head"><h2>${ic('palette')} Aparência</h2></div>
       <span class="f">Tema</span>
       <div class="seg" role="group" aria-label="Tema">${[['light','Claro','sun'],['dark','Escuro','moon'],['system','Sistema','monitor']].map(([k,l,i])=>`<button data-tema="${k}" aria-pressed="${tema===k}">${ic(i)} ${l}</button>`).join('')}</div>
@@ -1705,11 +2453,27 @@ function pgConfig(m){
       <label class="check" style="margin-bottom:12px"><input type="checkbox" id="bk-dev"> Incluir os devocionais (arquivo maior)</label>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="bk-x">${ic('download')} Exportar backup</button><button class="btn" id="bk-i">${ic('archive-restore')} Restaurar backup</button></div></section>
     <section class="card"><div class="card-head"><h2>${ic('info')} Sobre</h2></div>
-      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 2 — Automações e agenda</p>
-      <p class="small muted" style="margin:0 0 14px">Dados no Supabase, schema <code>${CONFIG.SCHEMA}</code>.</p>
+      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 3: integrações, devocional e IA</p>
+      <p class="small muted" style="margin:0 0 14px">Dados no Supabase, schema <code>${CONFIG.SCHEMA}</code>. Clima: Open-Meteo. Dólar: Banco Central (PTAX).</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="testes.html" target="_blank" rel="noopener">${ic('flask-conical')} Rodar testes</a><button class="btn danger" id="c-x">${ic('log-out')} Sair</button></div></section>
   </div>`;
-  $('#c-s').onclick=async()=>{ try{ S.cfg=await db.saveConfig({nome:$('#c-n').value.trim()||'Bispo',cidade:$('#c-c').value.trim(),fuso:$('#c-f').value}); S.hoje=hojeStr(); renderTopo(); toast('Ajustes salvos'); }catch(e){ erro(e,'Não foi possível salvar'); } };
+  db.contarDesde('ia_log','criado_em',new Date(Date.now()-864e5).toISOString()).then(n=>{ const el=$('#ia-uso'); if(el) el.textContent=`Usadas nas últimas 24 horas: ${n}. Um sermão completo usa 6 chamadas; um estudo de célula, 1.`; }).catch(()=>{});
+  $('#c-s').onclick=async()=>{ try{ S.cfg=await db.saveConfig({nome:$('#c-n').value.trim()||'Bispo',fuso:$('#c-f').value}); S.hoje=hojeStr(); renderTopo(); toast('Ajustes salvos'); }catch(e){ erro(e,'Não foi possível salvar'); } };
+  $('#cid-f').onsubmit=async e=>{ e.preventDefault(); const q=$('#cid-q').value.trim(), r=$('#cid-r'); if(q.length<2) return;
+    r.innerHTML='<div class="small muted">Buscando…</div>';
+    try{ const l=await buscarCidade(q);
+      r.innerHTML=l.length?l.map((x,i)=>`<button class="r" data-ci="${i}">${ic('map-pin')}<span><b>${esc(x.nome)}</b><small>${esc([x.uf,x.pais].filter(Boolean).join(' · '))}</small></span></button>`).join(''):'<div class="small muted">Nenhuma cidade encontrada.</div>'; icons();
+      r.querySelectorAll('[data-ci]').forEach(b=>b.onclick=async()=>{ const x=l[+b.dataset.ci];
+        try{ S.cfg=await db.saveConfig({cidade:x.nome+(x.uf?' - '+x.uf:''),cidade_lat:x.lat,cidade_lon:x.lon}); store.del('vp_clima'); S.clima=null; toast('Cidade do clima atualizada'); atualizarClima(true); render(); }catch(e){ erro(e,'Não foi possível salvar a cidade'); } });
+    }catch(e){ r.innerHTML=`<div class="small" style="color:var(--bad)">Busca indisponível: ${esc(e.message)}</div>`; } };
+  $('#pf-s').onclick=async()=>{ const t=$('#pf-t').value.trim(); if(!t){ toast('O perfil não pode ficar vazio',true); return; }
+    try{ S.cfg=await db.saveConfig({perfil_teologico:t}); toast('Perfil teológico salvo'); }catch(e){ erro(e,'Não foi possível salvar'); } };
+  $('#pf-r').onclick=()=>{ $('#pf-t').value=PERFIL_PADRAO; toast('Texto padrão restaurado. Clique em Salvar perfil para gravar.'); };
+  $('#ia-s').onclick=async()=>{ const mo=$('#ia-m').value.trim(), li=parseInt($('#ia-l').value);
+    if(!/^claude-[a-z0-9.\-]+$/i.test(mo)){ toast('Nome de modelo inválido',true); return; }
+    if(!(li>=5&&li<=500)){ toast('O limite deve ficar entre 5 e 500',true); return; }
+    try{ S.cfg=await db.saveConfig({ia_modelo:mo,ia_limite_dia:li}); toast('Configuração da IA salva'); }catch(e){ erro(e,'Não foi possível salvar'); } };
+  $('#tst-go').onclick=async()=>{ const b=$('#tst-go'); b.disabled=true; await testarIntegracoes($('#tst-r')); b.disabled=false; };
   m.querySelectorAll('[data-tema]').forEach(b=>b.onclick=()=>{ store.set('vp_tema',b.dataset.tema); aplicarTema(); renderTopo(); render(); });
   m.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>{ store.set('vp_menu',b.dataset.menu); $('#app').classList.toggle('compacta',b.dataset.menu==='compacto'); renderSide(); render(); });
   $('#p-s').onclick=async()=>{ const a=$('#p-a').value, n=$('#p-n').value;
@@ -1728,7 +2492,7 @@ const LOGO_G=LOGO.replace('class="brand-mark"','class="brand-mark" style="width:
 function telaErro(e){
   $('#root').innerHTML=`<div class="login"><div class="login-card" style="text-align:left">${LOGO_G}<h1 style="font-size:20px">Não consegui acessar o banco</h1>
     <p class="small">Confira estes dois pontos no Supabase (projeto quiz-biblico):</p>
-    <ol class="small"><li>Os scripts <b>schema-vidaplena.sql</b> e <b>fase2-vidaplena.sql</b> foram rodados no SQL Editor.</li><li>Em <b>Project Settings → Data API → Exposed schemas</b>, o schema <b>vidaplena</b> foi incluído.</li></ol>
+    <ol class="small"><li>Os scripts <b>schema-vidaplena.sql</b>, <b>fase2-vidaplena.sql</b> e <b>fase3-vidaplena.sql</b> foram rodados no SQL Editor.</li><li>Em <b>Project Settings → Data API → Exposed schemas</b>, o schema <b>vidaplena</b> foi incluído.</li></ol>
     <p class="small muted">Detalhe técnico: ${esc(e&&e.message||e)}</p><button class="btn primary" onclick="location.reload()">Tentar de novo</button>
     <p class="hint">v${CONFIG.VERSAO}</p></div></div>`;
 }
@@ -1777,6 +2541,10 @@ async function entrar(){
   S.carregado=true; renderSide(); render();
   // Recalcula quando o dia muda no fuso configurado, mesmo com a aba aberta, e quando a aba volta ao foco
   setInterval(verificarDia,60000);
+  // Clima e dólar: consulta no início e a cada 15 min (o cache evita chamadas desnecessárias)
+  atualizarClima(); atualizarDolar();
+  setInterval(()=>{ atualizarClima(); atualizarDolar(); },15*60*1000);
+  window.addEventListener('online',()=>{ atualizarClima(); atualizarDolar(); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) verificarDia(); });
 }
 /* Atualização do app: avisa quando uma versão nova foi instalada, sem recarregar sozinho (não perde o que está sendo digitado) */
