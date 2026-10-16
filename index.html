@@ -512,7 +512,7 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.0.1',
+  VERSAO: '3.0.2',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -549,7 +549,7 @@ function criarDB(){
     upsertRows: async(t,rows,onConflict)=> ok(await sb.from(t).upsert(rows,onConflict?{onConflict}:undefined)),
     getConfig: async()=> ok(await sb.from('config').select('*').eq('id',1).maybeSingle()),
     saveConfig: async(p)=> ok(await sb.from('config').upsert({id:1,...p,atualizado_em:new Date().toISOString()}).select().single()),
-    upsertOcorrencia: async(o)=> ok(await sb.from('tarefa_ocorrencias').upsert({...o,atualizado_em:new Date().toISOString()},{onConflict:'tarefa_id,data'}).select().single()),
+    upsertOcorrencia: async(o)=> ok(await sb.from('tarefa_ocorrencias').upsert(o,{onConflict:'tarefa_id,data'}).select().single()),
     deleteOcorrencia: async(tid,data)=> ok(await sb.from('tarefa_ocorrencias').delete().eq('tarefa_id',tid).eq('data',data)),
     deleteOcorrenciasDesde: async(tid,data)=> ok(await sb.from('tarefa_ocorrencias').delete().eq('tarefa_id',tid).gte('data',data)),
     getDevocional: async(d)=> ok(await sb.from('devocionais').select('*').eq('data',d).maybeSingle()),
