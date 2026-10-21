@@ -500,6 +500,28 @@ button.sug:hover{filter:brightness(.97)}
   .tbl .hide-m{display:none}
 }
 .dotline{display:none;gap:3px;flex-wrap:wrap}
+/* Backup automático (Fase 4) */
+.bk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px;margin-top:20px}
+.bk-card.pausada{opacity:.72}
+.bk-linha{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-top:1px solid var(--line-2)}
+.bk-rot{flex:none;width:84px;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.bk-rot [data-lucide]{width:15px;height:15px;color:var(--gold)}
+.bk-caminhos{display:flex;flex-wrap:wrap;gap:6px;min-width:0}
+.bk-caminhos code,.bk-cmd code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:2px 8px;overflow-wrap:anywhere}
+.bk-sit{margin:10px 0 12px}
+.bk-acoes{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bk-cmd{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
+.bk-cmd code{flex:1;min-width:0;padding:8px 10px}
+.bk-passos{margin:8px 0 0;padding-left:20px;line-height:1.6}
+.bk-passos li{margin-bottom:6px}
+.bk-det{margin-top:12px}
+.bk-det summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--info)}
+.bk-dot{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.bk-dot.on{animation:bkpulso 1.6s ease-in-out infinite}
+@keyframes bkpulso{50%{opacity:.3}}
+.badge [data-lucide="loader"]{animation:gira 1.2s linear infinite}
+.bk-msg{max-width:440px;word-break:break-word}
+@media (max-width:560px){.bk-grid{grid-template-columns:1fr}.bk-rot{width:66px}}
 </style>
 </head>
 <body>
@@ -512,7 +534,7 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.0.2',
+  VERSAO: '3.1.0',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -562,7 +584,9 @@ function criarDB(){
     devocionaisEm: async(datas,campos='*')=>{ let out=[]; for(let i=0;i<datas.length;i+=100){ out=out.concat(ok(await sb.from('devocionais').select(campos).in('data',datas.slice(i,i+100)))); } return out; },
     delWhere: async(t,col,val)=> ok(await sb.from(t).delete().eq(col,val)),
     contarDesde: async(t,col,iso)=>{ const r=await sb.from(t).select('id',{count:'exact',head:true}).gte(col,iso); if(r.error) throw r.error; return r.count||0; },
-    marcarLidas: async(keys)=> ok(await sb.from('notificacoes_lidas').upsert(keys.map(k=>({chave:k,lida_em:new Date().toISOString()})),{onConflict:'chave'}))
+    marcarLidas: async(keys)=> ok(await sb.from('notificacoes_lidas').upsert(keys.map(k=>({chave:k,lida_em:new Date().toISOString()})),{onConflict:'chave'})),
+    bkExecs: async()=> ok(await sb.from('backup_execucoes').select('*').order('inicio',{ascending:false}).limit(300)),
+    bkMotor: async()=> ok(await sb.from('backup_motor').select('*').eq('id',1).maybeSingle())
   };
 }
 const db = window.__VP_DB__ || criarDB();
@@ -577,7 +601,8 @@ const S = {
   dt:{ aba:'aniv', mes:'', cat:'' },
   bib:[], leituras:new Set(), clima:null, dolar:null,
   sg:{ data:null, devData:null, dev:undefined },
-  bb:{ tipo:'', q:'', ordem:'recente', aberto:null, item:null, editar:false }
+  bb:{ tipo:'', q:'', ordem:'recente', aberto:null, item:null, editar:false },
+  bk:{ carregado:false, existe:true, tarefas:[], execs:[], motor:null, det:false }
 };
 
 /* ---------------- Utilidades de tela ---------------- */
@@ -718,6 +743,7 @@ function gerarNotificacoes(hoje=S.hoje){
     out.push({chave:`aniv|${a.id}|${p.data}`,tipo:'aniv',titulo:a.nome,texto:p.falta===0?'Faz aniversário hoje':`Aniversário em ${p.falta} dia${p.falta>1?'s':''} (${diaCurto(p.data)})`,ir:'datas'}); }
   for(const x of S.datas){ const p=proxDataImportante(x,hoje); if(p&&p.falta<=(x.antecedencia??7))
     out.push({chave:`data|${x.id}|${p.data}`,tipo:'data',titulo:x.nome,texto:p.falta===0?'É hoje':`Em ${p.falta} dia${p.falta>1?'s':''} (${diaCurto(p.data)})`,ir:'datas'}); }
+  if(typeof notifBackup==='function') out.push(...notifBackup());   // avisos do backup automático (fora do motor de datas)
   const vistos=new Set(); return out.filter(n=>!vistos.has(n.chave)&&vistos.add(n.chave));
 }
 // </motor>
@@ -945,7 +971,7 @@ function cardsDoDia(d){
 /* ---------------- Topo, navegação, notificações ---------------- */
 const ROTAS=[
   ['inicio','Início','home'],['tarefas','Tarefas','check-square'],['agenda','Agenda','calendar-days'],['datas','Datas','cake'],
-  ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb'],['biblioteca','Biblioteca','library']
+  ['devocional','Devocional','book-open'],['sugestoes','Sugestões','lightbulb'],['biblioteca','Biblioteca','library'],['backup','Backup','hard-drive-download']
 ];
 function saudacao(){ const h=horaLocal(); return h<12?'Bom dia':h<18?'Boa tarde':'Boa noite'; }
 const LOGO=`<img class="brand-mark" src="logo.png" alt="" width="44" height="44">`;
@@ -974,7 +1000,7 @@ function renderTopo(){
   $('#busca-form').onsubmit=e=>{ e.preventDefault(); const q=$('#busca').value.trim(); if(q.length>1) buscaGlobal(q); };
   icons();
 }
-const NOTIF_IC={prio:['flag','b-bad'],atraso:['alert-octagon','b-bad'],ev:['calendar-days','b-info'],aniv:['cake','b-warn'],data:['calendar-heart','b-ok']};
+const NOTIF_IC={backup:['hard-drive-download','b-bad'],prio:['flag','b-bad'],atraso:['alert-octagon','b-bad'],ev:['calendar-days','b-info'],aniv:['cake','b-warn'],data:['calendar-heart','b-ok']};
 function abrirNotif(){
   fecharNotif();
   const todas=gerarNotificacoes(), nl=todas.filter(n=>!S.lidas.has(n.chave)), lidas=todas.filter(n=>S.lidas.has(n.chave));
@@ -1017,17 +1043,19 @@ function cabecalho(icone,titulo,sub,extra=''){
 function render(){
   REG={}; regN=0;
   const m=$('#main'); if(!m) return;
-  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,datas:pgDatas,devocional:pgDevocional,sugestoes:pgSugestoes,biblioteca:pgBiblioteca,config:pgConfig}[S.rota]||pgInicio;
+  const f={inicio:pgInicio,tarefas:pgTarefas,agenda:pgAgenda,datas:pgDatas,devocional:pgDevocional,sugestoes:pgSugestoes,biblioteca:pgBiblioteca,backup:pgBackup,config:pgConfig}[S.rota]||pgInicio;
   f(m); icons();
   if(S.carregado){ renderTopo(); const b=$('#side .soon.bad'), na=atrasadas().length; if((b?+b.textContent:0)!==na) renderSide(); }
 }
 async function recarregar(silencioso=false){
+  const pBk=carregarBackup();
   try{
     const [t,o,ev,an,dt,li,dv,bb,le]=await Promise.all([db.list('tarefas'),db.list('tarefa_ocorrencias'),db.list('eventos').catch(()=>[]),db.list('aniversarios').catch(()=>[]),
       db.list('datas_importantes').catch(()=>[]),db.list('notificacoes_lidas').catch(()=>[]),db.getDevocional(S.hoje).catch(()=>null),
       db.listBiblioteca().catch(()=>[]),db.list('devocional_leituras').catch(()=>[])]);
     S.tarefas=t||[]; S.ocorr=o||[]; S.eventos=ev||[]; S.aniv=an||[]; S.datas=dt||[]; S.lidas=new Set((li||[]).map(x=>x.chave)); S.devHoje=dv;
     S.bib=bb||[]; S.leituras=new Set((le||[]).map(x=>x.data));
+    await pBk;
     if(!silencioso) toast('Painel atualizado');
   }catch(e){ erro(e,'Erro ao carregar seus dados'); }
 }
@@ -2359,7 +2387,7 @@ function leitorBiblioteca(m){
    PÁGINA: AJUSTES (tema, perfil, PIN, backup)
    ===================================================================== */
 const TABELAS_BACKUP=[['config','id'],['tarefas','id'],['tarefa_ocorrencias','tarefa_id,data'],['eventos','id'],['aniversarios','id'],['datas_importantes','id'],
-  ['anotacoes','data,tipo'],['notificacoes_lidas','chave'],['devocional_leituras','data'],['biblioteca','id'],['devocionais','data']];
+  ['anotacoes','data,tipo'],['notificacoes_lidas','chave'],['devocional_leituras','data'],['biblioteca','id'],['devocionais','data'],['backup_tarefas','id']];
 function baixar(nome,texto,tipo='application/json'){ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([texto],{type:tipo})); a.download=nome; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); }
 async function exportarBackup(comDev){
   const tab={}, falhas=[];
@@ -2462,7 +2490,7 @@ function pgConfig(m){
       <label class="check" style="margin-bottom:12px"><input type="checkbox" id="bk-dev"> Incluir os devocionais (arquivo maior)</label>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn primary" id="bk-x">${ic('download')} Exportar backup</button><button class="btn" id="bk-i">${ic('archive-restore')} Restaurar backup</button></div></section>
     <section class="card"><div class="card-head"><h2>${ic('info')} Sobre</h2></div>
-      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 3: integrações, devocional e IA</p>
+      <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 4: backup automático do Mac</p>
       <p class="small muted" style="margin:0 0 14px">Dados no Supabase, schema <code>${CONFIG.SCHEMA}</code>. Clima: Open-Meteo. Dólar: Banco Central (PTAX).</p>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="testes.html" target="_blank" rel="noopener">${ic('flask-conical')} Rodar testes</a><button class="btn danger" id="c-x">${ic('log-out')} Sair</button></div></section>
   </div>`;
@@ -2492,6 +2520,218 @@ function pgConfig(m){
   $('#bk-x').onclick=async()=>{ const b=$('#bk-x'); b.disabled=true; try{ await exportarBackup($('#bk-dev').checked); }catch(e){ erro(e,'Falha no backup'); } b.disabled=false; };
   $('#bk-i').onclick=importarBackup;
   $('#c-x').onclick=()=>{ store.del('vp_sessao'); try{sessionStorage.removeItem('vp_sessao')}catch(e){} location.reload(); };
+}
+
+/* =====================================================================
+   BACKUP AUTOMÁTICO DO MAC (Fase 4)
+   O painel só configura e mostra. Quem copia é o motor instalado no Mac
+   (backup-instalar.sh), que roda sozinho a cada 3 minutos pelo launchd.
+   ===================================================================== */
+const BK_INSTALAR='curl -fsSL https://eneas-ena.github.io/vida_plena/backup-instalar.sh | bash';
+const BK_REMOVER=BK_INSTALAR+' -s -- remover';
+const BK_FEITO=['ok','parcial','erro'];
+const BK_ST={ok:['OK','b-ok','check-circle-2'],parcial:['Com avisos','b-warn','alert-triangle'],erro:['Falhou','b-bad','x-circle'],
+  interrompido:['Interrompido','b-bad','alert-octagon'],pulado:['Aguardando disco','b-warn','hard-drive'],rodando:['Copiando agora','b-info','loader']};
+const BK_ATALHOS=[['Documentos','~/Documents'],['Mesa','~/Desktop'],['Imagens','~/Pictures'],['Downloads','~/Downloads'],['Filmes','~/Movies'],['Música','~/Music']];
+
+async function carregarBackup(){
+  try{
+    const [t,e,m]=await Promise.all([db.list('backup_tarefas'),db.bkExecs(),db.bkMotor()]);
+    S.bk={carregado:true,existe:true,tarefas:(t||[]).sort((a,b)=>String(a.nome).localeCompare(String(b.nome),'pt-BR')),execs:e||[],motor:m||null,det:S.bk.det};
+  }catch(err){
+    const falta=['PGRST205','42P01','PGRST106'].includes(err&&err.code)||/does not exist|schema cache/i.test(err&&err.message||'');
+    S.bk={carregado:true,existe:!falta,erro:err&&err.message||String(err),tarefas:[],execs:[],motor:null,det:S.bk.det};
+  }
+}
+/* Mesmo cálculo do motor do Mac (vp-helper.js): horários no fuso do computador */
+function bkHM(t){ const [h,m]=String(t.hora||'22:00').split(':').map(Number); return [h||0,m||0]; }
+function bkDias(t){ return (t.dias_semana&&t.dias_semana.length)?t.dias_semana:[0,1,2,3,4,5,6]; }
+function bkUltimoHorario(t,agora=new Date()){ const [h,m]=bkHM(t),d=bkDias(t);
+  for(let k=0;k<=7;k++){ const x=new Date(agora.getFullYear(),agora.getMonth(),agora.getDate()-k,h,m,0,0); if(x<=agora&&d.includes(x.getDay())) return x; } return null; }
+function bkProximo(t,agora=new Date()){ const [h,m]=bkHM(t),d=bkDias(t);
+  for(let k=0;k<=8;k++){ const x=new Date(agora.getFullYear(),agora.getMonth(),agora.getDate()+k,h,m,0,0); if(x>agora&&d.includes(x.getDay())) return x; } return null; }
+function bkExecsDe(id){ return S.bk.execs.filter(e=>e.tarefa_id===id); }
+function bkFeitoDesde(id,d){ return bkExecsDe(id).some(e=>BK_FEITO.includes(e.status)&&new Date(e.inicio)>=d); }
+function bkMotorOnline(){ const m=S.bk.motor; return !!(m&&m.ultimo_contato&&Date.now()-new Date(m.ultimo_contato)<12*60*1000); }
+function bkHa(iso){ if(!iso) return ''; const s=Math.round((Date.now()-new Date(iso))/1000);
+  if(s<60) return 'agora há pouco'; if(s<3600) return `há ${Math.round(s/60)} min`; if(s<86400) return `há ${Math.round(s/3600)} h`; const d=Math.round(s/86400); return `há ${d} dia${d>1?'s':''}`; }
+function bkQuando(dt){ const d=new Date(dt), hoje=new Date(), am=new Date(hoje.getFullYear(),hoje.getMonth(),hoje.getDate()+1);
+  const hh=d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+  if(d.toDateString()===hoje.toDateString()) return 'hoje às '+hh; if(d.toDateString()===am.toDateString()) return 'amanhã às '+hh;
+  return d.toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'})+' às '+hh; }
+function bkAgenda(t){ const d=t.dias_semana&&t.dias_semana.length&&t.dias_semana.length<7?[...t.dias_semana].sort().map(i=>DIAS[i]).join(', '):'Todos os dias'; return `${d} às ${hhmm(t.hora)}`; }
+function bkQuebra(p){ return esc(p).replace(/\//g,'/<wbr>'); }
+function bkNomeCaminho(p){ const s=String(p).replace(/\/+$/,''); const n=s.split('/').pop(); return s==='~'?'Pasta pessoal':n||s; }
+/* Situação de cada tarefa, do jeito que aparece no cartão */
+function bkSituacao(t){
+  if(!t.ativo) return {l:'Pausada',c:'b-mut',i:'pause',txt:'Não roda enquanto estiver pausada.'};
+  const ex=bkExecsDe(t.id), ult=ex[0]||null;
+  if(ult&&ult.status==='rodando') return {l:BK_ST.rodando[0],c:'b-info',i:'loader',txt:'Começou '+bkHa(ult.inicio)+'.'};
+  if(t.rodar_agora&&!bkFeitoDesde(t.id,new Date(t.rodar_agora))&&!(ult&&ult.status==='pulado'&&new Date(ult.inicio)>=new Date(t.rodar_agora)))
+    return {l:'Na fila',c:'b-info',i:'clock',txt:bkMotorOnline()?'O motor começa em até 3 minutos.':'Vai rodar assim que o motor do Mac der sinal.'};
+  const slot=bkUltimoHorario(t), devido=slot&&slot>=new Date(t.criado_em)&&!bkFeitoDesde(t.id,slot);
+  if(ult&&ult.status==='pulado'&&(devido||t.rodar_agora)) return {l:BK_ST.pulado[0],c:'b-warn',i:'hard-drive',txt:ult.mensagem||'Destino desconectado.'};
+  if(devido&&Date.now()-slot>30*60*1000) return {l:'Atrasado',c:'b-bad',i:'alarm-clock',txt:`Era para ter rodado ${bkQuando(slot)}. ${bkMotorOnline()?'':'O motor do Mac está sem sinal.'}`};
+  const feito=ex.find(e=>BK_FEITO.includes(e.status)||e.status==='interrompido');
+  if(feito){ const s=BK_ST[feito.status]; return {l:s[0],c:s[1],i:s[2],txt:`${bkQuando(feito.fim||feito.inicio)} · ${feito.mensagem||''}`}; }
+  return {l:'Ainda não rodou',c:'b-mut',i:'circle-dashed',txt:'O primeiro backup acontece no próximo horário (ou clique em Rodar agora).'};
+}
+/* Avisos no sino */
+function notifBackup(){
+  const B=S.bk; if(!B||!B.carregado||!B.existe) return [];
+  const ativas=B.tarefas.filter(t=>t.ativo), out=[]; if(!ativas.length) return out;
+  if(!B.motor) out.push({chave:'bk|sem-motor',tipo:'backup',titulo:'Backup: motor não instalado',texto:'Instale o motor no Mac para os backups rodarem sozinhos.',ir:'backup'});
+  else if(!bkMotorOnline()&&Date.now()-new Date(B.motor.ultimo_contato)>60*60*1000)
+    out.push({chave:'bk|motor|'+S.hoje,tipo:'backup',titulo:'Backup: motor sem sinal',texto:`Último sinal do Mac ${bkHa(B.motor.ultimo_contato)}. Ele está desligado ou dormindo?`,ir:'backup'});
+  for(const t of ativas){
+    const ult=bkExecsDe(t.id)[0]; if(!ult) continue;
+    if(['erro','parcial','interrompido'].includes(ult.status)) out.push({chave:'bk|'+ult.id,tipo:'backup',titulo:'Backup: '+t.nome,texto:BK_ST[ult.status][0]+' · '+(ult.mensagem||'').slice(0,90),ir:'backup'});
+    else if(ult.status==='pulado') out.push({chave:'bk|'+ult.id,tipo:'backup',titulo:'Backup: '+t.nome,texto:'Aguardando o disco de destino ser conectado.',ir:'backup'});
+  }
+  return out;
+}
+function copiarTexto(txt){
+  const ok=()=>toast('Comando copiado. Cole no Terminal do Mac.');
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok).catch(()=>prompt('Copie o comando:',txt));
+  else prompt('Copie o comando:',txt);
+}
+function htmlMotor(){
+  const m=S.bk.motor, on=bkMotorOnline();
+  const passos=`<ol class="small bk-passos">
+      <li>Abra o <b>Terminal</b> do Mac (Command + Espaço, digite “Terminal” e tecle Enter).</li>
+      <li>Cole o comando abaixo e tecle Enter:<div class="bk-cmd"><code>${esc(BK_INSTALAR)}</code><button class="btn sm" data-copiar="i">${ic('copy')} Copiar</button></div></li>
+      <li>Vão abrir os <b>Ajustes do Sistema</b> em <b>Acesso Total ao Disco</b>. Clique no <b>+</b>, aperte <b>Command + Shift + G</b>, digite <code>/bin/bash</code>, tecle Enter e clique em <b>Abrir</b>. Deixe a chave do “bash” ligada.</li>
+      <li>Pronto. Em até 3 minutos este quadro mostra <b>Ligado</b>.</li></ol>`;
+  if(!m) return `<section class="card bk-motor"><div class="card-head"><h2>${ic('cpu')} Motor do Mac</h2><span class="badge b-warn">${ic('plug')} Não instalado</span></div>
+    <p class="small" style="margin:0 0 6px">O navegador não tem permissão para copiar arquivos sozinho. Por isso existe um pequeno <b>motor</b> que fica no Mac, roda em segundo plano e obedece ao que você configura aqui. A instalação é feita uma única vez:</p>${passos}</section>`;
+  return `<section class="card bk-motor"><div class="card-head"><h2>${ic('cpu')} Motor do Mac</h2>${on?`<span class="badge b-ok"><span class="bk-dot on"></span> Ligado</span>`:`<span class="badge b-bad"><span class="bk-dot"></span> Sem sinal</span>`}</div>
+    <p class="small" style="margin:0">${on?`Funcionando no <b>${esc(m.maquina||'Mac')}</b>. Último sinal ${bkHa(m.ultimo_contato)}. Versão ${esc(m.versao||'?')}.`
+      :`Último sinal ${bkHa(m.ultimo_contato)} (${esc(m.maquina||'Mac')}). O Mac pode estar desligado ou dormindo. Quando ele acordar, os backups atrasados rodam sozinhos.`}</p>
+    <details class="bk-det" id="bk-det" ${S.bk.det?'open':''}><summary>Instalar de novo, atualizar ou remover o motor</summary>${passos}
+      <p class="small muted" style="margin:6px 0 4px">Para remover o motor do Mac (os backups já feitos continuam nos discos):</p>
+      <div class="bk-cmd"><code>${esc(BK_REMOVER)}</code><button class="btn sm" data-copiar="r">${ic('copy')} Copiar</button></div>
+      <p class="hint">Registro detalhado no Mac: pasta Biblioteca/Logs/VidaPlenaBackup.</p></details></section>`;
+}
+function cartaoBackup(t){
+  const s=bkSituacao(t), prox=t.ativo?bkProximo(t):null;
+  return `<article class="card bk-card${t.ativo?'':' pausada'}">
+    <div class="card-head"><h2>${ic('hard-drive-download')} ${esc(t.nome)}</h2><span class="badge ${s.c}">${ic(s.i)} ${esc(s.l)}</span></div>
+    <div class="bk-linha"><span class="bk-rot">${ic('folder-input')} De</span><div class="bk-caminhos">${(t.origens||[]).map(o=>`<code title="${esc(o)}">${esc(bkNomeCaminho(o))}</code>`).join('')}</div></div>
+    <div class="bk-linha"><span class="bk-rot">${ic(/CloudStorage/.test(t.destino)?'cloud':'hard-drive')} Para</span><div class="bk-caminhos"><code title="${esc(t.destino)}">${bkQuebra(t.destino)}</code></div></div>
+    <div class="bk-linha"><span class="bk-rot">${ic('calendar-clock')} Quando</span><span class="small">${esc(bkAgenda(t))}${prox?` · próximo: <b>${bkQuando(prox)}</b>`:''}</span></div>
+    <div class="bk-linha"><span class="bk-rot">${ic('replace')} Regra</span><span class="small">${t.sobrescrever===false?'Nunca substitui o que já está no destino':'Copia o que é novo e atualiza o que mudou'} · nunca apaga nada no destino</span></div>
+    <p class="small muted bk-sit">${esc(s.txt)}</p>
+    <div class="bk-acoes"><button class="btn sm gold" data-bk-run="${t.id}" ${t.ativo?'':'disabled'}>${ic('play')} Rodar agora</button>
+      <button class="btn sm" data-bk-ed="${t.id}">${ic('pencil')} Editar</button>
+      <button class="btn sm" data-bk-pa="${t.id}">${ic(t.ativo?'pause':'play-circle')} ${t.ativo?'Pausar':'Retomar'}</button>
+      <button class="btn sm danger" data-bk-x="${t.id}" style="margin-left:auto" aria-label="Excluir tarefa ${esc(t.nome)}">${ic('trash-2')}</button></div>
+  </article>`;
+}
+function pgBackup(m){
+  const B=S.bk;
+  const extra=`<button class="btn primary" id="bk-novo" ${B.carregado&&B.existe?'':'disabled'}>${ic('plus')} Nova tarefa</button>`;
+  if(!B.carregado){ m.innerHTML=cabecalho('hard-drive-download','Backup','Cópias automáticas do Mac para o HD externo e o Google Drive.',extra)+`<div class="skel" style="min-height:260px"></div>`;
+    carregarBackup().then(()=>{ if(S.rota==='backup') render(); }); return; }
+  if(!B.existe){ m.innerHTML=cabecalho('hard-drive-download','Backup','Cópias automáticas do Mac para o HD externo e o Google Drive.',extra)+
+    `<section class="card"><div class="card-head"><h2>${ic('database')} Falta preparar o banco</h2></div>
+     <p class="small">Rode o script <b>fase4-backup-vidaplena.sql</b> no SQL Editor do Supabase (projeto quiz-biblico) e recarregue esta página.</p>
+     <p class="small muted">Detalhe técnico: ${esc(B.erro||'')}</p><button class="btn" id="bk-rec">${ic('refresh-cw')} Tentar de novo</button></section>`;
+    $('#bk-rec').onclick=()=>{ S.bk.carregado=false; render(); }; return; }
+  const ts=B.tarefas, hist=B.execs.slice(0,25);
+  m.innerHTML=`${cabecalho('hard-drive-download','Backup','Cópias automáticas do Mac para o HD externo e o Google Drive.',extra)}
+    ${htmlMotor()}
+    <div class="bk-grid">${ts.length?ts.map(cartaoBackup).join(''):`<div class="empty" style="grid-column:1/-1">Nenhuma tarefa de backup ainda. Clique em <b>Nova tarefa</b> para escolher o que copiar, para onde e quando.</div>`}</div>
+    <section class="card" style="margin-top:20px"><div class="card-head"><h2>${ic('history')} Últimas execuções</h2><button class="btn sm" id="bk-atu">${ic('refresh-cw')} Atualizar</button></div>
+      ${hist.length?`<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Quando</th><th>Tarefa</th><th>Resultado</th><th>Arquivos</th><th>Detalhe</th></tr></thead><tbody>
+      ${hist.map(e=>{ const s=BK_ST[e.status]||[e.status,'b-mut','circle']; return `<tr><td style="white-space:nowrap">${esc(new Date(e.inicio).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}))}</td><td>${esc(e.tarefa_nome||'')}</td><td><span class="badge ${s[1]}">${ic(s[2])} ${s[0]}</span></td><td>${e.status==='pulado'||e.status==='rodando'?'–':esc(e.arquivos??0)}</td><td class="small muted bk-msg">${esc(e.mensagem||'')}</td></tr>`; }).join('')}
+      </tbody></table></div>`:'<div class="empty">Nenhuma execução registrada ainda.</div>'}</section>`;
+  const achar=id=>B.tarefas.find(x=>x.id===id);
+  $('#bk-novo').onclick=()=>formBackup(null);
+  $('#bk-atu').onclick=async()=>{ await carregarBackup(); render(); toast('Backup atualizado'); };
+  const det=$('#bk-det'); if(det) det.ontoggle=()=>{ S.bk.det=det.open; };
+  m.querySelectorAll('[data-copiar]').forEach(b=>b.onclick=()=>copiarTexto(b.dataset.copiar==='r'?BK_REMOVER:BK_INSTALAR));
+  m.querySelectorAll('[data-bk-ed]').forEach(b=>b.onclick=()=>formBackup(achar(b.dataset.bkEd)));
+  m.querySelectorAll('[data-bk-run]').forEach(b=>b.onclick=async()=>{ const t=achar(b.dataset.bkRun);
+    try{ Object.assign(t,await db.upd('backup_tarefas',t.id,{rodar_agora:new Date().toISOString()}));
+      toast(bkMotorOnline()?'Pedido enviado. O motor do Mac começa em até 3 minutos.':'Pedido registrado. Roda assim que o motor do Mac der sinal.',!bkMotorOnline()); render(); }
+    catch(e){ erro(e,'Não foi possível pedir o backup'); } });
+  m.querySelectorAll('[data-bk-pa]').forEach(b=>b.onclick=async()=>{ const t=achar(b.dataset.bkPa);
+    try{ Object.assign(t,await db.upd('backup_tarefas',t.id,{ativo:!t.ativo,rodar_agora:null,atualizado_em:new Date().toISOString()})); toast(t.ativo?'Tarefa retomada':'Tarefa pausada'); render(); }
+    catch(e){ erro(e,'Não foi possível alterar'); } });
+  m.querySelectorAll('[data-bk-x]').forEach(b=>b.onclick=async()=>{ const t=achar(b.dataset.bkX);
+    if(!await confirmar('Excluir tarefa de backup',`Excluir “${t.nome}” e o histórico dela? Os arquivos já copiados no destino NÃO são apagados.`)) return;
+    try{ await db.del('backup_tarefas',t.id); B.tarefas=B.tarefas.filter(x=>x.id!==t.id); B.execs=B.execs.filter(x=>x.tarefa_id!==t.id); toast('Tarefa excluída'); render(); }
+    catch(e){ erro(e,'Não foi possível excluir'); } });
+}
+/* Regras de um formulário válido */
+function bkValidar(o){
+  const cam=p=>/^(\/|~(\/|$))/.test(p);
+  if(!o.nome) return 'Dê um nome para a tarefa.';
+  if(!o.origens.length) return 'Informe pelo menos uma pasta ou arquivo de origem.';
+  const ruim=o.origens.find(p=>!cam(p)); if(ruim) return `Caminho de origem inválido: “${ruim}”. Ele deve começar com / (cole o caminho copiado no Finder).`;
+  if(!o.destino) return 'Informe a pasta de destino.';
+  if(!cam(o.destino)) return 'O destino deve começar com / (cole o caminho copiado no Finder).';
+  const casa=(S.bk.motor&&S.bk.motor.usuario_home)||'';
+  const sem=p=>(casa&&/^~(\/|$)/.test(p)?casa+p.slice(1):p).replace(/\/+$/,'');
+  const dentro=o.origens.find(p=>sem(o.destino)===sem(p)||sem(o.destino).startsWith(sem(p)+'/'));
+  if(dentro) return `O destino não pode ficar dentro da origem “${dentro}” (o backup copiaria a si mesmo).`;
+  return null;
+}
+function formBackup(t,rascunho){
+  const v=rascunho||t||{nome:'',origens:[],destino:'',dias_semana:[],hora:'22:00',sobrescrever:true,excluir:[],ativo:true};
+  const sug=(S.bk.motor&&S.bk.motor.destinos_sugeridos)||[];
+  const m=abrirModal(`<h3>${ic('hard-drive-download')} ${t?'Editar tarefa de backup':'Nova tarefa de backup'}</h3>
+    <div class="field"><label class="f" for="bk-n">Nome <span class="req">*</span></label><input class="inp" id="bk-n" value="${esc(v.nome)}" placeholder="Ex.: Sermões e documentos para o HD"></div>
+    <div class="field"><label class="f" for="bk-o">De onde copiar (origens) <span class="req">*</span></label>
+      <textarea class="inp" id="bk-o" style="min-height:96px;font-family:ui-monospace,Menlo,monospace;font-size:13px" placeholder="/Users/voce/Documents&#10;/Users/voce/Desktop/Sermões">${esc((v.origens||[]).join('\n'))}</textarea>
+      <div class="chips" style="margin-top:8px">${BK_ATALHOS.map(([l,p])=>`<button type="button" class="chip" data-at="${esc(p)}">${ic('plus')} ${l}</button>`).join('')}</div>
+      <div class="hint">Uma pasta ou arquivo por linha. No Finder, clique na pasta e aperte <b>Option + Command + C</b> para copiar o caminho; depois cole aqui.</div></div>
+    <div class="field"><label class="f" for="bk-d">Para onde copiar (destino) <span class="req">*</span></label>
+      <input class="inp" id="bk-d" value="${esc(v.destino)}" placeholder="/Volumes/Nome do HD/Backup Mac" style="font-family:ui-monospace,Menlo,monospace;font-size:13px">
+      ${sug.length?`<div class="chips" style="margin-top:8px">${sug.map((p,i)=>`<button type="button" class="chip" data-sg="${i}" title="${esc(p)}">${ic(/CloudStorage/.test(p)?'cloud':'hard-drive')} ${esc(/CloudStorage/.test(p)?'Google Drive':bkNomeCaminho(p))}</button>`).join('')}</div>
+        <div class="hint">Discos e nuvens que o motor encontrou no Mac agora. Clique para usar (cria a pasta “Backup Mac” dentro).</div>`
+        :`<div class="hint">HD externo: <code>/Volumes/Nome do HD/Backup Mac</code>. Google Drive: copie no Finder o caminho de uma pasta dentro de “Meu Drive”.</div>`}</div>
+    <div class="row field"><div><span class="f">Dias da semana</span>
+        <div class="chips">${DIAS.map((d,i)=>`<button type="button" class="chip" data-bdia="${i}" aria-pressed="${(v.dias_semana||[]).includes(i)}">${d}</button>`).join('')}</div>
+        <div class="hint">Nenhum marcado = todos os dias.</div></div>
+      <div><label class="f" for="bk-h">Horário</label><input class="inp" type="time" id="bk-h" value="${esc(hhmm(v.hora)||'22:00')}" style="max-width:160px">
+        <div class="hint">Se o Mac estiver desligado ou dormindo, roda assim que ele acordar.</div></div></div>
+    <div class="field"><span class="f">Quando o arquivo já existe no destino</span>
+      <div class="opts"><label class="opt"><input type="radio" name="bk-s" value="1" ${v.sobrescrever!==false?'checked':''}><span><b>Atualizar se mudou (recomendado)</b><small>Copia os arquivos novos e substitui os que você alterou. Os outros ficam como estão.</small></span></label>
+        <label class="opt"><input type="radio" name="bk-s" value="0" ${v.sobrescrever===false?'checked':''}><span><b>Nunca substituir</b><small>Só copia arquivos novos. O que já está no destino nunca é trocado.</small></span></label></div>
+      <div class="hint">Nos dois casos, nada é apagado no destino, mesmo que você apague no Mac.</div></div>
+    <div class="field"><label class="f" for="bk-e">Ignorar (opcional)</label><input class="inp" id="bk-e" value="${esc((v.excluir||[]).join(', '))}" placeholder="Ex.: *.mp4, node_modules">
+      <div class="hint">Separe por vírgula. Arquivos de sistema do Mac (.DS_Store e similares) já são ignorados.</div></div>
+    <div class="field"><label class="check"><input type="checkbox" id="bk-a" ${v.ativo!==false?'checked':''}> Tarefa ativa</label></div>
+    <div class="foot"><button class="btn" id="bk-c0">Cancelar</button><button class="btn primary" id="bk-sv">${ic('save')} Salvar</button></div>`,{wide:true});
+  let dias=[...(v.dias_semana||[])];
+  const ta=m.querySelector('#bk-o'), de=m.querySelector('#bk-d');
+  m.querySelectorAll('[data-bdia]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.bdia; dias=dias.includes(i)?dias.filter(x=>x!==i):[...dias,i]; b.setAttribute('aria-pressed',dias.includes(i)); });
+  m.querySelectorAll('[data-at]').forEach(b=>b.onclick=()=>{ const l=ta.value.split('\n').map(s=>s.trim()).filter(Boolean); if(!l.includes(b.dataset.at)) l.push(b.dataset.at); ta.value=l.join('\n'); });
+  m.querySelectorAll('[data-sg]').forEach(b=>b.onclick=()=>{ de.value=sug[+b.dataset.sg].replace(/\/+$/,'')+'/Backup Mac'; });
+  m.querySelector('#bk-c0').onclick=fecharModal;
+  m.querySelector('#bk-sv').onclick=async()=>{
+    const o={nome:m.querySelector('#bk-n').value.trim(),
+      origens:[...new Set(ta.value.split('\n').map(s=>s.trim().replace(/^["']|["']$/g,'')).filter(Boolean))],
+      destino:de.value.trim().replace(/^["']|["']$/g,'').replace(/(.)\/+$/,'$1'),
+      dias_semana:dias.length===7?[]:[...dias].sort(), hora:m.querySelector('#bk-h').value||'22:00',
+      sobrescrever:m.querySelector('input[name="bk-s"]:checked').value==='1',
+      excluir:m.querySelector('#bk-e').value.split(',').map(s=>s.trim()).filter(Boolean),
+      ativo:m.querySelector('#bk-a').checked, atualizado_em:new Date().toISOString()};
+    const msg=bkValidar(o); if(msg){ toast(msg,true); return; }
+    const externo=/^\/Volumes\//.test(o.destino)||/\/Library\/CloudStorage\//.test(o.destino);
+    if(!externo){ const salvo={...o}; fecharModal();
+      if(!await confirmar('O destino fica no próprio Mac',`“${o.destino}” não é um HD externo nem o Google Drive. Se o Mac tiver um problema, a cópia se perde junto. Salvar assim mesmo?`,'Salvar assim')) { formBackup(t,salvo); return; }
+      return salvarBackup(t,salvo); }
+    fecharModal(); salvarBackup(t,o);
+  };
+}
+async function salvarBackup(t,o){
+  try{
+    if(t){ Object.assign(t,await db.upd('backup_tarefas',t.id,o)); toast('Tarefa de backup atualizada'); }
+    else { S.bk.tarefas.push(await db.ins('backup_tarefas',o)); toast(bkMotorOnline()?'Tarefa criada. Use “Rodar agora” para fazer a primeira cópia já.':'Tarefa criada. Falta instalar ou ligar o motor do Mac.'); }
+    S.bk.tarefas.sort((a,b)=>String(a.nome).localeCompare(String(b.nome),'pt-BR')); render();
+  }catch(e){ erro(e,'Não foi possível salvar a tarefa'); formBackup(t,o); }
 }
 
 /* =====================================================================
@@ -2555,6 +2795,10 @@ async function entrar(){
   setInterval(()=>{ atualizarClima(); atualizarDolar(); },15*60*1000);
   window.addEventListener('online',()=>{ atualizarClima(); atualizarDolar(); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) verificarDia(); });
+  // Backup: atualiza a cada 30 s com a aba Backup aberta e a cada 5 min nas outras (avisos do sino)
+  let bkTick=0;
+  setInterval(()=>{ if(document.hidden) return; bkTick++; if(S.rota!=='backup'&&bkTick%10) return;
+    carregarBackup().then(()=>{ if(S.rota==='backup'&&!modalAberto&&!menuAberto) render(); else renderTopo(); }); },30000);
 }
 /* Atualização do app: avisa quando uma versão nova foi instalada, sem recarregar sozinho (não perde o que está sendo digitado) */
 if('serviceWorker' in navigator && location.protocol==='https:'){
