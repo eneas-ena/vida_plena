@@ -16,6 +16,7 @@ if [ "$(uname)" != "Darwin" ]; then echo "Este instalador é só para Mac."; exi
 
 if [ "$1" = "remover" ]; then
   launchctl bootout "gui/$UIDN/$LABEL" 2>/dev/null
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -u "$BASE/VidaPlena Backup.app" >/dev/null 2>&1
   rm -f "$PLIST"; rm -rf "$BASE"
   echo ""
   echo "✅ Motor de backup do VidaPlena removido."
@@ -23,6 +24,7 @@ if [ "$1" = "remover" ]; then
   exit 0
 fi
 
+[ -f "$BASE/vp-backup.sh" ] && ATUALIZACAO=1
 mkdir -p "$BASE" "$LOGDIR" "$HOME/Library/LaunchAgents" || { echo "Não consegui criar as pastas."; exit 1; }
 
 # ---------- motor ----------
@@ -34,7 +36,7 @@ cat > "$BASE/vp-backup.sh" <<'__FIM_DO_MOTOR__'
 #  copia o que estiver na hora e grava o resultado para o painel.
 #  Compatível com o bash 3.2 que vem no macOS.
 # =====================================================================
-VERSAO="1.1.0"
+VERSAO="1.2.0"
 SUPA_URL="${VP_SUPA_URL:-https://ghjbljypxksubmcsvaig.supabase.co}"
 SUPA_KEY="sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby"
 SCHEMA="vidaplena"
@@ -77,6 +79,18 @@ api(){ # metodo caminho [json] [prefer]
   case "$CODE" in 2??) return 0;; *) return 1;; esac
 }
 
+# ---------- modo "resposta": chamado pelo app VidaPlena Backup depois da janela Abrir do Mac ----------
+#   vp-backup.sh resposta <pedido> <ok|cancelado> [caminho1 caminho2 ...]
+if [ "$1" = "resposta" ]; then
+  PED="$2"; ST="$3"; shift 3
+  case "$PED" in *[!0-9a-fA-F-]*|"") exit 1;; esac
+  [ "$ST" = "ok" ] || ST="cancelado"
+  CAMJ=$(helper arr "$@"); [ -z "$CAMJ" ] && CAMJ='[]'
+  api POST "backup_escolhas?on_conflict=id" "{\"id\":$(j "$PED"),\"status\":$(j "$ST"),\"caminhos\":$CAMJ}" "resolution=merge-duplicates,return=minimal" \
+    || log "Não consegui enviar a escolha de pasta (HTTP $CODE): $RESP"
+  exit 0
+fi
+
 # ---------- trava: uma execução por vez ----------
 LOCK="$BASE/.trava"
 if ! mkdir "$LOCK" 2>/dev/null; then
@@ -106,30 +120,6 @@ SUGJ=$(helper arr "${SUG[@]}")
 if ! api POST "backup_motor?on_conflict=id" "{\"id\":1,\"ultimo_contato\":$(j "$(agora_iso)"),\"versao\":$(j "$VERSAO"),\"maquina\":$(j "$MAQUINA"),\"usuario_home\":$(j "$HOME"),\"destinos_sugeridos\":$SUGJ}" "resolution=merge-duplicates,return=minimal"; then
   log "Sem conexão com o Supabase (HTTP $CODE). Tento de novo no próximo ciclo. $RESP"
   exit 0
-fi
-
-# ---------- 1b. lista de pastas para o botão "Procurar" do painel ----------
-# Refaz no máximo a cada 30 min, ou na hora quando o painel pede ("Atualizar lista").
-indexar_pastas(){
-  local tmp="$BASE/.pastas.txt" corpo="$BASE/.pastas.json" p
-  : > "$tmp"
-  find "$HOME" -maxdepth 4 \( -name '.*' -o -name Library -o -name '*.app' -o -name '*.photoslibrary' -o -name '*.bundle' \
-       -o -name node_modules -o -name Applications \) -prune -o -type d -print 2>/dev/null | head -n 4000 >> "$tmp"
-  for p in "${SUG[@]}"; do
-    find "$p" -maxdepth 3 \( -name '.*' -o -name '$RECYCLE.BIN' -o -name 'System Volume Information' -o -name 'Backups.backupdb' \
-         -o -name '*.app' -o -name '*.photoslibrary' -o -name node_modules \) -prune -o -type d -print 2>/dev/null | head -n 1500 >> "$tmp"
-  done
-  { printf '{"id":1,"atualizado_em":%s,"pastas":' "$(j "$(agora_iso)")"; helper arqarr "$tmp"; printf '}'; } > "$corpo"
-  api POST "backup_pastas?on_conflict=id" "@$corpo" "resolution=merge-duplicates,return=minimal"
-  local rc=$?; rm -f "$tmp" "$corpo"; return $rc
-}
-if api GET "backup_pastas?select=atualizado_em,pedido_em&id=eq.1"; then
-  RE_A='"atualizado_em":"([^"]*)"'; RE_P='"pedido_em":"([^"]*)"'
-  P_EM=""; P_PED=""; [[ $RESP =~ $RE_A ]] && P_EM="${BASH_REMATCH[1]}"; [[ $RESP =~ $RE_P ]] && P_PED="${BASH_REMATCH[1]}"
-  ULT=$(cat "$BASE/.pastas-ts" 2>/dev/null || echo 0); AGORA_S=$(date +%s)
-  if [ -z "$P_EM" ] || [ $((AGORA_S - ULT)) -ge 1800 ] || [[ -n "$P_PED" && "$P_PED" > "$P_EM" ]]; then
-    if indexar_pastas; then echo "$AGORA_S" > "$BASE/.pastas-ts"; else log "Não consegui enviar a lista de pastas (HTTP $CODE)"; fi
-  fi
 fi
 
 # ---------- 2. execuções que ficaram pela metade (Mac desligou no meio) ----------
@@ -310,7 +300,68 @@ if (typeof process !== 'undefined' && process.argv && typeof module !== 'undefin
 }
 __FIM_DO_AJUDANTE__
 
+# ---------- roteiro da janela Abrir (AppleScript) ----------
+cat > "$BASE/escolher.applescript" <<'__FIM_DO_ROTEIRO__'
+-- VidaPlena Backup — abre a janela "Abrir" do Mac quando o painel pede
+-- Endereço usado pelo painel: vidaplena-backup://escolher/<modo>/<pedido>
+--   modo: pastas (várias), arquivos (vários) ou destino (uma pasta)
+
+on open location endereco
+	set AppleScript's text item delimiters to "/"
+	set partes to text items of endereco
+	set AppleScript's text item delimiters to ""
+	if (count of partes) < 5 then return
+	set modo to item -2 of partes
+	set pedido to item -1 of partes
+	set situacao to "ok"
+	set caminhos to {}
+	activate
+	try
+		if modo is "destino" then
+			set escolhidos to {choose folder with prompt "Escolha a pasta de DESTINO do backup (HD externo, Google Drive...)"}
+		else if modo is "arquivos" then
+			set escolhidos to choose file with prompt "Escolha os ARQUIVOS para copiar (segure Command para escolher vários)" with multiple selections allowed
+		else
+			set escolhidos to choose folder with prompt "Escolha as PASTAS para copiar (segure Command para escolher várias)" with multiple selections allowed
+		end if
+		repeat with f in escolhidos
+			set end of caminhos to POSIX path of (contents of f)
+		end repeat
+	on error
+		set situacao to "cancelado"
+	end try
+	set motor to (POSIX path of (path to home folder)) & "Library/Application Support/VidaPlenaBackup/vp-backup.sh"
+	set comando to "/bin/bash " & quoted form of motor & " resposta " & quoted form of pedido & " " & situacao
+	repeat with c in caminhos
+		set comando to comando & " " & quoted form of (c as text)
+	end repeat
+	try
+		do shell script comando
+	end try
+end open location
+
+on run
+	display dialog "Este e o ajudante do Backup do VidaPlena. Ele abre sozinho quando voce clica em Escolher no painel." buttons {"OK"} default button 1 with title "VidaPlena Backup"
+end run
+__FIM_DO_ROTEIRO__
+
 chmod 755 "$BASE/vp-backup.sh"
+
+# ---------- ajudante "Escolher…": abre a janela Abrir do Mac quando o painel pede ----------
+APP="$BASE/VidaPlena Backup.app"; PB=/usr/libexec/PlistBuddy; PL="$APP/Contents/Info.plist"
+rm -rf "$APP"
+if osacompile -o "$APP" "$BASE/escolher.applescript" 2>/dev/null; then
+  $PB -c "Delete :CFBundleURLTypes" "$PL" 2>/dev/null
+  $PB -c "Add :CFBundleURLTypes array" -c "Add :CFBundleURLTypes:0 dict" \
+      -c "Add :CFBundleURLTypes:0:CFBundleURLName string com.vidaplena.backup.escolher" \
+      -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes array" -c "Add :CFBundleURLTypes:0:CFBundleURLSchemes:0 string vidaplena-backup" "$PL"
+  $PB -c "Set :CFBundleIdentifier com.vidaplena.backup.escolher" "$PL" 2>/dev/null || $PB -c "Add :CFBundleIdentifier string com.vidaplena.backup.escolher" "$PL"
+  codesign --force --deep --sign - "$APP" >/dev/null 2>&1
+  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP" >/dev/null 2>&1
+  APP_OK=1
+else
+  echo "⚠️  Não consegui criar o ajudante da janela Abrir. O backup funciona normalmente; os caminhos podem ser colados à mão."
+fi
 
 # ---------- agendador do macOS (launchd): roda a cada 3 minutos e ao ligar o Mac ----------
 cat > "$PLIST" <<__PLIST__
@@ -338,6 +389,11 @@ fi
 echo ""
 echo "✅ Motor de backup do VidaPlena instalado (versão $(grep -m1 '^VERSAO=' "$BASE/vp-backup.sh" | cut -d'"' -f2))."
 echo ""
+if [ -n "$ATUALIZACAO" ]; then
+  echo "Atualização concluída. A permissão de Acesso Total ao Disco que você já deu continua valendo."
+  [ -n "$APP_OK" ] && echo "Na primeira vez que usar “Escolher…” no painel, o navegador pergunta se pode abrir o “VidaPlena Backup”: clique em Abrir (e marque “Sempre permitir”, se aparecer)."
+  exit 0
+fi
 echo "FALTA SÓ UM PASSO (uma vez só): dar ao motor permissão para ler e gravar nos seus discos."
 echo "  1. Vou abrir agora: Ajustes do Sistema → Privacidade e Segurança → Acesso Total ao Disco."
 echo "  2. Clique no  +  (pode pedir sua senha do Mac)."
@@ -345,6 +401,7 @@ echo "  3. Na janela que abrir, aperte  Command + Shift + G , digite  /bin/bash 
 echo "  4. Clique em Abrir e confira se a chave ao lado de “bash” ficou ligada."
 echo ""
 echo "Depois volte ao VidaPlena, aba Backup: o motor deve aparecer como “Ligado” em até 3 minutos."
+[ -n "$APP_OK" ] && echo "Na primeira vez que usar “Escolher…” no painel, o navegador pergunta se pode abrir o “VidaPlena Backup”: clique em Abrir (e marque “Sempre permitir”, se aparecer)."
 sleep 2
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles" 2>/dev/null
 exit 0

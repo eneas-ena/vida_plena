@@ -522,17 +522,6 @@ button.sug:hover{filter:brightness(.97)}
 .badge [data-lucide="loader"]{animation:gira 1.2s linear infinite}
 .bk-msg{max-width:440px;word-break:break-word}
 @media (max-width:560px){.bk-grid{grid-template-columns:1fr}.bk-rot{width:66px}}
-.pk .pk-trilha{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:12px 0 8px;font-size:13px}
-.pk .pk-trilha .link{display:inline-flex;align-items:center;gap:4px}
-.pk-lista{border:1px solid var(--line);border-radius:12px;max-height:min(46vh,420px);overflow:auto;background:var(--surface-2)}
-.pk-item{display:flex;align-items:center;gap:8px;padding:4px 8px 4px 4px;border-bottom:1px solid var(--line-2)}
-.pk-item:last-child{border-bottom:0}
-.pk-abrir{flex:1;min-width:0;display:flex;align-items:center;gap:10px;background:none;border:0;padding:8px;border-radius:9px;text-align:left;color:inherit;font:inherit}
-.pk-abrir:hover{background:var(--surface)}
-.pk-abrir [data-lucide]{color:var(--gold)}
-.pk-abrir span:first-of-type{flex:1;min-width:0;display:flex;flex-direction:column}
-.pk-abrir small{color:var(--muted);font-size:12px;overflow-wrap:anywhere}
-.pk-n{font-size:11.5px;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:0 7px}
 .chip.pk-btn{border-color:var(--gold);color:var(--text);font-weight:700}
 .chip.pk-btn [data-lucide]{color:var(--gold)}
 .bk-ini .bk-ini-n{display:flex;flex-direction:column;min-width:0}
@@ -550,7 +539,7 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.2.0',
+  VERSAO: '3.3.0',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -603,8 +592,8 @@ function criarDB(){
     marcarLidas: async(keys)=> ok(await sb.from('notificacoes_lidas').upsert(keys.map(k=>({chave:k,lida_em:new Date().toISOString()})),{onConflict:'chave'})),
     bkExecs: async()=> ok(await sb.from('backup_execucoes').select('*').order('inicio',{ascending:false}).limit(300)),
     bkMotor: async()=> ok(await sb.from('backup_motor').select('*').eq('id',1).maybeSingle()),
-    bkPastas: async()=> ok(await sb.from('backup_pastas').select('pastas,atualizado_em,pedido_em').eq('id',1).maybeSingle()),
-    bkPedirPastas: async()=> ok(await sb.from('backup_pastas').upsert({id:1,pedido_em:new Date().toISOString()},{onConflict:'id'}))
+    bkEscolha: async(id)=> ok(await sb.from('backup_escolhas').select('status,caminhos').eq('id',id).maybeSingle()),
+    bkApagarEscolha: async(id)=> ok(await sb.from('backup_escolhas').delete().eq('id',id))
   };
 }
 const db = window.__VP_DB__ || criarDB();
@@ -2704,12 +2693,12 @@ function formBackup(t,rascunho){
     <div class="field"><label class="f" for="bk-n">Nome <span class="req">*</span></label><input class="inp" id="bk-n" value="${esc(v.nome)}" placeholder="Ex.: Sermões e documentos para o HD"></div>
     <div class="field"><label class="f" for="bk-o">De onde copiar (origens) <span class="req">*</span></label>
       <textarea class="inp" id="bk-o" style="min-height:96px;font-family:ui-monospace,Menlo,monospace;font-size:13px" placeholder="/Users/voce/Documents&#10;/Users/voce/Desktop/Sermões">${esc((v.origens||[]).join('\n'))}</textarea>
-      <div class="chips" style="margin-top:8px"><button type="button" class="chip pk-btn" id="bk-po">${ic('folder-search')} Procurar pasta…</button>${BK_ATALHOS.map(([l,p])=>`<button type="button" class="chip" data-at="${esc(p)}">${ic('plus')} ${l}</button>`).join('')}</div>
-      <div class="hint">Clique em <b>Procurar pasta…</b> para escolher no Mac ou use os atalhos. Também dá para colar o caminho, uma pasta ou arquivo por linha.</div></div>
+      <div class="chips" style="margin-top:8px"><button type="button" class="chip pk-btn" id="bk-po">${ic('folder-open')} Escolher pastas…</button><button type="button" class="chip pk-btn" id="bk-pa">${ic('file-plus')} Escolher arquivos…</button>${BK_ATALHOS.map(([l,p])=>`<button type="button" class="chip" data-at="${esc(p)}">${ic('plus')} ${l}</button>`).join('')}</div>
+      <div class="hint"><b>Escolher pastas…</b> e <b>Escolher arquivos…</b> abrem a janela Abrir do Mac. Também dá para usar os atalhos ou colar o caminho (um por linha).</div></div>
     <div class="field"><label class="f" for="bk-d">Para onde copiar (destino) <span class="req">*</span></label>
       <input class="inp" id="bk-d" value="${esc(v.destino)}" placeholder="/Volumes/Nome do HD/Backup Mac" style="font-family:ui-monospace,Menlo,monospace;font-size:13px">
-      <div class="chips" style="margin-top:8px"><button type="button" class="chip pk-btn" id="bk-pd">${ic('folder-search')} Procurar destino…</button>${sug.map((p,i)=>`<button type="button" class="chip" data-sg="${i}" title="${esc(p)}">${ic(/CloudStorage/.test(p)?'cloud':'hard-drive')} ${esc(/CloudStorage/.test(p)?'Google Drive':bkNomeCaminho(p))}</button>`).join('')}</div>
-      <div class="hint">${sug.length?'Clique num disco ou no Google Drive para usar a pasta “Backup Mac” dentro dele, ou em <b>Procurar destino…</b> para escolher outra pasta.':'Clique em <b>Procurar destino…</b> ou cole o caminho, ex.: <code>/Volumes/Nome do HD/Backup Mac</code>.'}</div></div>
+      <div class="chips" style="margin-top:8px"><button type="button" class="chip pk-btn" id="bk-pd">${ic('folder-open')} Escolher destino…</button>${sug.map((p,i)=>`<button type="button" class="chip" data-sg="${i}" title="${esc(p)}">${ic(/CloudStorage/.test(p)?'cloud':'hard-drive')} ${esc(/CloudStorage/.test(p)?'Google Drive':bkNomeCaminho(p))}</button>`).join('')}</div>
+      <div class="hint">${sug.length?'Clique num disco ou no Google Drive para usar a pasta “Backup Mac” dentro dele, ou em <b>Escolher destino…</b> para abrir a janela do Mac.':'Clique em <b>Escolher destino…</b> ou cole o caminho, ex.: <code>/Volumes/Nome do HD/Backup Mac</code>.'}</div></div>
     <div class="row field"><div><span class="f">Dias da semana</span>
         <div class="chips">${DIAS.map((d,i)=>`<button type="button" class="chip" data-bdia="${i}" aria-pressed="${(v.dias_semana||[]).includes(i)}">${d}</button>`).join('')}</div>
         <div class="hint">Nenhum marcado = todos os dias.</div></div>
@@ -2728,8 +2717,10 @@ function formBackup(t,rascunho){
   m.querySelectorAll('[data-bdia]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.bdia; dias=dias.includes(i)?dias.filter(x=>x!==i):[...dias,i]; b.setAttribute('aria-pressed',dias.includes(i)); });
   m.querySelectorAll('[data-at]').forEach(b=>b.onclick=()=>{ const l=ta.value.split('\n').map(s=>s.trim()).filter(Boolean); if(!l.includes(b.dataset.at)) l.push(b.dataset.at); ta.value=l.join('\n'); });
   m.querySelectorAll('[data-sg]').forEach(b=>b.onclick=()=>{ de.value=sug[+b.dataset.sg].replace(/\/+$/,'')+'/Backup Mac'; });
-  m.querySelector('#bk-po').onclick=async()=>{ const p=await escolherPasta('origem'); if(!p) return; const l=ta.value.split('\n').map(s=>s.trim()).filter(Boolean); if(!l.includes(p)) l.push(p); ta.value=l.join('\n'); ta.focus(); };
-  m.querySelector('#bk-pd').onclick=async()=>{ const p=await escolherPasta('destino'); if(p){ de.value=p; de.focus(); } };
+  const juntar=ps=>{ if(!ps||!ps.length) return; const l=ta.value.split('\n').map(s=>s.trim()).filter(Boolean); for(const p of ps) if(!l.includes(p)) l.push(p); ta.value=l.join('\n'); ta.focus(); };
+  m.querySelector('#bk-po').onclick=()=>escolherNoMac('pastas').then(juntar);
+  m.querySelector('#bk-pa').onclick=()=>escolherNoMac('arquivos').then(juntar);
+  m.querySelector('#bk-pd').onclick=()=>escolherNoMac('destino').then(ps=>{ if(ps&&ps[0]){ de.value=bkRaiz(ps[0])?ps[0]+'/Backup Mac':ps[0]; de.focus(); } });
   m.querySelector('#bk-c0').onclick=fecharModal;
   m.querySelector('#bk-sv').onclick=async()=>{
     const o={nome:m.querySelector('#bk-n').value.trim(),
@@ -2755,76 +2746,51 @@ async function salvarBackup(t,o){
   }catch(e){ erro(e,'Não foi possível salvar a tarefa'); formBackup(t,o); }
 }
 
-/* ---------- Navegador de pastas do Mac (lista enviada pelo motor) ---------- */
-const BK_MOTOR_ATUAL='1.1.0';
-const BK_NOMES_PT={Documents:'Documentos',Desktop:'Mesa',Pictures:'Imagens',Movies:'Filmes',Music:'Música',Public:'Público'};
+/* ---------- Botões "Escolher…": abrem a janela Abrir de verdade, no Mac ----------
+   O painel abre o endereço vidaplena-backup://escolher/<modo>/<pedido>. O ajudante
+   instalado com o motor mostra a janela do Mac e devolve os caminhos pelo Supabase. */
+const BK_MOTOR_ATUAL='1.2.0';
 function bkVersaoMenor(a,b){ const x=String(a||'0').split('.').map(Number), y=String(b).split('.').map(Number);
   for(let i=0;i<3;i++){ if((x[i]||0)<(y[i]||0)) return true; if((x[i]||0)>(y[i]||0)) return false; } return false; }
 function bkMotorDesatualizado(){ const m=S.bk.motor; return !!(m&&bkVersaoMenor(m.versao,BK_MOTOR_ATUAL)); }
-function bkRotulo(p,casa){ if(casa&&p===casa) return 'Pasta pessoal';
-  if(/\/Library\/CloudStorage\/GoogleDrive-[^/]+\/(Meu Drive|My Drive)$/.test(p)) return 'Google Drive';
-  const n=p.split('/').pop(); return (casa&&p===casa+'/'+n&&BK_NOMES_PT[n])||n; }
-function bkRaiz(p,casa){ return p===casa||/^\/Volumes\/[^/]+$/.test(p)||/\/Library\/CloudStorage\/GoogleDrive-[^/]+\/(Meu Drive|My Drive)$/.test(p); }
-function bkSemAcento(s){ return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(); }
+function bkRaiz(p){ return /^\/Volumes\/[^/]+$/.test(p)||/\/Library\/CloudStorage\/GoogleDrive-[^/]+\/(Meu Drive|My Drive)$/.test(p); }
+function bkNovoId(){ return (crypto.randomUUID&&crypto.randomUUID())||'xxxxxxxx-xxxx-4xxx-8xxx-xxxxxxxxxxxx'.replace(/x/g,()=>(Math.random()*16|0).toString(16)); }
 
-function escolherPasta(modo){
+/* modo: 'pastas' | 'arquivos' | 'destino'. Resolve com a lista de caminhos ou null. */
+function escolherNoMac(modo){
   return new Promise(res=>{
-    const casa=(S.bk.motor&&S.bk.motor.usuario_home)||'';
-    const bg=document.createElement('div'); bg.className='modal-bg'; bg.style.zIndex='70';
-    bg.innerHTML=`<div class="modal wide pk" role="dialog" aria-modal="true" aria-label="Escolher pasta">
-      <h3>${ic('folder-search')} ${modo==='destino'?'Escolher o destino':'Escolher pasta para copiar'}</h3>
-      <div class="search-in"><input class="inp" id="pk-q" placeholder="Buscar pasta pelo nome…" autocomplete="off"></div>
-      <div class="pk-trilha" id="pk-t"></div><div class="pk-lista" id="pk-l"><div class="small muted" style="padding:12px">Carregando as pastas do Mac…</div></div>
-      <div class="hint" id="pk-info"></div>
-      <div class="foot"><button class="btn" id="pk-c">Cancelar</button><button class="btn primary" id="pk-ok" disabled>${ic('check')} Escolher esta pasta</button></div></div>`;
-    document.body.appendChild(bg); icons(); bg.querySelector('#pk-q').focus();
-    const q=bg.querySelector('#pk-q'), L=bg.querySelector('#pk-l'), Tr=bg.querySelector('#pk-t'), ok=bg.querySelector('#pk-ok'), info=bg.querySelector('#pk-info');
-    let filhos=new Map(), raizes=[], todas=[], cur=null;
-    const fechar=v=>{ bg.remove(); res(v); };
-    const devolver=p=>fechar(modo==='destino'&&bkRaiz(p,casa)?p+'/Backup Mac':p);
-    bg.addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.stopPropagation(); fechar(null); } });
-    bg.addEventListener('mousedown',e=>{ if(e.target===bg) fechar(null); });
-    bg.querySelector('#pk-c').onclick=()=>fechar(null);
-    ok.onclick=()=>{ if(cur) devolver(cur); };
-    const linha=(p,mostrarCaminho)=>{ const n=(filhos.get(p)||[]).length;
-      return `<div class="pk-item"><button class="pk-abrir" data-p="${esc(p)}">${ic(/^\/Volumes\/[^/]+$/.test(p)?'hard-drive':/CloudStorage/.test(p)&&bkRaiz(p,casa)?'cloud':p===casa?'home':'folder')}
-        <span><b>${esc(bkRotulo(p,casa))}</b>${mostrarCaminho?`<small>${esc(casa?p.replace(casa,'~'):p)}</small>`:''}</span>${n?`<span class="pk-n">${n}</span>${ic('chevron-right')}`:''}</button>
-        <button class="btn sm" data-esc="${esc(p)}">Escolher</button></div>`; };
-    const pintar=()=>{
-      const termo=bkSemAcento(q.value.trim());
-      if(termo.length>=2){
-        const achou=todas.filter(p=>bkSemAcento(p.split('/').pop()).includes(termo)).slice(0,80);
-        Tr.innerHTML=`<span class="small muted">${achou.length?`Resultados para “${esc(q.value.trim())}”`:'Nenhuma pasta com esse nome.'}</span>`;
-        L.innerHTML=achou.map(p=>linha(p,true)).join('');
-      } else {
-        const trilha=[]; if(cur){ let p=cur; while(p){ trilha.unshift(p); if(raizes.includes(p)) break; const i=p.lastIndexOf('/'); p=i>0?p.slice(0,i):''; } }
-        Tr.innerHTML=`<button class="link" data-ir="">${ic('monitor')} Mac</button>`+trilha.map(p=>` <span class="muted">›</span> <button class="link" data-ir="${esc(p)}">${esc(bkRotulo(p,casa))}</button>`).join('');
-        const lista=cur?(filhos.get(cur)||[]):raizes;
-        L.innerHTML=lista.length?lista.map(p=>linha(p,false)).join(''):`<div class="empty">${cur?'Esta pasta não tem subpastas. Clique em “Escolher esta pasta”.':'Nenhuma pasta recebida.'}</div>`;
+    const aviso=txt=>{ const m=abrirSobre(`<h3>${ic('folder-open')} Escolher no Mac</h3><p class="small">${txt}</p>
+      <div class="foot"><button class="btn primary" data-x>Entendi</button></div>`); m.querySelector('[data-x]').onclick=()=>{ m.parentNode.remove(); res(null); }; };
+    if(!S.bk.motor){ aviso('Primeiro instale o motor do Mac (quadro “Motor do Mac” na aba Backup). Ele traz o ajudante que abre a janela de escolha.'); return; }
+    if(bkMotorDesatualizado()){ aviso('Para usar este botão, atualize o motor: na aba Backup, abra “Instalar de novo, atualizar ou remover o motor”, copie o comando e cole no Terminal. Leva poucos segundos.'); return; }
+    const id=bkNovoId();
+    // precisa ser dentro do clique, senão o navegador bloqueia
+    const a=document.createElement('a'); a.href=`vidaplena-backup://escolher/${modo}/${id}`; document.body.appendChild(a); a.click(); a.remove();
+    const m=abrirSobre(`<h3>${ic('folder-open')} Escolha na janela do Mac</h3>
+      <p class="small">Abri a janela <b>Abrir</b> do Mac${modo==='destino'?' para você escolher o destino':modo==='arquivos'?'. Escolha um ou mais arquivos (segure Command para vários)':'. Escolha uma ou mais pastas (segure Command para várias)'}. Assim que você clicar em <b>Escolher</b> lá, o caminho aparece aqui sozinho.</p>
+      <p class="hint">Na primeira vez, o navegador pergunta se pode abrir o “VidaPlena Backup”: clique em <b>Abrir</b>. Se a janela não aparecer, ela pode estar atrás do navegador.</p>
+      <div class="foot"><button class="btn" data-x>Cancelar</button></div>`);
+    let ativo=true; const fim=v=>{ if(!ativo) return; ativo=false; m.parentNode.remove(); res(v); };
+    m.querySelector('[data-x]').onclick=()=>fim(null);
+    const t0=Date.now();
+    (async function espera(){
+      while(ativo&&Date.now()-t0<5*60*1000){
+        await new Promise(r=>setTimeout(r,1200)); if(!ativo) return;
+        try{ const r=await db.bkEscolha(id);
+          if(r){ db.bkApagarEscolha(id).catch(()=>{}); fim(r.status==='ok'?(r.caminhos||[]).map(p=>p.length>1?p.replace(/\/+$/,''):p):null); return; } }
+        catch(e){ if(['PGRST205','42P01'].includes(e&&e.code)){ fim(null); toast('Falta rodar o script fase4c-backup-escolher.sql no Supabase',true); return; } }
       }
-      ok.disabled=!cur; ok.innerHTML=`${ic('check')} ${cur?`Escolher “${esc(bkRotulo(cur,casa))}”`:'Escolher esta pasta'}`;
-      icons();
-      L.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>{ cur=b.dataset.p; q.value=''; pintar(); L.scrollTop=0; });
-      L.querySelectorAll('[data-esc]').forEach(b=>b.onclick=()=>devolver(b.dataset.esc));
-      Tr.querySelectorAll('[data-ir]').forEach(b=>b.onclick=()=>{ cur=b.dataset.ir||null; pintar(); });
-    };
-    q.oninput=pintar;
-    const pedir=async()=>{ try{ await db.bkPedirPastas(); info.innerHTML='Pedido enviado. O motor atualiza a lista em até 3 minutos; depois abra esta janela de novo.'; }catch(e){ erro(e,'Não foi possível pedir a atualização'); } };
-    db.bkPastas().then(r=>{
-      todas=((r&&r.pastas)||[]).filter(p=>p&&p[0]==='/').sort((a,b)=>a.localeCompare(b,'pt-BR'));
-      if(!todas.length){ L.innerHTML=`<div class="empty">${bkMotorDesatualizado()?'Atualize o motor do Mac (aba Backup → “Instalar de novo, atualizar…”) para usar este botão.':'A lista de pastas ainda não chegou do Mac. Ela chega em até 3 minutos depois que o motor estiver atualizado e ligado.'}</div>`;
-        info.innerHTML=`<button class="link" id="pk-a">${ic('refresh-cw')} Pedir a lista agora</button>`; icons(); bg.querySelector('#pk-a').onclick=pedir; return; }
-      const set=new Set(todas);
-      for(const p of todas){ const i=p.lastIndexOf('/'), pai=i>0?p.slice(0,i):''; if(set.has(pai)&&!bkRaiz(p,casa)){ if(!filhos.has(pai)) filhos.set(pai,[]); filhos.get(pai).push(p); } }
-      for(const l of filhos.values()) l.sort((x,y)=>bkRotulo(x,casa).localeCompare(bkRotulo(y,casa),'pt-BR'));
-      raizes=todas.filter(p=>bkRaiz(p,casa)).sort((a,b)=>(a===casa?-1:b===casa?1:0)||(/CloudStorage/.test(a)?1:0)-(/CloudStorage/.test(b)?1:0)||a.localeCompare(b,'pt-BR'));
-      info.innerHTML=`Lista do Mac atualizada ${bkHa(r.atualizado_em)} (pastas até 4 níveis). Não achou? <button class="link" id="pk-a">Atualizar lista</button> ou cole o caminho no campo.`;
-      pintar(); bg.querySelector('#pk-a').onclick=pedir; q.focus();
-    }).catch(e=>{
-      const falta=['PGRST205','42P01'].includes(e&&e.code)||/schema cache|does not exist/i.test(e&&e.message||'');
-      L.innerHTML=`<div class="empty">${falta?'Falta rodar o script <b>fase4b-backup-pastas.sql</b> no Supabase para usar este botão.':'Não consegui carregar as pastas: '+esc(e.message)}</div>`;
-    });
+      fim(null);
+    })();
   });
+}
+/* Janela por cima do formulário (sem fechar o formulário que está aberto) */
+function abrirSobre(html){
+  const bg=document.createElement('div'); bg.className='modal-bg'; bg.style.zIndex='70';
+  bg.innerHTML=`<div class="modal" role="dialog" aria-modal="true">${html}</div>`;
+  bg.addEventListener('keydown',e=>{ if(e.key==='Escape'){ e.stopPropagation(); const b=bg.querySelector('[data-x]'); b&&b.click(); } });
+  document.body.appendChild(bg); icons(); const b=bg.querySelector('[data-x]'); b&&b.focus();
+  return bg.firstElementChild;
 }
 
 /* ---------- Quadro do Backup na tela inicial ---------- */
