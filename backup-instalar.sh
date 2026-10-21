@@ -34,7 +34,7 @@ cat > "$BASE/vp-backup.sh" <<'__FIM_DO_MOTOR__'
 #  copia o que estiver na hora e grava o resultado para o painel.
 #  Compatível com o bash 3.2 que vem no macOS.
 # =====================================================================
-VERSAO="1.0.0"
+VERSAO="1.1.0"
 SUPA_URL="${VP_SUPA_URL:-https://ghjbljypxksubmcsvaig.supabase.co}"
 SUPA_KEY="sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby"
 SCHEMA="vidaplena"
@@ -91,8 +91,10 @@ trap 'rm -rf "$LOCK"' EXIT
 SUG=()
 for v in "$VOLUMES"/*; do
   [ -d "$v" ] || continue
-  case "$(basename "$v")" in "Macintosh HD"|"Macintosh HD - Data"|"Recovery"|"Preboot"|"VM"|"Update") continue;; esac
+  case "$(basename "$v")" in "Macintosh HD"|"Macintosh HD - Data"|"Recovery"|"Preboot"|"VM"|"Update"|com.apple.*|.*) continue;; esac
   [ -L "$v" ] && continue
+  # instaladores (.dmg) e discos só de leitura não servem como destino
+  if [ -z "$VP_TESTE" ] && /sbin/mount | grep -F " on $v (" | grep -q "read-only"; then continue; fi
   SUG+=("$v")
 done
 for g in "$HOME/Library/CloudStorage/"GoogleDrive-*; do
@@ -104,6 +106,30 @@ SUGJ=$(helper arr "${SUG[@]}")
 if ! api POST "backup_motor?on_conflict=id" "{\"id\":1,\"ultimo_contato\":$(j "$(agora_iso)"),\"versao\":$(j "$VERSAO"),\"maquina\":$(j "$MAQUINA"),\"usuario_home\":$(j "$HOME"),\"destinos_sugeridos\":$SUGJ}" "resolution=merge-duplicates,return=minimal"; then
   log "Sem conexão com o Supabase (HTTP $CODE). Tento de novo no próximo ciclo. $RESP"
   exit 0
+fi
+
+# ---------- 1b. lista de pastas para o botão "Procurar" do painel ----------
+# Refaz no máximo a cada 30 min, ou na hora quando o painel pede ("Atualizar lista").
+indexar_pastas(){
+  local tmp="$BASE/.pastas.txt" corpo="$BASE/.pastas.json" p
+  : > "$tmp"
+  find "$HOME" -maxdepth 4 \( -name '.*' -o -name Library -o -name '*.app' -o -name '*.photoslibrary' -o -name '*.bundle' \
+       -o -name node_modules -o -name Applications \) -prune -o -type d -print 2>/dev/null | head -n 4000 >> "$tmp"
+  for p in "${SUG[@]}"; do
+    find "$p" -maxdepth 3 \( -name '.*' -o -name '$RECYCLE.BIN' -o -name 'System Volume Information' -o -name 'Backups.backupdb' \
+         -o -name '*.app' -o -name '*.photoslibrary' -o -name node_modules \) -prune -o -type d -print 2>/dev/null | head -n 1500 >> "$tmp"
+  done
+  { printf '{"id":1,"atualizado_em":%s,"pastas":' "$(j "$(agora_iso)")"; helper arqarr "$tmp"; printf '}'; } > "$corpo"
+  api POST "backup_pastas?on_conflict=id" "@$corpo" "resolution=merge-duplicates,return=minimal"
+  local rc=$?; rm -f "$tmp" "$corpo"; return $rc
+}
+if api GET "backup_pastas?select=atualizado_em,pedido_em&id=eq.1"; then
+  RE_A='"atualizado_em":"([^"]*)"'; RE_P='"pedido_em":"([^"]*)"'
+  P_EM=""; P_PED=""; [[ $RESP =~ $RE_A ]] && P_EM="${BASH_REMATCH[1]}"; [[ $RESP =~ $RE_P ]] && P_PED="${BASH_REMATCH[1]}"
+  ULT=$(cat "$BASE/.pastas-ts" 2>/dev/null || echo 0); AGORA_S=$(date +%s)
+  if [ -z "$P_EM" ] || [ $((AGORA_S - ULT)) -ge 1800 ] || [[ -n "$P_PED" && "$P_PED" > "$P_EM" ]]; then
+    if indexar_pastas; then echo "$AGORA_S" > "$BASE/.pastas-ts"; else log "Não consegui enviar a lista de pastas (HTTP $CODE)"; fi
+  fi
 fi
 
 # ---------- 2. execuções que ficaram pela metade (Mac desligou no meio) ----------
@@ -206,6 +232,7 @@ cat > "$BASE/vp-helper.js" <<'__FIM_DO_AJUDANTE__'
    Chamado pelo motor:  osascript -l JavaScript vp-helper.js <modo> <args...>
    Modos:
      str  <texto>                       -> texto em JSON ("...")
+     arqarr <arquivo>                   -> linhas do arquivo como lista JSON
      arr  <a> <b> ...                   -> lista em JSON (["a","b"])
      devidas <tarefas.json> <execs.json> [agoraISO]
           -> uma linha por tarefa que deve rodar agora, campos separados por TAB:
@@ -249,10 +276,25 @@ function devidas(tarefas, execs, agora) {
   return out.join('\n');
 }
 
+function lerArquivo(p) {
+  if (typeof ObjC !== 'undefined') {   // Mac (JavaScript for Automation)
+    ObjC.import('Foundation');
+    var s = $.NSString.stringWithContentsOfFileEncodingError(p, $.NSUTF8StringEncoding, $());
+    return s && !s.isNil() ? s.js : '';
+  }
+  return require('fs').readFileSync(p, 'utf8');   // testes com Node
+}
+
 function run(argv) {
   var modo = argv[0];
   if (modo === 'str') return JSON.stringify(String(argv[1] == null ? '' : argv[1]));
   if (modo === 'arr') return JSON.stringify(argv.slice(1).filter(function (x) { return x !== ''; }));
+  if (modo === 'arqarr') {   // arquivo com um caminho por linha -> lista JSON
+    var txt = lerArquivo(argv[1]) || '';
+    var vistos = {}, lista = [];
+    txt.split('\n').forEach(function (l) { if (l && !vistos[l]) { vistos[l] = 1; lista.push(l); } });
+    return JSON.stringify(lista);
+  }
   if (modo === 'devidas') {
     var tarefas = JSON.parse(argv[1] || '[]'), execs = JSON.parse(argv[2] || '[]');
     if (!Array.isArray(tarefas) || !Array.isArray(execs)) return '';
