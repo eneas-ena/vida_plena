@@ -36,7 +36,7 @@ cat > "$BASE/vp-backup.sh" <<'__FIM_DO_MOTOR__'
 #  copia o que estiver na hora e grava o resultado para o painel.
 #  Compatível com o bash 3.2 que vem no macOS.
 # =====================================================================
-VERSAO="1.2.0"
+VERSAO="1.3.0"
 SUPA_URL="${VP_SUPA_URL:-https://ghjbljypxksubmcsvaig.supabase.co}"
 SUPA_KEY="sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby"
 SCHEMA="vidaplena"
@@ -146,6 +146,26 @@ destino_ok(){ # caminho -> 0 se pode gravar
   [ -d "$d" ] || [ -d "$(dirname "$d")" ]
 }
 
+# ---------- traduz o erro do rsync para o painel: arquivo + motivo em português ----------
+explicar(){ # origem -> "Arquivo: motivo. "
+  local linha arq motivo
+  linha=$(grep -m1 -E 'error: .+: [^:]+$' "$ERRF" | sed -E 's/^rsync\([0-9]+\): error: //')
+  [ -z "$linha" ] && linha=$(grep -m1 -iE 'error|failed' "$ERRF" | sed -E 's/^rsync\([0-9]+\): (error|warning): //')
+  arq="${linha%: *}"; motivo="${linha##*: }"
+  # tira a operação interna do rsync do fim do nome (": mmap", ": open", ": rename"...)
+  case "${arq##*: }" in mmap|open|openat|read|write|rename|mkstemp|mkstempat|fstat|stat|lstat|unlink|chmod|utimes|futimens) arq="${arq%: *}";; esac
+  case "$linha" in
+    *"Resource deadlock avoided"*) motivo="a nuvem não liberou o arquivo a tempo (ele estava sendo sincronizado ou só existe online)";;
+    *"Operation not permitted"*|*"Permission denied"*) motivo="sem permissão para ler ou gravar (confira o Acesso Total ao Disco para o bash)";;
+    *"No space left"*) motivo="o destino está sem espaço";;
+    *"No such file"*) motivo="o arquivo sumiu durante a cópia (foi movido ou apagado)";;
+    *"Input/output error"*) motivo="erro de leitura no disco";;
+  esac
+  if [ -n "$linha" ] && [ "$arq" != "$linha" ]; then printf 'Arquivo “%s”: %s. ' "$arq" "$motivo"
+  elif [ -n "$linha" ]; then printf '%s: %s. ' "$(basename "$1")" "$linha"
+  else printf '%s: o rsync parou sem explicar (código %s). ' "$(basename "$1")" "$RC"; fi
+}
+
 # ---------- 5. roda cada tarefa ----------
 while IFS=$'\t' read -r TID NOME DEST SOBRE MOTIVO PULADO ORIGS EXCLS <&3; do
   [ -z "$TID" ] && continue
@@ -177,21 +197,30 @@ while IFS=$'\t' read -r TID NOME DEST SOBRE MOTIVO PULADO ORIGS EXCLS <&3; do
     [ "$o" = "-" ] && continue
     o="$(expandir "$o")"; [ "$o" != "/" ] && o="${o%/}"
     if [ ! -e "$o" ]; then FALTANDO="$FALTANDO$o; "; continue; fi
-    args=(-rt --modify-window=2 -v)
+    # -W: copia o arquivo inteiro, sem ler a cópia antiga do destino (evita o erro
+    #     "Resource deadlock avoided" quando o destino é o Google Drive / iCloud)
+    args=(-rt -W --modify-window=2 -v)
     [ "$SOBRE" = "0" ] && args+=(--ignore-existing)
     for x in "${EXCL_PADRAO[@]}"; do args+=(--exclude "$x"); done
     for x in "${EXCL[@]}"; do [ -n "$x" ] && args+=(--exclude "$x"); done
-    SAIDA=$("$RSYNC" "${args[@]}" "$o" "$DEST/" 2>"$ERRF"); RC=$?
-    N=$(printf '%s\n' "$SAIDA" | grep -v -e '/$' -e '^[[:space:]]*$' -e '^sending incremental' -e '^building file list' \
-          -e '^sent ' -e '^total size' -e '^Transfer ' -e '^created directory' -e 'speedup is' | wc -l | tr -d ' ')
-    TOTAL=$((TOTAL + N))
+    TENT=1
+    while :; do
+      SAIDA=$("$RSYNC" "${args[@]}" "$o" "$DEST/" 2>"$ERRF"); RC=$?
+      N=$(printf '%s\n' "$SAIDA" | grep -v -e '/$' -e '^[[:space:]]*$' -e '^sending incremental' -e '^building file list' \
+            -e '^sent ' -e '^total size' -e '^Transfer ' -e '^created directory' -e 'speedup is' | wc -l | tr -d ' ')
+      TOTAL=$((TOTAL + N))
+      printf '%s\n' "$SAIDA" | sed "s|^|    |" >> "$LOG"
+      cat "$ERRF" >> "$LOG" 2>/dev/null
+      # uma falha passageira (nuvem ocupada, arquivo aberto) costuma passar na segunda tentativa
+      if [ "$RC" = 0 ] || [ "$RC" = 24 ] || [ $TENT -ge 2 ]; then break; fi
+      log "[$NOME] tentativa $TENT falhou (código $RC); tentando de novo em 20 s"
+      TENT=$((TENT + 1)); sleep "${VP_ESPERA:-20}"
+    done
     case "$RC" in
       0|24) ;;
-      23) [ $PIOR -lt 1 ] && PIOR=1; ERROS="$ERROS$(basename "$o"): $(tail -n 3 "$ERRF" | tr '\n' ' ') " ;;
-      *)  PIOR=2; ERROS="$ERROS$(basename "$o"): $(tail -n 3 "$ERRF" | tr '\n' ' ') " ;;
+      23) [ $PIOR -lt 1 ] && PIOR=1; ERROS="$ERROS$(explicar "$o")" ;;
+      *)  PIOR=2; ERROS="$ERROS$(explicar "$o")" ;;
     esac
-    printf '%s\n' "$SAIDA" | sed "s|^|    |" >> "$LOG"
-    cat "$ERRF" >> "$LOG" 2>/dev/null
   done
   rm -f "$ERRF"
 
@@ -200,11 +229,10 @@ while IFS=$'\t' read -r TID NOME DEST SOBRE MOTIVO PULADO ORIGS EXCLS <&3; do
   case $PIOR in
     0) ST="ok";      MSG="$TOTAL arquivo(s) copiado(s) ou atualizado(s) em $DURT." ;;
     1) ST="parcial"; MSG="$TOTAL arquivo(s) copiado(s) em $DURT, mas houve problemas." ;;
-    *) ST="erro";    MSG="O backup falhou." ;;
+    *) ST="erro";    MSG="O backup parou no meio ($TOTAL arquivo(s) copiado(s) antes)." ;;
   esac
   [ -n "$FALTANDO" ] && MSG="$MSG Origem não encontrada: $FALTANDO"
   [ -n "$ERROS" ] && MSG="$MSG Detalhe: $ERROS"
-  case "$ERROS" in *"not permitted"*|*"Operation not permitted"*) MSG="$MSG (Dica: confira o Acesso Total ao Disco para o bash nos Ajustes do Sistema.)";; esac
   MSG="${MSG:0:1500}"
 
   if [ -n "$EID" ]; then

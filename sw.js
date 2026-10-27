@@ -1,7 +1,7 @@
-// VidaPlena — service worker v3.3.0
+// VidaPlena — service worker v3.3.1
 // Arquivos do app: rede primeiro (atualizações do GitHub aparecem logo).
 // Fontes e bibliotecas (CDN): cache primeiro.
-const CACHE = 'vidaplena-3.3.0';
+const CACHE = 'vidaplena-3.3.1';
 self.addEventListener('install', e => self.skipWaiting());
 self.addEventListener('activate', e => e.waitUntil(
   caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim())
