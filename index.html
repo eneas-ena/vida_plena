@@ -539,7 +539,7 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.3.1',
+  VERSAO: '3.3.2',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
@@ -2749,7 +2749,7 @@ async function salvarBackup(t,o){
 /* ---------- Botões "Escolher…": abrem a janela Abrir de verdade, no Mac ----------
    O painel abre o endereço vidaplena-backup://escolher/<modo>/<pedido>. O ajudante
    instalado com o motor mostra a janela do Mac e devolve os caminhos pelo Supabase. */
-const BK_MOTOR_ATUAL='1.3.0';
+const BK_MOTOR_ATUAL='1.4.0';
 function bkVersaoMenor(a,b){ const x=String(a||'0').split('.').map(Number), y=String(b).split('.').map(Number);
   for(let i=0;i<3;i++){ if((x[i]||0)<(y[i]||0)) return true; if((x[i]||0)>(y[i]||0)) return false; } return false; }
 function bkMotorDesatualizado(){ const m=S.bk.motor; return !!(m&&bkVersaoMenor(m.versao,BK_MOTOR_ATUAL)); }
