@@ -522,6 +522,31 @@ button.sug:hover{filter:brightness(.97)}
 .badge [data-lucide="loader"]{animation:gira 1.2s linear infinite}
 .bk-msg{max-width:440px;word-break:break-word}
 @media (max-width:560px){.bk-grid{grid-template-columns:1fr}.bk-rot{width:66px}}
+/* Ibovespa */
+.ibov-topo{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+.ibov-v{font-family:var(--font-title);font-size:28px;line-height:1.1}
+.ibov-pct{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:13.5px;padding:3px 9px;border-radius:9px}
+.ibov-pct [data-lucide]{width:14px;height:14px}
+.ibov-pct.up{background:var(--ok-bg);color:var(--ok)} .ibov-pct.down{background:var(--bad-bg);color:var(--bad)}
+.ibov-dif{font-weight:700;font-size:13.5px} .ibov-dif.up{color:var(--ok)} .ibov-dif.down{color:var(--bad)}
+.ibov-abas{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:8px}
+.ibov-abas button{background:none;border:0;border-bottom:2px solid transparent;padding:6px 9px;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:-1px}
+.ibov-abas button[aria-pressed="true"]{color:var(--info);border-bottom-color:var(--info)}
+.ibov-graf{position:relative;touch-action:pan-y;cursor:crosshair}
+.ibov-graf{height:200px}
+.ibov-svg{display:block;width:100%;height:100%;overflow:visible}
+.ibov-x,.ibov-y,.ibov-ref{position:absolute;background:var(--surface);padding:0 3px;border-radius:4px;font-size:10.5px;color:var(--faint);pointer-events:none;white-space:nowrap;line-height:1}
+.ibov-x{bottom:0;transform:translateX(-50%)}
+.ibov-y{right:2px;transform:translateY(-120%)}
+.ibov-ref{left:4px;transform:translateY(-130%);color:var(--muted)}
+.ibov-pt{position:absolute;width:8px;height:8px;border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 3px var(--surface)}
+.ibov-svg .g{stroke:var(--line-2);stroke-width:1;vector-effect:non-scaling-stroke}
+.ibov-svg .ref{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 4;vector-effect:non-scaling-stroke;opacity:.7}
+.ibov-svg .cur{stroke:var(--muted);stroke-width:1;vector-effect:non-scaling-stroke}
+.ibov-tip{position:absolute;top:-4px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-size:12px;white-space:nowrap;box-shadow:var(--shadow);pointer-events:none;z-index:2}
+.ibov-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;margin-top:10px;font-size:12.5px}
+.ibov-stats div{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px solid var(--line-2)}
+.ibov-stats span{color:var(--muted)} .ibov-stats b{font-weight:600}
 .chip.pk-btn{border-color:var(--gold);color:var(--text);font-weight:700}
 .chip.pk-btn [data-lucide]{color:var(--gold)}
 .bk-ini .bk-ini-n{display:flex;flex-direction:column;min-width:0}
@@ -539,12 +564,13 @@ button.sug:hover{filter:brightness(.97)}
    Fase 2 — Automações, agenda e inteligência das tarefas
    ===================================================================== */
 const CONFIG = {
-  VERSAO: '3.3.2',
+  VERSAO: '3.4.0',
   SUPABASE_URL: 'https://ghjbljypxksubmcsvaig.supabase.co',
   SUPABASE_KEY: 'sb_publishable_qXCYqg1WdmelY9D1mptZXg_U8NdoKby',
   SCHEMA: 'vidaplena',
   PORTICO: 'https://eneas-ena.github.io/portico/',
   WORKER: 'https://promptflow-ia.eneaspr.workers.dev',   // proxy da IA (a chave fica no Worker)
+  WORKER_BOLSA: 'https://vidaplena-bolsa.eneaspr.workers.dev',   // Ibovespa (worker-bolsa.js)
   IA_MODELO: 'claude-sonnet-5-5',
   IA_LIMITE_DIA: 60
 };
@@ -604,7 +630,7 @@ const S = {
   hoje:null, rota:'inicio', carregado:false,
   t:{ filtro:'todas', cat:'', busca:'', edit:null, form:null },
   ag:{ modo:'mes', ref:null, sel:null },
-  dv:{ data:null, dev:null, notas:{}, carregando:false },
+  dv:{ data:null, dev:null, notas:{}, carregando:false }, bolsa:null,
   dt:{ aba:'aniv', mes:'', cat:'' },
   bib:[], leituras:new Set(), clima:null, dolar:null,
   sg:{ data:null, devData:null, dev:undefined },
@@ -1153,7 +1179,105 @@ function htmlDolar(){
     ${d.compra?`<div class="wx-l">Compra R$ ${brl(d.compra)}</div>`:''}
     <div class="hint">PTAX venda · ${esc(d.fonte)} · ref. ${diaCurto(dia)}${hora?' às '+hora:''}${dia<S.hoje?' — última disponível':''}${d.falhou?' · <b>sem atualizar</b>':''}</div>`;
 }
-function pintar(qual){ const el=$('#'+qual+'-box'); if(!el) return; el.innerHTML=qual==='clima'?htmlClima():htmlDolar(); icons(); }
+/* ---------------- Ibovespa (Yahoo Finance via Worker da Bolsa) ---------------- */
+const BOLSA_PERIODOS=[['1d','1D'],['5d','5D'],['1mo','1M'],['6mo','6M'],['ytd','No ano'],['1y','1A'],['5y','5A']];
+function bolsaPeriodo(){ const p=store.get('vp_bolsa_p'); return BOLSA_PERIODOS.some(x=>x[0]===p)?p:'1d'; }
+async function atualizarBolsa(forcar=false){
+  const range=bolsaPeriodo(), chave='vp_bolsa_'+range, cache=cacheGet(chave);
+  const validade=range==='1d'?2*60e3:range==='5d'?10*60e3:60*60e3;
+  if(cache&&cache.preco!=null){ S.bolsa=cache; if(!forcar&&Date.now()-cache.obtidoLocal<validade){ pintar('bolsa'); return; } }
+  else if(!S.bolsa||S.bolsa.range!==range){ S.bolsa=null; pintar('bolsa'); }
+  if(!navigator.onLine){ S.bolsa=S.bolsa&&S.bolsa.preco!=null?{...S.bolsa,falhou:true}:{erro:'Sem internet: Ibovespa indisponível.',range}; pintar('bolsa'); return; }
+  try{
+    const j=await fetchJSON(`${CONFIG.WORKER_BOLSA}/?range=${range}`,15000);
+    if(j.erro) throw new Error(j.erro);
+    if(j.preco==null||!Array.isArray(j.pontos)) throw new Error('resposta sem dados');
+    if(bolsaPeriodo()!==range) return;                       // trocou de período enquanto carregava
+    S.bolsa={...j,obtidoLocal:Date.now()}; cacheSet(chave,S.bolsa);
+  }catch(e){
+    if(bolsaPeriodo()!==range) return;
+    const msg=/Failed to fetch|NetworkError|Load failed/i.test(e.message)?'o Worker da Bolsa não respondeu (ele já foi criado na Cloudflare?)':e.message;
+    S.bolsa=S.bolsa&&S.bolsa.preco!=null&&S.bolsa.range===range?{...S.bolsa,falhou:true}:{erro:`Ibovespa indisponível no momento: ${msg}.`,range};
+  }
+  pintar('bolsa');
+}
+const ptsBR=(n,d=2)=>n==null?'—':n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+function bolsaHora(ts,comData){ const d=new Date(ts*1000), o={timeZone:'America/Sao_Paulo'};
+  const h=d.toLocaleTimeString('pt-BR',{...o,hour:'2-digit',minute:'2-digit'});
+  return comData?d.toLocaleDateString('pt-BR',{...o,day:'2-digit',month:'2-digit'})+(comData==='h'?' '+h:''):h; }
+/* Gráfico de linha em SVG, com a referência (fechamento anterior) pontilhada */
+function svgBolsa(b){
+  const P=b.pontos; if(P.length<2) return '<div class="empty">Ainda não há pontos suficientes para o gráfico.</div>';
+  const W=640,H=200,pl=4,pr=4,pt=10,pb=22, ref=b.range==='1d'?b.anterior:null;
+  const vals=P.map(p=>p[1]).concat(ref!=null?[ref]:[]);
+  let mn=Math.min(...vals), mx=Math.max(...vals); const folga=(mx-mn)*.08||mx*.002; mn-=folga; mx+=folga;
+  // eixo X: no 1D usa o pregão inteiro (10h às 17h), para a linha "andar" ao longo do dia
+  let x0=P[0][0], x1=P[P.length-1][0];
+  if(b.range==='1d'&&b.pregao&&b.pregao.start&&b.pregao.end){ x0=Math.min(x0,b.pregao.start); x1=Math.max(x1,b.pregao.end); }
+  const X=t=>pl+(t-x0)/(x1-x0||1)*(W-pl-pr), Y=v=>pt+(mx-v)/(mx-mn||1)*(H-pt-pb);
+  const linha=P.map((p,i)=>`${i?'L':'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const area=`${linha}L${X(P[P.length-1][0]).toFixed(1)},${H-pb}L${X(P[0][0]).toFixed(1)},${H-pb}Z`;
+  const base=b.range==='1d'?b.anterior:(b.anterior??P[0][1]);
+  const sobe=b.preco>=base, cor=sobe?'var(--ok)':'var(--bad)';
+  // marcas do eixo X (em HTML, para o texto não esticar junto com o gráfico)
+  let ticks=[];
+  if(b.range==='1d'){ const h0=Math.ceil(x0/3600)*3600; for(let t=h0;t<=x1;t+=3600) ticks.push(t); ticks=ticks.filter((t,i)=>new Date(t*1000).getUTCHours()%2===0); }
+  else { const n=4; for(let i=1;i<n;i++) ticks.push(x0+(x1-x0)*i/n); }
+  const rotX=t=>b.range==='1d'?bolsaHora(t):b.range==='5d'?new Date(t*1000).toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',weekday:'short',day:'2-digit'}).replace('.',''):new Date(t*1000).toLocaleDateString('pt-BR',{timeZone:'America/Sao_Paulo',month:'short',...(['1y','5y'].includes(b.range)?{year:'2-digit'}:{day:'2-digit'})}).replace('.','');
+  const pc=(v,tot)=>(v/tot*100).toFixed(2)+'%';
+  const rotulos=ticks.map(t=>`<span class="ibov-x" style="left:${pc(X(t),W)}">${esc(rotX(t))}</span>`).join('')
+    +[0,.5,1].map(f=>{ const v=mx-(mx-mn)*f; return `<span class="ibov-y" style="top:${pc(Y(v),H)}">${ptsBR(v,0)}</span>`; }).join('')
+    +(ref!=null?`<span class="ibov-ref" style="top:${pc(Y(ref),H)}">Fech. ant. ${ptsBR(ref,0)}</span>`:'');
+  const grade=[0,.5,1].map(f=>{ const v=mx-(mx-mn)*f; return `<line x1="${pl}" x2="${W-pr}" y1="${Y(v).toFixed(1)}" y2="${Y(v).toFixed(1)}" class="g"/>`; }).join('');
+  const u=P[P.length-1];
+  return `<svg class="ibov-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Gráfico do Ibovespa: ${sobe?'alta':'queda'} no período">
+    <defs><linearGradient id="ibov-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${cor}" stop-opacity=".28"/><stop offset="1" stop-color="${cor}" stop-opacity="0"/></linearGradient></defs>
+    ${grade}
+    ${ref!=null?`<line x1="${pl}" x2="${W-pr}" y1="${Y(ref).toFixed(1)}" y2="${Y(ref).toFixed(1)}" class="ref"/>`:''}
+    <path d="${area}" fill="url(#ibov-g)" stroke="none"/>
+    <path d="${linha}" fill="none" stroke="${cor}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+    
+    <line class="cur hidden" x1="0" x2="0" y1="${pt}" y2="${H-pb}"/>
+  </svg><span class="ibov-pt" style="left:${pc(X(u[0]),W)};top:${pc(Y(u[1]),H)};background:${cor}"></span>${rotulos}`;
+}
+function htmlBolsa(){
+  const b=S.bolsa, per=bolsaPeriodo();
+  const abas=`<div class="ibov-abas" role="group" aria-label="Período">${BOLSA_PERIODOS.map(([k,l])=>`<button data-bp="${k}" aria-pressed="${k===per}">${l}</button>`).join('')}</div>`;
+  if(!b) return abas+'<div class="skel" style="min-height:200px"></div>';
+  if(b.erro) return abas+`<div class="small muted" style="padding:12px 0">${esc(b.erro)}</div>`;
+  const base=b.range==='1d'?b.anterior:(b.anterior??(b.pontos[0]&&b.pontos[0][1]));
+  const dif=base!=null?b.preco-base:null, pct=base?dif/base*100:null, sobe=dif==null||dif>=0;
+  const quando=b.horario?new Date(b.horario*1000).toLocaleString('pt-BR',{timeZone:'America/Sao_Paulo',day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}).replace('.',''):'';
+  const rotPer={'1d':'hoje','5d':'em 5 dias','1mo':'em 1 mês','6mo':'em 6 meses','ytd':'no ano','1y':'em 1 ano','5y':'em 5 anos'}[b.range];
+  const stat=(l,v)=>`<div><span>${l}</span><b>${v}</b></div>`;
+  return `<div class="ibov-topo"><b class="ibov-v">${ptsBR(b.preco)}</b>
+      ${pct!=null?`<span class="ibov-pct ${sobe?'up':'down'}">${ic(sobe?'arrow-up':'arrow-down')} ${ptsBR(Math.abs(pct))}%</span><span class="ibov-dif ${sobe?'up':'down'}">${dif>=0?'+':'−'}${ptsBR(Math.abs(dif))} ${rotPer}</span>`:''}</div>
+    <div class="hint" style="margin:2px 0 10px">${esc(quando)} (Brasília) · pontos${b.falhou?' · <b>sem atualizar</b>':''}${b.range==='1d'?' · cotação com até 15 min de atraso':''}</div>
+    ${abas}
+    <div class="ibov-graf"><div class="ibov-tip hidden"></div>${svgBolsa(b)}</div>
+    ${b.range==='1d'?`<div class="ibov-stats">${stat('Abertura',ptsBR(b.abertura))}${stat('Alta',ptsBR(b.alta))}${stat('Baixa',ptsBR(b.baixa))}${stat('Fech. ant.',ptsBR(b.anterior))}${stat('Alt 52 sem',ptsBR(b.alta52))}${stat('Bai 52 sem',ptsBR(b.baixa52))}</div>`
+      :`<div class="ibov-stats">${stat('Início do período',ptsBR(base))}${stat('Máxima',ptsBR(Math.max(...b.pontos.map(p=>p[1]))))}${stat('Mínima',ptsBR(Math.min(...b.pontos.map(p=>p[1]))))}${stat('Alt 52 sem',ptsBR(b.alta52))}${stat('Bai 52 sem',ptsBR(b.baixa52))}</div>`}`;
+}
+/* Abas de período e o "dedo" que mostra o valor ao passar o mouse/dedo sobre o gráfico */
+function ligarBolsa(el){
+  el.querySelectorAll('[data-bp]').forEach(bt=>bt.onclick=()=>{ store.set('vp_bolsa_p',bt.dataset.bp); const c=cacheGet('vp_bolsa_'+bt.dataset.bp); S.bolsa=c&&c.preco!=null?c:null; pintar('bolsa'); atualizarBolsa(); });
+  const g=el.querySelector('.ibov-graf'), svg=g&&g.querySelector('svg'), b=S.bolsa; if(!svg||!b||!b.pontos) return;
+  const tip=g.querySelector('.ibov-tip'), cur=svg.querySelector('.cur'), P=b.pontos;
+  const mover=ev=>{
+    const r=svg.getBoundingClientRect(), cx=(ev.touches?ev.touches[0].clientX:ev.clientX)-r.left, f=Math.max(0,Math.min(1,cx/r.width));
+    const vb=svg.viewBox.baseVal, xs=P.map(p=>p[0]); let x0=xs[0], x1=xs[xs.length-1];
+    if(b.range==='1d'&&b.pregao&&b.pregao.start){ x0=Math.min(x0,b.pregao.start); x1=Math.max(x1,b.pregao.end); }
+    const t=x0+f*(x1-x0); let k=0; for(let i=1;i<P.length;i++) if(Math.abs(P[i][0]-t)<Math.abs(P[k][0]-t)) k=i;
+    const px=4+(P[k][0]-x0)/(x1-x0||1)*(vb.width-8);
+    cur.setAttribute('x1',px); cur.setAttribute('x2',px); cur.classList.remove('hidden');
+    tip.innerHTML=`<b>${ptsBR(P[k][1])}</b> ${b.range==='1d'?bolsaHora(P[k][0]):bolsaHora(P[k][0],b.range==='5d'?'h':'d')}`;
+    tip.classList.remove('hidden'); const tl=Math.max(0,Math.min(r.width-tip.offsetWidth,px/vb.width*r.width-tip.offsetWidth/2)); tip.style.left=tl+'px';
+  };
+  const sair=()=>{ cur.classList.add('hidden'); tip.classList.add('hidden'); };
+  g.addEventListener('pointermove',mover); g.addEventListener('pointerdown',mover); g.addEventListener('pointerleave',sair);
+  g.addEventListener('touchmove',mover,{passive:true}); g.addEventListener('touchend',sair);
+}
+function pintar(qual){ const el=$('#'+qual+'-box'); if(!el) return; el.innerHTML=qual==='clima'?htmlClima():qual==='bolsa'?htmlBolsa():htmlDolar(); icons(); if(qual==='bolsa') ligarBolsa(el); }
 
 /* =====================================================================
    PÁGINA: INÍCIO (Dashboard)
@@ -1193,7 +1317,8 @@ function pgInicio(m){
   $('#atualizar').onclick=async()=>{ const b=$('#atualizar'); b.disabled=true; await recarregar(); render(); };
   m.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>novaTarefa(b.dataset.add));
   m.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>ir(b.dataset.go));
-  m.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>b.dataset.rf==='clima'?atualizarClima(true):atualizarDolar(true));
+  m.querySelectorAll('[data-rf]').forEach(b=>b.onclick=()=>b.dataset.rf==='clima'?atualizarClima(true):b.dataset.rf==='bolsa'?atualizarBolsa(true):atualizarDolar(true));
+  const bx=$('#bolsa-box'); if(bx) ligarBolsa(bx);
   const va=m.querySelector('[data-veratr]'); if(va) va.onclick=()=>{ S.t.filtro='atrasadas'; ir('tarefas'); };
 }
 function linhaAtrasada(x,compacta=false){
@@ -1235,6 +1360,8 @@ function painelInfo(){
     <section class="card mini"><div class="card-head"><h2>${ic('circle-dollar-sign')} Dólar</h2><button class="icon-mini" data-rf="dolar" aria-label="Atualizar cotação" title="Atualizar">${ic('refresh-cw')}</button></div>
       <div id="dolar-box" aria-live="polite">${htmlDolar()}</div></section>
   </div>
+  <section class="card ibov"><div class="card-head"><h2>${ic('chart-line')} Ibovespa</h2><button class="icon-mini" data-rf="bolsa" aria-label="Atualizar Ibovespa" title="Atualizar">${ic('refresh-cw')}</button></div>
+    <div id="bolsa-box" aria-live="polite">${htmlBolsa()}</div></section>
   <section class="card"><div class="card-head"><h2>${ic('cake')} Aniversários</h2><button class="link" data-go="datas">Ver todos</button></div>
     ${anivHoje.length?`<div class="aniv-hoje">${ic('party-popper')}<div><b>Hoje:</b> ${anivHoje.map(a=>esc(a.nome)).join(', ')}</div></div>`:''}
     ${anivProx.length?`<div class="list-rows">${anivProx.map(a=>`<div class="lr"><span class="d">${diaCurto(a.data)}</span>${ic('gift')}<span>${esc(a.nome)}</span><span class="badge b-mut" style="margin-left:auto">${emDias(a.falta)}</span></div>`).join('')}</div>`
@@ -2449,6 +2576,8 @@ async function testarIntegracoes(el){
   let h='';
   await atualizarClima(true); h+=linha(S.clima&&!S.clima.erro&&!S.clima.falhou,'Clima (Open-Meteo): '+(S.clima&&S.clima.erro?esc(S.clima.erro):S.clima&&S.clima.falhou?'não atualizou, mostrando o último dado salvo':`${Math.round(S.clima.temp)}° em ${esc(S.clima.cidade)}`));
   el.innerHTML=h;
+  await atualizarBolsa(true); const bo=S.bolsa||{}; h+=linha(bo.preco!=null&&!bo.erro&&!bo.falhou,'Ibovespa (Worker da Bolsa): '+(bo.erro?esc(bo.erro):bo.falhou?'não atualizou, mostrando o último dado salvo':`${ptsBR(bo.preco)} pontos`));
+  el.innerHTML=h;
   await atualizarDolar(true); h+=linha(S.dolar&&!S.dolar.erro&&!S.dolar.falhou,'Dólar PTAX (Banco Central): '+(S.dolar&&S.dolar.erro?esc(S.dolar.erro):S.dolar&&S.dolar.falhou?'não atualizou, mostrando o último dado salvo':`R$ ${S.dolar.venda.toFixed(4).replace('.',',')} (${esc(S.dolar.fonte)})`));
   el.innerHTML=h+'<div class="small muted">Testando a IA…</div>';
   try{ const r=await chamarIA({tipo:'teste',pedido:'Teste de conexão. Responda apenas com a palavra: funcionando',max:2000}); h+=linha(true,`IA (${esc(modeloIA())}): respondeu “${esc(r.texto.slice(0,40))}”`); }
@@ -2481,7 +2610,7 @@ function pgConfig(m){
       <p class="small muted" style="margin:0 0 12px">Worker: <code>${esc(CONFIG.WORKER.replace('https://',''))}</code>. A chave da API fica guardada no Worker, nunca no app.</p>
       <button class="btn primary" id="ia-s">${ic('save')} Salvar</button></section>
     <section class="card"><div class="card-head"><h2>${ic('plug-zap')} Testar integrações</h2></div>
-      <p class="small muted" style="margin:0 0 12px">Confere clima, dólar e IA agora. O teste da IA faz uma chamada bem curta.</p>
+      <p class="small muted" style="margin:0 0 12px">Confere clima, dólar, Ibovespa e IA agora. O teste da IA faz uma chamada bem curta.</p>
       <button class="btn" id="tst-go">${ic('play')} Testar agora</button><div id="tst-r" style="margin-top:12px"></div></section>
     <section class="card"><div class="card-head"><h2>${ic('palette')} Aparência</h2></div>
       <span class="f">Tema</span>
@@ -2500,6 +2629,7 @@ function pgConfig(m){
     <section class="card"><div class="card-head"><h2>${ic('info')} Sobre</h2></div>
       <p class="small" style="margin:0 0 8px">VidaPlena <b>v${CONFIG.VERSAO}</b> · Fase 4: backup automático do Mac</p>
       <p class="small muted" style="margin:0 0 14px">Dados no Supabase, schema <code>${CONFIG.SCHEMA}</code>. Clima: Open-Meteo. Dólar: Banco Central (PTAX).</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px"><button class="btn primary" id="c-up">${ic('refresh-cw')} Atualizar app</button><button class="btn" id="c-vv">${ic('search-check')} Verificar versão</button></div>
       <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" href="testes.html" target="_blank" rel="noopener">${ic('flask-conical')} Rodar testes</a><button class="btn danger" id="c-x">${ic('log-out')} Sair</button></div></section>
   </div>`;
   db.contarDesde('ia_log','criado_em',new Date(Date.now()-864e5).toISOString()).then(n=>{ const el=$('#ia-uso'); if(el) el.textContent=`Usadas nas últimas 24 horas: ${n}. Um sermão completo usa 6 chamadas; um estudo de célula, 1.`; }).catch(()=>{});
@@ -2527,6 +2657,7 @@ function pgConfig(m){
     try{ const h=await sha256(n); S.cfg=await db.saveConfig({pin_hash:h}); if(store.get('vp_sessao')) store.set('vp_sessao',h); try{sessionStorage.setItem('vp_sessao',h)}catch(e){} $('#p-a').value=$('#p-n').value=''; toast('PIN alterado'); }catch(e){ erro(e,'Não foi possível trocar o PIN'); } };
   $('#bk-x').onclick=async()=>{ const b=$('#bk-x'); b.disabled=true; try{ await exportarBackup($('#bk-dev').checked); }catch(e){ erro(e,'Falha no backup'); } b.disabled=false; };
   $('#bk-i').onclick=importarBackup;
+  $('#c-up').onclick=atualizarApp; $('#c-vv').onclick=()=>verificarVersao(true);
   $('#c-x').onclick=()=>{ store.del('vp_sessao'); try{sessionStorage.removeItem('vp_sessao')}catch(e){} location.reload(); };
 }
 
@@ -2871,20 +3002,46 @@ async function entrar(){
   // Recalcula quando o dia muda no fuso configurado, mesmo com a aba aberta, e quando a aba volta ao foco
   setInterval(verificarDia,60000);
   // Clima e dólar: consulta no início e a cada 15 min (o cache evita chamadas desnecessárias)
-  atualizarClima(); atualizarDolar();
+  atualizarClima(); atualizarDolar(); atualizarBolsa();
   setInterval(()=>{ atualizarClima(); atualizarDolar(); },15*60*1000);
-  window.addEventListener('online',()=>{ atualizarClima(); atualizarDolar(); });
+  setInterval(()=>{ if(!document.hidden) atualizarBolsa(); },3*60*1000);   // Ibovespa: a cada 3 min com a tela aberta
+  window.addEventListener('online',()=>{ atualizarClima(); atualizarDolar(); atualizarBolsa(); });
+  // Versão nova publicada no GitHub: avisa com o botão “Atualizar agora”
+  setTimeout(verificarVersao,5000); setInterval(verificarVersao,30*60*1000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) verificarVersao(); });
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) verificarDia(); });
   // Backup: atualiza a cada 30 s com a aba Backup aberta e a cada 5 min nas outras (avisos do sino)
   let bkTick=0;
   setInterval(()=>{ if(document.hidden) return; bkTick++; if(S.rota!=='backup'&&bkTick%10) return;
     carregarBackup().then(()=>{ if(S.rota==='backup'&&!modalAberto&&!menuAberto) render(); else renderTopo(); }); },30000);
 }
+/* ---------------- Atualização do app: compara a versão publicada com a que está rodando ---------------- */
+async function versaoPublicada(){
+  const r=await fetch('index.html?v='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
+  const m=(await r.text()).match(/VERSAO:\s*'([^']+)'/); return m?m[1]:null;
+}
+let avisouVersao=null;
+async function verificarVersao(manual=false){
+  try{
+    const v=await versaoPublicada();
+    if(v&&v!==CONFIG.VERSAO){ if(avisouVersao!==v||manual){ avisouVersao=v; toast(`Nova versão do VidaPlena disponível (v${v}).`,false,{label:'Atualizar agora',run:atualizarApp}); } return v; }
+    if(manual) toast(`Você já está na versão mais nova (v${CONFIG.VERSAO}).`);
+    return v;
+  }catch(e){ if(manual) erro(e,'Não foi possível verificar a versão'); return null; }
+}
+/* Limpa o cache e o service worker e recarrega: garante a versão mais nova, inclusive no iPad */
+async function atualizarApp(){
+  toast('Atualizando o VidaPlena…');
+  try{ if('serviceWorker' in navigator){ const rs=await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r=>r.unregister())); } }catch(e){}
+  try{ if(window.caches){ const ks=await caches.keys(); await Promise.all(ks.map(k=>caches.delete(k))); } }catch(e){}
+  const u=new URL(location.href); u.searchParams.set('v',Date.now()); location.replace(u.toString());
+}
+
 /* Atualização do app: avisa quando uma versão nova foi instalada, sem recarregar sozinho (não perde o que está sendo digitado) */
 if('serviceWorker' in navigator && location.protocol==='https:'){
   const tinha=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.register('sw.js').then(r=>{ setInterval(()=>r.update().catch(()=>{}),30*60*1000); }).catch(()=>{});
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(tinha) toast('Há uma nova versão do VidaPlena.',false,{label:'Atualizar agora',run:()=>location.reload()}); });
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(tinha) toast('Há uma nova versão do VidaPlena.',false,{label:'Atualizar agora',run:atualizarApp}); });
 }
 iniciar();
 </script>
